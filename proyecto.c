@@ -48,7 +48,6 @@ void printSource        (lineList *source);
 void deleteLineList     (lineList **list);
 
 void getTokens          (lineList *source);
-void addToken           (char *lexeme, tokenName tok);
 
 int  isWhitespace       (char c);
 int  isLowerCase        (char c);
@@ -65,10 +64,20 @@ int  isIdentifierChar   (char c, int isFirstLetter);
 int  isCapKeywordChar   (char c, int isFirstLetter);
 int  isArgumentNameChar (char c, int currLexemeChar);
 int  isIntegerChar      (char c, int isFirstLetter, int hasBase);
-int  addTokenToTree     (struct tokenTree **tree, struct token *tok);
+
+int  addToken           (char *lexeme, tokenName tok);
+int  addTokenToTree     (tokenTree **tree, token *tok);
+int  isLeaf             (tokenTree *tree);
+int  treeHeight         (tokenTree *tree);
+int  isBalanced         (tokenTree *tree);
+int  balanceTree        (tokenTree **tree);
+void displayTree        (tokenTree *tree);
+
+int  max                (int a, int b);
 
 // variables
 lineList *source = NULL;
+tokenTree *tree = NULL;
 
 int main (int argc, char **argv) {
   // el argumento del programa es la direccion del archivo fuente
@@ -83,7 +92,7 @@ int main (int argc, char **argv) {
    *  guardamos el archivo en memoria (una lista de "lineas" de MAXLINE chars c/u)
    */
 
-  source = malloc(sizeof(lineList));
+  source = (lineList *)malloc(sizeof(lineList));
   if (source == NULL) {
     printf("no se pudo reservar memoria suficiente para el archivo.\n");
     return 0;
@@ -120,7 +129,7 @@ int readFile(char *filename, lineList *buffer) {
 
     if (i >= MAXLINE) { // si ya llenamos este nodo de la lista
       buffer -> line[i] = '\0'; // ponemos un fin de cadena al final
-      buffer -> nxt     = malloc(sizeof(lineList)); // reservamos memoria para otro
+      buffer -> nxt     = (lineList *)malloc(sizeof(lineList)); // memoria para otra linea
       if (buffer -> nxt == NULL) { // revisamos que la memoria se reservo
         printf("no se pudo reservar memoria suficiente para el archivo.");
         exit(0);
@@ -397,17 +406,9 @@ void getTokens(lineList *source) {
 
   // if I reached the end of the source code, return
   // the list of tokens?
-
+  displayTree(tree);
 }
 
-
-// adds token to token stream
-void addToken (char *lexeme, tokenName tok) { 
-  // TODO
-  // allocate memory for a new token, put the data in there
-  // and store it on the datastructure.
-  printf("%s: %i\n", lexeme, tok);
-}
 
 int isWhitespace (char c) {
   return c == ' ' || c == '\n' || c == '\t';
@@ -479,16 +480,70 @@ int isIntegerChar (char c, int isFirstLetter, int hasBase) {
 }
 
 
-int addTokenToTree (struct tokenTree **tree, struct token *tok) {
-  tokenTree *temp = malloc(sizeof(tokenTree));
+// adds token to token stream
+int addToken (char *lexeme, tokenName tok) { 
+  // allocate memory for a new token, put the data in there
+  // and store it on the datastructure.
+  token *temp = (token *)malloc(sizeof(token));
+  strcpy(temp -> lexeme, lexeme);
   temp -> tok = tok;
+  printf("%s: %i\n", lexeme, tok);
+  return addTokenToTree(&tree, temp);
+}
+
+int addTokenToTree (tokenTree **tree, token *tok) {
+  tokenTree *temp = (tokenTree *)malloc(sizeof(tokenTree));
+  temp -> tok     = tok;
+  temp -> left    = NULL;
+  temp -> right   = NULL;
   if ((*tree) == NULL) {
     *tree = temp;
     return 0;
   }
   else {
-    if () {
-
+    // strcmp(a, b) <  0 iff a <  b
+    // strcmp(a, b) == 0 iff a == b
+    // strcmp(a, b) >  0 iff a >  b
+    if (strcmp(((*tree) -> tok) -> lexeme, tok -> lexeme) >= 0) {
+      return addTokenToTree(&((*tree) -> left), tok);
+    }
+    else {
+      return addTokenToTree(&((*tree) -> right), tok);
     }
   }
+}
+
+int isLeaf (tokenTree *tree) {
+  return tree -> left == NULL && tree -> right == NULL;
+}
+
+int treeHeight (tokenTree *tree) {
+  if (tree == NULL) {
+    return 0;
+  }
+  else {
+    return 1 + max(treeHeight(tree -> left), treeHeight(tree -> right));
+  }
+}
+
+int isBalanced (tokenTree *tree) {
+  return tree == NULL || abs(treeHeight(tree -> left) - treeHeight(tree -> right)) <= 1;
+}
+
+int balanceTree (tokenTree **tree) {
+  // TODO
+  return 0;
+}
+
+void displayTree (tokenTree *tree) {
+  if (tree != NULL) {
+    displayTree(tree -> left);
+    printf("%s\n", tree -> tok -> lexeme);
+    displayTree(tree -> right);
+  }
+}
+
+
+int max (int a, int b) {
+  return (a > b) ? a : b ;
 }
