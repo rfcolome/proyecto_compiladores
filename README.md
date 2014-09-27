@@ -7,7 +7,7 @@ proyecto de compiladores
 
 1. seleccionar al menos 15 palabras reservadas del lenguaje.
 
-> 
+  > self, resend 
  
 2. especificar la expresion regular para definir identificadores.
 
@@ -24,7 +24,7 @@ entre ambos).
 
   >  ! @ # $ % ^ & * - + = ~ / ? < > , ; | ' \ 
 
-5.. indicar como se construyen comentarios en el lenguaje.
+5. indicar como se construyen comentarios en el lenguaje.
 
   > "los comentarios se escriben con comillas dobles seguidas de cualquier
   > caracter distinto de comillas, finalizado por comillas dobles"
