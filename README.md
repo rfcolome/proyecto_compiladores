@@ -96,3 +96,15 @@ información para el usuario:
 ###Parte 2
 
 Generar un analizador lexicografico para el lenguaje asignado usando Flex.
+
+
+#### NOTAS
+
+* archivos con informacion general de utilidad para el proyecto estan en
+  /notas.
+
+* existe un archivo en notas/lexical_overview.txt donde están las definiciones
+  de los lexemas del lenguaje en notacion EBNF. **esas definiciones tienen
+  errores**. por ejemplo, segun esa definición el lexema hola seria tanto un
+  identificador como un numero entero. Para eso se incluyó el handbook oficial
+  del lenguaje Self en notas/SelfHandbook-Self4.4-R2.pdf.
