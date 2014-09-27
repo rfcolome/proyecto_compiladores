@@ -28,3 +28,34 @@ entre ambos).
 
   > "los comentarios se escriben con comillas dobles seguidas de cualquier
   > caracter distinto de comillas, finalizado por comillas dobles"
+
+
+###Parte 1
+
+1. Se debe sustituir la busqueda lineal del analizador lexicografico por una
+busqueda binaria.
+
+2. se deben omitir los comentarios bien formados (los comentarios no son
+tokenizados)
+
+3. se escribira ademas una interfaz para el usuario con las siguientes
+funciones basicas: abrir un archivo, crear y/o modificar texto, copiar texto,
+pegar texto, guardar texto y ejecutar el analizador lexicografico sobre el
+archivo abierto. La salida de la ejecucion debe ser el programa fuente (texto)
+tokenizado. esta salida se debe mostrar en una ventana "hija" dentro de la
+interfaz, en el formato:
+    lexeme -> token
+    lexeme -> token
+    ...
+    lexeme -> token
+
+4. la interfaz para el usuario debe ofrecer la posibilidad de configurar los
+siguientes parametros para el analizador lexicografico
+	- tamaño maximo del buffer de lineas (MAXLINEA)
+    - maximo numero de digitos en los enteros (MAXDIGIT)
+    - maxima longitud de los identificadores (MAXID)
+    - ubicacion fisica del archivo scanner.exe. este archivo contiene el
+    codigo ejecutable del analizador lexicografico
+
+este archivo de parametros debe ser leido por el analizador lexicografico para
+tomar en cuenta estos valores
