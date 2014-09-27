@@ -1,0 +1,85 @@
+
+
+LENGUAJE SELF
+- constuir analizador lexicografico
+
+- seleccionar al menos 15 palabras reservadas del lenguaje
+	- resend
+    - self
+    - ???
+
+- especificar la expresion regular para definir identificadores
+	/[a-z_][a-zA-Z0-9_]*/
+
+- especificar expresion regular para numeros enteros y reales
+	enteros: /(0-9+[rR])?[0-9a-zA-Z]+/
+    reales: /(-?[0-9]+\.[0-9]+)|(-?[0-9]+(\.[0-9]+)?[eE][+-]?[0-9]+)/
+
+
+    NOTA: mi alternativa para enteros:
+    	/(-?[0-9]+)|([+-]?[0-9][0-9]?e[0-9a-zA-Z]+)/
+
+- seleccionar lista de operadores y caracteres 
+	especiales (al menos 15 entre ambos)
+
+! @ # $ % ^ & * - + = ~ / ? < > , ; | ‘ \ : " 
+
+
+- indicar como se construyen comentarios en el lenguaje
+	/"[^"]*"/
+
+
+PARTE 1:
+
+Construir el analizador lexicografico para las componentes de lexico
+
+1. sustituir la busqueda lineal del analizador lexicografico por una busqueda
+binaria.
+   aquí se refiere a la busqueda en la tabla de simbolos (tds.cpp)
+	particularmente, la function posicion en la line 30 de tds.cpp
+
+2. omitir los comentarios bien formados
+
+3. escribir una interfaz para el usuario con funciones para abrir un archivo,
+modificar texto, copiar, pegar, guardar texto, y ejecutar el analizador
+lexicografico sobre el archivo abierto. La salida de la ejecucion debe ser el
+programa fuente (texto) tokenizado. Esta salida se debe mostrar en una ventana
+"hija" dentro de la interfaz, en el formato:
+
+lexeme -> token
+lexeme -> token
+...
+lexeme -> token
+
+4. agregar a la interfaz la capacidad de configurar parametros de
+- tamaño maximo del buffer de lineas
+- maximo numero de digitos en los enteros
+- maxima longitud de identificadores
+- ubicacion fisica del archivo scanner.exe (el codigo del analizador
+lexicografico) 
+
+guardarlos en archivo "param.txt", con formato
+parametro;valor
+parametro;valor
+parametro;valor
+
+5. agregar una opcion del menu "ayuda", donde se accedera a un archivo
+"ayuda.pdf" con informacion sobre
+a. breve historia y aplicaciones de SELF
+b. palabras reservadas seleccionadas,
+c. expresion regular para identificadores
+d. expresion regular para numeros enteros y reales,
+e. lista de operadores y caracteres especiales seleccionados
+f. forma de construccion de comentarios en el lenguaje
+g. un ejemplo de "hola mundo" en el lenguaje
+h. observaciones o limitaciones que considere necesarias
+
+6. analizador lexicografico en C o C++.
+7. interfaz en Java.
+
+
+
+
+
+PARTE 2:
+analizador lexicografico del lenguaje SELF usando Flex
