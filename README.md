@@ -44,9 +44,13 @@ pegar texto, guardar texto y ejecutar el analizador lexicografico sobre el
 archivo abierto. La salida de la ejecucion debe ser el programa fuente (texto)
 tokenizado. esta salida se debe mostrar en una ventana "hija" dentro de la
 interfaz, en el formato:
+
     lexeme -> token
+
     lexeme -> token
+
     ...
+
     lexeme -> token
 
 4. la interfaz para el usuario debe ofrecer la posibilidad de configurar los
@@ -57,5 +61,27 @@ siguientes parametros para el analizador lexicografico
     - ubicacion fisica del archivo scanner.exe. este archivo contiene el
     codigo ejecutable del analizador lexicografico
 
+Estos parametros seran almacenados en un archivo de texto denominado
+"param.txt", donde estaran escritos en texto plano con un parametro y un valor
+separados por comillas en cada linea.
+
 este archivo de parametros debe ser leido por el analizador lexicografico para
 tomar en cuenta estos valores
+
+5. Una opcion del menu de la interfaz debe ser la "Ayuda". en esta opcion se
+accedera a un archivo llamado "ayuda.pdf", que contendra la siguiente
+información para el usuario:
+
+    * breve historia y aplicaciones del lenguaje asignado
+    * palabras reservadas seleccionadas
+    * expresion regular para los identificadores
+    * expresiones regulares para numeros enteros y numeros reales
+    * lista de operadores y caracteres especiales seleccionados
+    * forma de construccion de comentarios en el lenguaje
+    * un ejemplo de programa para escribir "hola mundo" en el lenguaje
+    * cualquier otra observacion/limitacion que se considere necesaria
+
+
+###Parte 2
+
+Generar un analizador lexicografico para el lenguaje asignado usando Flex.
