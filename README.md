@@ -1,7 +1,19 @@
 Proyecto Compiladores
 =====================
 
-proyecto de compiladores
+#####TODO:
+
+* hacer que los tokens se guarden en un arbol binario (funcion
+  addTokenToTree. Se debe llamar en la funcion addToken).
+
+* agregar numeros reales (ya estan los numeros enteros).
+
+* escoger mas identificadores para las 15 palabras "reservadas" del lenguaje
+  (buscar funciones existentes en el lenguaje y usar esas)
+
+* implementar eso en Flex
+
+* hacer interfaz grafica en Java
 
 ###Requerimientos
 
