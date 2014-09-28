@@ -2,3 +2,5 @@
 this is a test source.
 it's not a real program, but we'll get there!
 number: 26r12heLLo; 63e3
+and a real number: 124.52E+25
+blaaahhhh

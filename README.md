@@ -3,8 +3,6 @@ Proyecto Compiladores
 
 #####TODO:
 
-* agregar numeros reales (ya estan los numeros enteros).
-
 * escoger mas identificadores para las 15 palabras "reservadas" del lenguaje
   (buscar funciones existentes en el lenguaje y usar esas)
 

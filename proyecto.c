@@ -11,16 +11,17 @@
 
 
 typedef enum tokenName {
-  NIL,
-  SELFTOK,
-  RESENDTOK,
-  IDENTIFIER,
-  SMALLKEYWORD,
-  CAPKEYWORD,
-  ARGUMENTNAME,
-  STRING,
-  COMMENT,
-  INTEGER
+  NIL,          // 0
+  SELFTOK,      // 1
+  RESENDTOK,    // 2
+  IDENTIFIER,   // 3
+  SMALLKEYWORD, // 4
+  CAPKEYWORD,   // 5
+  ARGUMENTNAME, // 6
+  STRING,       // 7
+  COMMENT,      // 8
+  INTEGER,      // 9
+  REAL          //10
 } tokenName;
 
 
@@ -178,6 +179,8 @@ void getTokens(lineList *source) {
   char      c;                          // c es el caracter actual
   tokenName currGuessedTok    = NIL;
   int       integerHasBase    = FALSE;
+  int       hasDecimalPoint   = FALSE;
+  int       hasExponent       = FALSE;
   
   // selftok       -> self
   // resendtok     -> resend
@@ -193,138 +196,223 @@ void getTokens(lineList *source) {
   // while there is anything on the source code
   printf("about to enter while loop\n");
   while (currLine -> line[currLineChar] != '\0' || currLine -> nxt) {
-    shouldGetNextChar = TRUE;
+    shouldGetNextChar              = TRUE;
     if (currLine -> line[currLineChar] == '\0') {
-      currLine = currLine -> nxt;
-      currLineChar = 0;
+      currLine                     = currLine -> nxt;
+      currLineChar                 = 0;
     }
-    c = currLine->line[currLineChar];
+    c                              = currLine->line[currLineChar];
 
     if (currLexemeChar != 0) {
       if (currGuessedTok == IDENTIFIER) {
         if (isIdentifierChar(c, FALSE)) {
-          lexeme[currLexemeChar] = c;
+          lexeme[currLexemeChar]   = c;
           currLexemeChar++;
-          lexeme[currLexemeChar] = '\0';
+          lexeme[currLexemeChar]   = '\0';
         }
         else { // end of the identifier
           if (strcmp(lexeme, "self") == 0) {
             // the lexeme is a SELFTOK
             addToken(lexeme, SELFTOK);
-            currLexemeChar = 0;
+            currLexemeChar         = 0;
             lexeme[currLexemeChar] = '\0';
-            shouldGetNextChar = FALSE;
+            shouldGetNextChar      = FALSE;
           }
           else if (strcmp(lexeme, "resend") == 0) {
             // the lexeme is a RESENDTOK
             addToken(lexeme, RESENDTOK);
-            currLexemeChar = 0;
+            currLexemeChar         = 0;
             lexeme[currLexemeChar] = '\0';
-            shouldGetNextChar = FALSE;
+            shouldGetNextChar      = FALSE;
           }
           else if (isColon(c)) {
             lexeme[currLexemeChar] = c;
             lexeme[currLexemeChar+1] = '\0';
             addToken(lexeme, SMALLKEYWORD);
-            currLexemeChar = 0;
+            currLexemeChar         = 0;
             lexeme[currLexemeChar] = '\0';
           }
           else {
             // not a keyword and doesn't end in colon. It's an identifier
             addToken(lexeme, IDENTIFIER);
-            currLexemeChar = 0;
+            currLexemeChar         = 0;
             lexeme[currLexemeChar] = '\0';
-            shouldGetNextChar = FALSE;
+            shouldGetNextChar      = FALSE;
           }
         }
       }
       else if (currGuessedTok == CAPKEYWORD) {
         if (isCapKeywordChar(c, FALSE)) {
-          lexeme[currLexemeChar] = c;
+          lexeme[currLexemeChar]   = c;
           currLexemeChar++;
-          lexeme[currLexemeChar] = '\0';
+          lexeme[currLexemeChar]   = '\0';
         }
         else if (isColon(c)) { // end of the capital keyword
-          lexeme[currLexemeChar] = c;
+          lexeme[currLexemeChar]   = c;
           currLexemeChar++;
-          lexeme[currLexemeChar] = '\0';
+          lexeme[currLexemeChar]   = '\0';
           addToken(lexeme, IDENTIFIER);
-          currLexemeChar = 0;
-          lexeme[currLexemeChar] = '\0';
+          currLexemeChar           = 0;
+          lexeme[currLexemeChar]   = '\0';
         }
         else {
           // wth is it?
-          lexeme[currLexemeChar] = c;
+          lexeme[currLexemeChar]   = c;
           currLexemeChar++;
-          lexeme[currLexemeChar] = '\0';
+          lexeme[currLexemeChar]   = '\0';
           addToken(lexeme, NIL);
-          currLexemeChar = 0;
-          lexeme[currLexemeChar] = '\0';
+          currLexemeChar           = 0;
+          lexeme[currLexemeChar]   = '\0';
         }
       }
       else if (currGuessedTok == ARGUMENTNAME) {
         if (isArgumentNameChar(c, currLexemeChar)) {
-          lexeme[currLexemeChar] = c;
+          lexeme[currLexemeChar]   = c;
           currLexemeChar++;
-          lexeme[currLexemeChar] = '\0';
+          lexeme[currLexemeChar]   = '\0';
         }
         else {
           addToken(lexeme, ARGUMENTNAME);
-          currLexemeChar = 0;
-          lexeme[currLexemeChar] = '\0';
-          shouldGetNextChar = FALSE;          
+          currLexemeChar           = 0;
+          lexeme[currLexemeChar]   = '\0';
+          shouldGetNextChar        = FALSE;
         }
       }
       else if (currGuessedTok == STRING) {
         if (isQuote(c)) {
           // end of the string
-          lexeme[currLexemeChar] = c;
+          lexeme[currLexemeChar]   = c;
           currLexemeChar++;
-          lexeme[currLexemeChar] = '\0';
+          lexeme[currLexemeChar]   = '\0';
           addToken(lexeme, STRING);
-          currLexemeChar = 0;
-          lexeme[currLexemeChar] = '\0';
+          currLexemeChar           = 0;
+          lexeme[currLexemeChar]   = '\0';
         }
         else {
-          lexeme[currLexemeChar] = c;
+          lexeme[currLexemeChar]   = c;
           currLexemeChar++;
-          lexeme[currLexemeChar] = '\0';
+          lexeme[currLexemeChar]   = '\0';
         }
       }
       else if (currGuessedTok == COMMENT) {
         if (isDoubleQuote(c)) {
           // end of the comment
-          lexeme[currLexemeChar] = c;
+          lexeme[currLexemeChar]   = c;
           currLexemeChar++;
-          lexeme[currLexemeChar] = '\0';
+          lexeme[currLexemeChar]   = '\0';
           // we don't store it
-          currLexemeChar = 0;
-          lexeme[currLexemeChar] = '\0';
+          currLexemeChar           = 0;
+          lexeme[currLexemeChar]   = '\0';
         }
         else {
-          lexeme[currLexemeChar] = c;
+          lexeme[currLexemeChar]   = c;
           currLexemeChar++;
-          lexeme[currLexemeChar] = '\0';
+          lexeme[currLexemeChar]   = '\0';
         }
       }
       else if (currGuessedTok == INTEGER) {
-        if (c == 'r' || c == 'R') {
-          lexeme[currLexemeChar] = c;
+        if (!integerHasBase && c == '.') {
+          lexeme[currLexemeChar]   = c;
           currLexemeChar++;
-          lexeme[currLexemeChar] = '\0';
-          integerHasBase = TRUE;
+          lexeme[currLexemeChar]   = '\0';
+          hasDecimalPoint          = TRUE;
+          currGuessedTok           = REAL;
+        }
+        else if (!integerHasBase && (c == 'e' || c == 'E')) {
+          // I've only seen digits so far... if I see an e or E, it's bc
+          // it's a floating point number 
+          lexeme[currLexemeChar]   = c;
+          currLexemeChar++;
+          lexeme[currLexemeChar]   = '\0';
+          hasExponent              = TRUE;
+          currGuessedTok           = REAL;
+        }
+        else if (c == 'r' || c == 'R') {
+          lexeme[currLexemeChar]   = c;
+          currLexemeChar++;
+          lexeme[currLexemeChar]   = '\0';
+          integerHasBase           = TRUE;
         }
         else if (isIntegerChar(c, FALSE, integerHasBase)){
-          lexeme[currLexemeChar] = c;
+          lexeme[currLexemeChar]   = c;
           currLexemeChar++;
-          lexeme[currLexemeChar] = '\0';          
+          lexeme[currLexemeChar]   = '\0';
         }
         else {
           // if it's not an integer character, we're done
           addToken(lexeme, INTEGER);
-          currLexemeChar = 0;
-          lexeme[currLexemeChar] = '\0';
-          shouldGetNextChar = FALSE;
+          currLexemeChar           = 0;
+          lexeme[currLexemeChar]   = '\0';
+          shouldGetNextChar        = FALSE;
+          integerHasBase           = FALSE;
+        }
+      }
+      else if (currGuessedTok == REAL) {
+        if (isDigit(c)) {
+          // still looking at the number
+          lexeme[currLexemeChar]   = c;
+          currLexemeChar++;
+          lexeme[currLexemeChar]   = '\0';
+        }
+        // check if I'm seeing e or E and that the last thing I saw was a digit,
+        // then everything is fine. However, if it's not, it's because I've seen
+        // either two e's in a row, or 
+        else if (c == 'e' || c == 'E') {
+          if (isDigit(lexeme[currLexemeChar-1])) {
+            lexeme[currLexemeChar] = c;
+            currLexemeChar++;
+            lexeme[currLexemeChar] = '\0';
+            hasExponent            = TRUE;
+          }
+          else {
+            addToken(lexeme, NIL);
+            currLexemeChar         = 0;
+            lexeme[currLexemeChar] = '\0';
+            integerHasBase         = FALSE;
+            hasDecimalPoint        = FALSE;
+            hasExponent            = FALSE;
+            shouldGetNextChar      = FALSE;
+          }
+        }
+        else if (isSign(c)) {
+          if (lexeme[currLexemeChar - 1] == 'e' ||
+              lexeme[currLexemeChar - 1] == 'E') { // a sign can only go after the e (or E)
+            lexeme[currLexemeChar] = c;
+            currLexemeChar++;
+            lexeme[currLexemeChar] = '\0';            
+          }
+          else {
+            addToken(lexeme, NIL);
+            currLexemeChar         = 0;
+            lexeme[currLexemeChar] = '\0';
+            integerHasBase         = FALSE;
+            hasDecimalPoint        = FALSE;
+            hasExponent            = FALSE;
+            shouldGetNextChar      = FALSE;
+          }
+        }
+        else {
+          // saw some digits, then a dot (or e), and then possibly some more digits
+          // check that I've actually seen some digits after the dot
+          if (lexeme[currLexemeChar - 1] != '.' && 
+              lexeme[currLexemeChar - 1] != 'e' &&
+              lexeme[currLexemeChar - 1] != 'E' &&
+              !isSign(lexeme[currLexemeChar - 1])) {
+            addToken(lexeme, REAL);
+            currLexemeChar         = 0;
+            lexeme[currLexemeChar] = '\0';
+            hasDecimalPoint        = FALSE;
+            shouldGetNextChar      = FALSE;
+          }
+          else {
+            addToken(lexeme, NIL);
+            currLexemeChar         = 0;
+            lexeme[currLexemeChar] = '\0';
+            integerHasBase         = FALSE;
+            hasDecimalPoint        = FALSE;
+            hasExponent            = FALSE;
+            shouldGetNextChar      = FALSE;
+          }
         }
       }
       else {
@@ -341,56 +429,56 @@ void getTokens(lineList *source) {
     // if it's nothing I'm aware of, mark it as 
     // weird and exit.
       if (isIdentifierChar(c, TRUE)) { // [a-z_]
-        lexeme[currLexemeChar] = c;
+        lexeme[currLexemeChar]     = c;
         currLexemeChar++;
-        lexeme[currLexemeChar] = '\0';
-        currGuessedTok = IDENTIFIER; // could also be a small keyword
+        lexeme[currLexemeChar]     = '\0';
+        currGuessedTok             = IDENTIFIER; // could also be a small keyword
       }
       else if (isCapKeywordChar(c, TRUE)) {
-        lexeme[currLexemeChar] = c;
+        lexeme[currLexemeChar]     = c;
         currLexemeChar++;
-        lexeme[currLexemeChar] = '\0';
-        currGuessedTok = CAPKEYWORD;
+        lexeme[currLexemeChar]     = '\0';
+        currGuessedTok             = CAPKEYWORD;
       }
       else if (isArgumentNameChar(c, currLexemeChar)) {
-        lexeme[currLexemeChar] = c;
+        lexeme[currLexemeChar]     = c;
         currLexemeChar++;
-        lexeme[currLexemeChar] = '\0';
-        currGuessedTok = ARGUMENTNAME;
+        lexeme[currLexemeChar]     = '\0';
+        currGuessedTok             = ARGUMENTNAME;
       }
       else if (isQuote(c)) {
-        lexeme[currLexemeChar] = c;
+        lexeme[currLexemeChar]     = c;
         currLexemeChar++;
-        lexeme[currLexemeChar] = '\0';
-        currGuessedTok = STRING;
+        lexeme[currLexemeChar]     = '\0';
+        currGuessedTok             = STRING;
       }
       else if (isDoubleQuote(c)) {
-        lexeme[currLexemeChar] = c;
+        lexeme[currLexemeChar]     = c;
         currLexemeChar++;
-        lexeme[currLexemeChar] = '\0';
-        currGuessedTok = COMMENT;
+        lexeme[currLexemeChar]     = '\0';
+        currGuessedTok             = COMMENT;
       }
       else if (isWhitespace(c)) {
         // nothing to see here... carry on...
       }
       else if (isIntegerChar(c, TRUE, FALSE)) {
         // beginning of a number?
-        lexeme[currLexemeChar] = c;
+        lexeme[currLexemeChar]     = c;
         currLexemeChar++;
-        lexeme[currLexemeChar] = '\0';
-        integerHasBase = FALSE;
-        currGuessedTok = INTEGER;
+        lexeme[currLexemeChar]     = '\0';
+        integerHasBase             = FALSE;
+        currGuessedTok             = INTEGER;
       }
       // TODO: add all the operators
       else {
         // it's nothing I'm aware of.... NIL!
-        lexeme[currLexemeChar] = c;
+        lexeme[currLexemeChar]     = c;
         currLexemeChar++;
-        lexeme[currLexemeChar] = '\0';
-        currGuessedTok = NIL;
+        lexeme[currLexemeChar]     = '\0';
+        currGuessedTok             = NIL;
         addToken(lexeme, currGuessedTok);
-        lexeme[0] = '\0';
-        currLexemeChar = 0;
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
       }
     }
     if (shouldGetNextChar) currLineChar++; // move on to the next character...
