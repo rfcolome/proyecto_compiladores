@@ -1,6 +1,9 @@
 
 this is a test source.
-it's not a real program, but we'll get there!
+its not a real program, but well get there!
+'this is a string!'
+"and this is a comment"
 number: 26r12heLLo; 63e3
 and a real number: 124.52E+25
 blaaahhhh
+5 _Eq: 3 + 2

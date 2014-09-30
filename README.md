@@ -3,8 +3,7 @@ Proyecto Compiladores
 
 #####TODO:
 
-* escoger mas identificadores para las 15 palabras "reservadas" del lenguaje
-  (buscar funciones existentes en el lenguaje y usar esas)
+* agregar todos los operadores ahi
 
 * implementar eso en Flex
 
@@ -106,3 +105,21 @@ Generar un analizador lexicografico para el lenguaje asignado usando Flex.
   errores**. por ejemplo, segun esa definición el lexema hola seria tanto un
   identificador como un numero entero. Para eso se incluyó el handbook oficial
   del lenguaje Self en notas/SelfHandbook-Self4.4-R2.pdf.
+
+* para ejecutar la maquina virtual:
+
+    * bajar la maquina virtual del sitio de self: http://selflanguage.org/
+
+    * descomprimirlo, y cambiar los archivos del ejecutable para hacerlo
+      ejecutable.
+
+    * clonar el repositorio de la maquina virtual
+
+    * ir a /objects/ en el repositorio, y correr el ejecutable de self desde
+      esa carpeta
+
+    * 'worldBuilder.self' _RunScript
+
+    * poner 'y' cada vez que pregunten algo
+
+    * al terminar, ejecutar desktop open

@@ -11,17 +11,30 @@
 
 
 typedef enum tokenName {
-  NIL,          // 0
-  SELFTOK,      // 1
-  RESENDTOK,    // 2
-  IDENTIFIER,   // 3
-  SMALLKEYWORD, // 4
-  CAPKEYWORD,   // 5
-  ARGUMENTNAME, // 6
-  STRING,       // 7
-  COMMENT,      // 8
-  INTEGER,      // 9
-  REAL          //10
+  NIL,                 // 0
+  SELFTOK,             // 1
+  RESENDTOK,           // 2
+  ADDSLOTSTOK,         // 3
+  QUITTOK,             // 4
+  RUNSCRIPTTOK,        // 5
+  DEFINETOK,           // 6
+  ADDSLOTSIFABSENTTOK, // 7
+  REMOVESLOTTOK,       // 8
+  REMOVEALLSLOTSTOK,   // 9
+  EQTOK,               // 10
+  CLONETOK,            // 11
+  INTADDTOK,           // 12
+  INTDIVTOK,           // 13
+  MIRRORTOK,           // 14
+  PRINTTOK,            // 15
+  IDENTIFIER,          // 16
+  SMALLKEYWORD,        // 17
+  CAPKEYWORD,          // 18
+  ARGUMENTNAME,        // 19
+  STRING,              // 20
+  COMMENT,             // 21
+  INTEGER,             // 22
+  REAL                 // 23
 } tokenName;
 
 
@@ -225,12 +238,92 @@ void getTokens(lineList *source) {
             lexeme[currLexemeChar] = '\0';
             shouldGetNextChar      = FALSE;
           }
-          else if (isColon(c)) {
-            lexeme[currLexemeChar] = c;
-            lexeme[currLexemeChar+1] = '\0';
-            addToken(lexeme, SMALLKEYWORD);
+          else if (strcmp(lexeme, "_Quit") == 0) {
+            // the lexeme is a RESENDTOK
+            addToken(lexeme, QUITTOK);
             currLexemeChar         = 0;
             lexeme[currLexemeChar] = '\0';
+            shouldGetNextChar      = FALSE;
+          }
+          else if (strcmp(lexeme, "_RunScript") == 0) {
+            // the lexeme is a RESENDTOK
+            addToken(lexeme, RUNSCRIPTTOK);
+            currLexemeChar         = 0;
+            lexeme[currLexemeChar] = '\0';
+            shouldGetNextChar      = FALSE;
+          }
+          else if (strcmp(lexeme, "_RemoveAllSlots") == 0) {
+            // the lexeme is a RESENDTOK
+            addToken(lexeme, REMOVEALLSLOTSTOK);
+            currLexemeChar         = 0;
+            lexeme[currLexemeChar] = '\0';
+            shouldGetNextChar      = FALSE;
+          }
+          else if (strcmp(lexeme, "_Clone") == 0) {
+            // the lexeme is a RESENDTOK
+            addToken(lexeme, CLONETOK);
+            currLexemeChar         = 0;
+            lexeme[currLexemeChar] = '\0';
+            shouldGetNextChar      = FALSE;
+          }
+          else if (strcmp(lexeme, "_Mirror") == 0) {
+            // the lexeme is a RESENDTOK
+            addToken(lexeme, MIRRORTOK);
+            currLexemeChar         = 0;
+            lexeme[currLexemeChar] = '\0';
+            shouldGetNextChar      = FALSE;
+          }
+          else if (strcmp(lexeme, "_Print") == 0) {
+            // the lexeme is a RESENDTOK
+            addToken(lexeme, PRINTTOK);
+            currLexemeChar         = 0;
+            lexeme[currLexemeChar] = '\0';
+            shouldGetNextChar      = FALSE;
+          }
+          else if (isColon(c)) {
+            lexeme[currLexemeChar]   = c;
+            lexeme[currLexemeChar+1] = '\0';
+
+            if (strcmp(lexeme, "_AddSlots:") == 0) {
+              addToken(lexeme, ADDSLOTSTOK);
+              currLexemeChar         = 0;
+              lexeme[currLexemeChar] = '\0';
+            }
+            else if (strcmp(lexeme, "_Define:") == 0) {
+              addToken(lexeme, DEFINETOK);
+              currLexemeChar         = 0;
+              lexeme[currLexemeChar] = '\0';
+            }
+            else if (strcmp(lexeme, "_AddSlotsIfAbsent:") == 0) {
+              addToken(lexeme, ADDSLOTSIFABSENTTOK);
+              currLexemeChar         = 0;
+              lexeme[currLexemeChar] = '\0';
+            }
+            else if (strcmp(lexeme, "_RemoveSlot:") == 0) {
+              addToken(lexeme, REMOVESLOTTOK);
+              currLexemeChar         = 0;
+              lexeme[currLexemeChar] = '\0';
+            }
+            else if (strcmp(lexeme, "_Eq:") == 0) {
+              addToken(lexeme, EQTOK);
+              currLexemeChar         = 0;
+              lexeme[currLexemeChar] = '\0';
+            }
+            else if (strcmp(lexeme, "_IntAdd:") == 0) {
+              addToken(lexeme, INTADDTOK);
+              currLexemeChar         = 0;
+              lexeme[currLexemeChar] = '\0';
+            }
+            else if (strcmp(lexeme, "_IntDiv:") == 0) {
+              addToken(lexeme, INTDIVTOK);
+              currLexemeChar         = 0;
+              lexeme[currLexemeChar] = '\0';
+            }
+            else {
+              addToken(lexeme, SMALLKEYWORD);
+              currLexemeChar         = 0;
+              lexeme[currLexemeChar] = '\0';
+            }
           }
           else {
             // not a keyword and doesn't end in colon. It's an identifier
