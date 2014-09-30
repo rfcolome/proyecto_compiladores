@@ -34,7 +34,32 @@ typedef enum tokenName {
   STRING,              // 20
   COMMENT,             // 21
   INTEGER,             // 22
-  REAL                 // 23
+  REAL,                // 23
+  BANGTOK,             // 24    !
+  ATTOK,               // 25    @
+  HASHTOK,             // 26    #
+  DOLLARTOK,           // 27    $
+  PCTTOK,              // 28    %
+  CARATTOK,            // 29    ^
+  AMPERSANDTOK,        // 30    &
+  ASTERISKTOK,         // 31    *
+  MINUSTOK,            // 32    -
+  PLUSTOK,             // 33    +
+  EQUALTOK,            // 34    =
+  TILDETOK,            // 35    ~
+  DIVISIONTOK,         // 36    /
+  QUESTIONTOK,         // 37    ?
+  LESSTHANTOK,         // 38    <
+  GREATERTHANTOK,      // 39    >
+  COMMATOK,            // 40    ,
+  SEMICOLONTOK,        // 41    ;
+  VERTBARTOK,          // 42    |
+  BACKSLASHTOK,        // 43    
+  DOTTOK,              // 44    .
+  OPENPARENTOK,        // 45    (
+  CLOSEPARENTOK,       // 46    )
+  OPENBRACKETTOK,      // 47    [
+  CLOSEBRACKETTOK      // 48    ]
 } tokenName;
 
 
@@ -562,7 +587,131 @@ void getTokens(lineList *source) {
         integerHasBase             = FALSE;
         currGuessedTok             = INTEGER;
       }
-      // TODO: add all the operators
+      else if (c == '!') {
+        addToken("!", BANGTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '@') {
+        addToken("@", ATTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '#') {
+        addToken("#", HASHTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '$') {
+        addToken("$", DOLLARTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '%') {
+        addToken("%", PCTTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '^') {
+        addToken("^", CARATTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '&') {
+        addToken("&", AMPERSANDTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '*') {
+        addToken("*", ASTERISKTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '-') {
+        addToken("-", MINUSTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '+') {
+        addToken("+", PLUSTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '=') {
+        addToken("=", EQUALTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '~') {
+        addToken("~", TILDETOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '/') {
+        addToken("/", DIVISIONTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '?') {
+        addToken("?", QUESTIONTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '<') {
+        addToken("<", LESSTHANTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '>') {
+        addToken(">", GREATERTHANTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == ',') {
+        addToken(",", COMMATOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == ';') {
+        addToken(";", SEMICOLONTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '|') {
+        addToken("|", VERTBARTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '\\') {
+        addToken("\\", BACKSLASHTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '.') {
+        addToken(".", DOTTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '(') {
+        addToken("(", OPENPARENTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == ')') {
+        addToken(")", CLOSEPARENTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == '[') {
+        addToken("[", OPENBRACKETTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
+      else if (c == ']') {
+        addToken("]", CLOSEBRACKETTOK);
+        lexeme[0]                  = '\0';
+        currLexemeChar             = 0;
+      }
       else {
         // it's nothing I'm aware of.... NIL!
         lexeme[currLexemeChar]     = c;

@@ -3,8 +3,6 @@ Proyecto Compiladores
 
 #####TODO:
 
-* agregar todos los operadores ahi
-
 * implementar eso en Flex
 
 * hacer interfaz grafica en Java
@@ -30,7 +28,7 @@ Proyecto Compiladores
 4. seleccionar una lista de operadores y caracteres especiales (al menos 15
 entre ambos).
 
-  >  ! @ # $ % ^ & * - + = ~ / ? < > , ; | ' \ 
+  >  ! @ # $ % ^ & * - + = ~ / ? < > , ; | \ . ( ) [ ] 
 
 5. indicar como se construyen comentarios en el lenguaje.
 
