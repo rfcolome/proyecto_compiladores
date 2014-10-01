@@ -44,7 +44,7 @@
 '[^']*'                          printf("%s -> STRING\n"             , yytext);
 \"[^\"]*\"                        /* no mostrar los comentarios */
 [0-9]+                           printf("%s -> INTEGER\n"            , yytext);
-[0-9][0-9]?e[0-9a-zA-Z]+         printf("%s -> INTEGER\n"            , yytext);
+[0-9][0-9]?[rR][0-9a-zA-Z]+      printf("%s -> INTEGER\n"            , yytext);
 [0-9]+\.[0-9]+                   printf("%s -> REAL\n"               , yytext);
 [0-9]+(\.[0-9]+)?[eE][+-]?[0-9]+ printf("%s -> REAL\n"               , yytext);
 

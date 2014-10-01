@@ -7,13 +7,15 @@ Proyecto Compiladores
 
 * hacer interfaz grafica en Java
 
-* hacer que el arbol binario se balanceexo
+* hacer que el arbol binario se balancee
 
 ###Requerimientos
 
 1. seleccionar al menos 15 palabras reservadas del lenguaje.
 
-  > self, resend 
+  > self resend _Quit _RunScript _RemoveAllSlots _Clone _Mirror
+  > _Print _AddSlots: _Define: _AddSlotsIfAbsent: _RemoveSlot:
+  > _Eq: _IntAdd: _IntDiv:
  
 2. especificar la expresion regular para definir identificadores.
 
