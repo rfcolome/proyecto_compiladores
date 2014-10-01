@@ -106,6 +106,7 @@ int  isIntegerChar      (char c, int isFirstLetter, int hasBase);
 
 int  addToken           (char *lexeme, tokenName tok);
 int  addTokenToTree     (tokenTree **tree, token *tok);
+void intToTokenName     (tokenName tok, char *ans);
 int  isLeaf             (tokenTree *tree);
 int  treeHeight         (tokenTree *tree);
 int  isBalanced         (tokenTree *tree);
@@ -232,7 +233,6 @@ void getTokens(lineList *source) {
   // note: . is a token by itself...
 
   // while there is anything on the source code
-  printf("about to enter while loop\n");
   while (currLine -> line[currLineChar] != '\0' || currLine -> nxt) {
     shouldGetNextChar              = TRUE;
     if (currLine -> line[currLineChar] == '\0') {
@@ -736,7 +736,7 @@ void getTokens(lineList *source) {
 
   // if I reached the end of the source code, return
   // the list of tokens?
-  displayTree(tree);
+  // displayTree(tree);
 }
 
 
@@ -814,10 +814,12 @@ int isIntegerChar (char c, int isFirstLetter, int hasBase) {
 int addToken (char *lexeme, tokenName tok) { 
   // allocate memory for a new token, put the data in there
   // and store it on the datastructure.
+  char tokenname[25] = "";
   token *temp = (token *)malloc(sizeof(token));
   strcpy(temp -> lexeme, lexeme);
   temp -> tok = tok;
-  printf("%s: %i\n", lexeme, tok);
+  intToTokenName(tok, tokenname);
+  printf("%s -> %s\n", lexeme, tokenname);
   return addTokenToTree(&tree, temp);
 }
 
@@ -876,4 +878,157 @@ void displayTree (tokenTree *tree) {
 
 int max (int a, int b) {
   return (a > b) ? a : b ;
+}
+
+void intToTokenName (tokenName tok, char *ans) {
+  if (tok == NIL) {
+    strcpy(ans, "NIL");
+  }
+  else if (tok == SELFTOK) {
+    strcpy(ans, "SELFTOK");
+  }
+  else if (tok == RESENDTOK) {
+    strcpy(ans, "RESENDTOK");
+  }
+  else if (tok == ADDSLOTSTOK) {
+    strcpy(ans, "ADDSLOTSTOK");
+  }
+  else if (tok == QUITTOK) {
+    strcpy(ans, "QUITTOK");
+  }
+  else if (tok == RUNSCRIPTTOK) {
+    strcpy(ans, "RUNSCRIPTTOK");
+  }
+  else if (tok == DEFINETOK) {
+    strcpy(ans, "DEFINETOK");
+  }
+  else if (tok == ADDSLOTSIFABSENTTOK) {
+    strcpy(ans, "ADDSLOTSIFABSENTTOK");
+  }
+  else if (tok == REMOVESLOTTOK) {
+    strcpy(ans, "REMOVESLOTTOK");
+  }
+  else if (tok == REMOVEALLSLOTSTOK) {
+    strcpy(ans, "REMOVEALLSLOTSTOK");
+  }
+  else if (tok == EQTOK) {
+    strcpy(ans, "EQTOK");
+  }
+  else if (tok == CLONETOK) {
+    strcpy(ans, "CLONETOK");
+  }
+  else if (tok == INTADDTOK) {
+    strcpy(ans, "INTADDTOK");
+  }
+  else if (tok == INTDIVTOK) {
+    strcpy(ans, "INTDIVTOK");
+  }
+  else if (tok == MIRRORTOK) {
+    strcpy(ans, "MIRRORTOK");
+  }
+  else if (tok == PRINTTOK) {
+    strcpy(ans, "PRINTTOK");
+  }
+  else if (tok == IDENTIFIER) {
+    strcpy(ans, "IDENTIFIER");
+  }
+  else if (tok == SMALLKEYWORD) {
+    strcpy(ans, "SMALLKEYWORD");
+  }
+  else if (tok == CAPKEYWORD) {
+    strcpy(ans, "CAPKEYWORD");
+  }
+  else if (tok == ARGUMENTNAME) {
+    strcpy(ans, "ARGUMENTNAME");
+  }
+  else if (tok == STRING) {
+    strcpy(ans, "STRING");
+  }
+  else if (tok == COMMENT) {
+    strcpy(ans, "COMMENT");
+  }
+  else if (tok == INTEGER) {
+    strcpy(ans, "INTEGER");
+  }
+  else if (tok == REAL) {
+    strcpy(ans, "REAL");
+  }
+  else if (tok == BANGTOK) {
+    strcpy(ans, "BANGTOK");
+  }
+  else if (tok == ATTOK) {
+    strcpy(ans, "ATTOK");
+  }
+  else if (tok == HASHTOK) {
+    strcpy(ans, "HASHTOK");
+  }
+  else if (tok == DOLLARTOK) {
+    strcpy(ans, "DOLLARTOK");
+  }
+  else if (tok == PCTTOK) {
+    strcpy(ans, "PCTTOK");
+  }
+  else if (tok == CARATTOK) {
+    strcpy(ans, "CARATTOK");
+  }
+  else if (tok == AMPERSANDTOK) {
+    strcpy(ans, "AMPERSANDTOK");
+  }
+  else if (tok == ASTERISKTOK) {
+    strcpy(ans, "ASTERISKTOK");
+  }
+  else if (tok == MINUSTOK) {
+    strcpy(ans, "MINUSTOK");
+  }
+  else if (tok == PLUSTOK) {
+    strcpy(ans, "PLUSTOK");
+  }
+  else if (tok == EQUALTOK) {
+    strcpy(ans, "EQUALTOK");
+  }
+  else if (tok == TILDETOK) {
+    strcpy(ans, "TILDETOK");
+  }
+  else if (tok == DIVISIONTOK) {
+    strcpy(ans, "DIVISIONTOK");
+  }
+  else if (tok == QUESTIONTOK) {
+    strcpy(ans, "QUESTIONTOK");
+  }
+  else if (tok == LESSTHANTOK) {
+    strcpy(ans, "LESSTHANTOK");
+  }
+  else if (tok == GREATERTHANTOK) {
+    strcpy(ans, "GREATERTHANTOK");
+  }
+  else if (tok == COMMATOK) {
+    strcpy(ans, "COMMATOK");
+  }
+  else if (tok == SEMICOLONTOK) {
+    strcpy(ans, "SEMICOLONTOK");
+  }
+  else if (tok == VERTBARTOK) {
+    strcpy(ans, "VERTBARTOK");
+  }
+  else if (tok == BACKSLASHTOK) {
+    strcpy(ans, "BACKSLASHTOK");
+  }
+  else if (tok == DOTTOK) {
+    strcpy(ans, "DOTTOK");
+  }
+  else if (tok == OPENPARENTOK) {
+    strcpy(ans, "OPENPARENTOK");
+  }
+  else if (tok == CLOSEPARENTOK) {
+    strcpy(ans, "CLOSEPARENTOK");
+  }
+  else if (tok == OPENBRACKETTOK) {
+    strcpy(ans, "OPENBRACKETTOK");
+  }
+  else if (tok == CLOSEBRACKETTOK) {
+    strcpy(ans, "CLOSEBRACKETTOK");
+  }
+  else {
+    strcpy(ans, "UNKNOWN");
+  }
 }
