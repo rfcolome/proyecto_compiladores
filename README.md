@@ -3,9 +3,12 @@ Proyecto Compiladores
 
 #####TODO:
 
-* implementar eso en Flex
+* hacer que la interfaz en Java use el compilado de proyecto.c
 
-* hacer interfaz grafica en Java
+* responder la primera y ultima pregunta del archivo ayuda.lyx
+  y generar el archivo .pdf
+
+* hacer que la interfaz en Java muestre el archivo de ayuda.pdf
 
 * hacer que el arbol binario se balancee
 
