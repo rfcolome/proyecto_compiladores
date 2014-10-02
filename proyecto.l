@@ -6,8 +6,8 @@
  *
  *  Para compilar (asumiendo que tienen flex):
  *
- *    lex tarea.l
- *    cc lex.yy.c -o tarea -lfl
+ *    lex proyecto.l
+ *    cc lex.yy.c -o proyectoLex -lfl
  *
  */
 

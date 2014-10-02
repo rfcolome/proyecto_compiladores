@@ -71,16 +71,38 @@ Self
 
 \end_layout
 
-\begin_layout Itemize
-Inspirado en Smalltalk
+\begin_layout Standard
+Self es un lenguaje inspirado en Smalltalk (era un dialecto de éste y luego
+ se implementó una versión de Smalltalk dentro de Self) orientado a objetos
+ y con soporte para prototipos.
+ El lenguaje se utilizaba como un sistema experimental para el diseño de
+ lenguajes en los años 80 y 90.
 \end_layout
 
-\begin_layout Itemize
-creado por Sun Microsystems
+\begin_layout Standard
+Actualmente existe una maquina virtual escrita en Self, escrita con código
+ abierto.
 \end_layout
 
-\begin_layout Itemize
-Minimalista
+\begin_layout Standard
+El lenguaje presentó varias innovaciones en el tiempo en que fue desarrollado;
+ mientras se estaban haciendo investigaciones en Self, se desarrollaron
+ varias técnicas de 
+\begin_inset Quotes eld
+\end_inset
+
+compilación justo a tiempo
+\begin_inset Quotes erd
+\end_inset
+
+ (Just In Time Compilers: JIT), ya que se requería que el lenguaje se ejecutara
+ a una velocidad comparable a la de codigo C optimizado.
+\end_layout
+
+\begin_layout Standard
+Gran parte del diseño e implementación fue por parte de Sun Microsystems,
+ y las técnicas que desarrollaron luego se utilizaron en la máquina virtual
+ de Java (JVM) para mejorar el desempeño de ésta.
 \end_layout
 
 \begin_layout Section
@@ -330,10 +352,7 @@ Un comentario inicia con comillas dobles, seguido de una secuencia de cero
 \end_layout
 
 \begin_layout Itemize
-
 Expresion regular: 
-\lang english
-
 \begin_inset ERT
 status open
 
@@ -390,7 +409,13 @@ Cualquier otra observacion (o limitacion) que considere necesaria
 \end_layout
 
 \begin_layout Standard
-TODO
+Según la documentación del lenguaje que se encuentra en http://selflanguage.org/
+ los signos (+ y -) son opcionales al definir números.
+ Sin embargo, los numeros enteros y reales (que son los que se piden en
+ el proyecto) no inician con un signo.
+ Por lo tanto, los caracteres + y - se ven como operadores.
+ La única excepción es en la definición de número real en punto flotante,
+ en donde el exponente puede tener un signo opcional.
 \end_layout
 
 \end_body
