@@ -405,10 +405,10 @@ texttt{'Hola Mundo' printLine}
 \end_layout
 
 \begin_layout Section
-Cualquier otra observacion (o limitacion) que considere necesaria
+Cualquier otra observación (o limitación) que considere necesaria
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 Según la documentación del lenguaje que se encuentra en http://selflanguage.org/
  los signos (+ y -) son opcionales al definir números.
  Sin embargo, los numeros enteros y reales (que son los que se piden en
@@ -416,6 +416,22 @@ Según la documentación del lenguaje que se encuentra en http://selflanguage.or
  Por lo tanto, los caracteres + y - se ven como operadores.
  La única excepción es en la definición de número real en punto flotante,
  en donde el exponente puede tener un signo opcional.
+\end_layout
+
+\begin_layout Itemize
+El scanner se ejecuta únicamente desde la terminal.
+ Hicimos toda la ventana para abrir el archivo, pero no logra ejecutar codigo
+ C externo.
+ El archivo que se desea escanear se debe especificar como el argumento
+ del codigo en C, y se muestran los pares 
+\begin_inset Quotes eld
+\end_inset
+
+lexeme -> token
+\begin_inset Quotes erd
+\end_inset
+
+ en la salida estandar.
 \end_layout
 
 \end_body
