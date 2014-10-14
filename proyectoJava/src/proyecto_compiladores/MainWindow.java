@@ -39,6 +39,7 @@ public class MainWindow {
 	private static Shell shell;
 	private static Shell anotherShell;
 	private static Display display;
+	private static String currentFile;
 
 	/**
 	 * @param args
@@ -79,6 +80,7 @@ public class MainWindow {
 	    		String[] filterExt = { "*.txt", "*.*" };
 	    		fd.setFilterExtensions(filterExt);
 	    		String selected = fd.open();
+	    		currentFile = selected;
 	    		if (selected != null) {
 	    			displayFile(selected);
 	    		}
@@ -129,16 +131,18 @@ public class MainWindow {
 				// TODO: escoger este archivo de manera dinamica?
 				// TODO: escoger el proyecto de manera dinamica?
 				// TODO: si no hay archivo, avisarlo!
-				String line = runCommandAndReadOutput("/home/colo/Documents/clases/compi/proyecto_compiladores/proyecto /home/colo/Documents/clases/compi/proyecto_compiladores/ejemplo1.txt");
-				anotherShell = new Shell(display);
-				anotherShell.setText("Analizer Output");				
-				Text text = new Text(anotherShell, SWT.V_SCROLL);
-				text.setBounds(5, 5, anotherShell.getBounds().width - 15, anotherShell.getBounds().height - 35);
-				text.setText(line);
-				text.setEditable(false);
-				anotherShell.open();
-				while (!anotherShell.isDisposed()) {
-					if (!display.readAndDispatch()) display.sleep();
+				if (currentFile != null) {
+					String line = runCommandAndReadOutput("/home/colo/Documents/clases/compi/proyecto_compiladores/proyecto " + currentFile);
+					anotherShell = new Shell(display);
+					anotherShell.setText("Analizer Output");				
+					Text text = new Text(anotherShell, SWT.V_SCROLL);
+					text.setBounds(5, 5, anotherShell.getBounds().width - 15, anotherShell.getBounds().height - 35);
+					text.setText(line);
+					text.setEditable(false);
+					anotherShell.open();
+					while (!anotherShell.isDisposed()) {
+						if (!display.readAndDispatch()) display.sleep();
+					}
 				}
 			}
 		});

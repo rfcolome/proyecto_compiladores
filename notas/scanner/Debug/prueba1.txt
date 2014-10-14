@@ -1,0 +1,10 @@
+soy una prueba;
+x>3  @ variable1*variable 2
+z:=3
+
+while otravar<=16
+ if x=z then x:=13/25
+
+vienen nulos ## && ?
+ ; otros : 
+1xx  xx2  6.76

@@ -1,128 +1,178 @@
 Proyecto Compiladores
 =====================
 
-#####TODO:
+1. Agregar los comentarios: {comentario}
 
-* hacer que la interfaz en Java use el compilado de proyecto.c
+2. extender la estructura de datos del lenguaje para manejar los tipos ENTERO
+y REAL
 
-* responder la primera y ultima pregunta del archivo ayuda.lyx
-  y generar el archivo .pdf
+3. incorporar instrucciones de lectura y escritura:
 
-* hacer que la interfaz en Java muestre el archivo de ayuda.pdf
+read(variable)
+readln(variable)
+write([“cadena de caracteres”,] variable)
+writeln(“cadena de caracteres”)
+writeln([“cadena de caracteres”,] variable)
+writeln(“cadena de caracteres”)
 
-* hacer que el arbol binario se balancee
+4. Cambiar en el compilador la estructura tipo array de la TDS, por una
+estructura dinámica de datos (lista autorreferenciada), modificando en
+consecuencia los mecanismos de almacenamiento y búsqueda que sean necesarios.
 
-###Requerimientos
+5. Asegurarse que no se puedan redefinir “objetos” en las declaraciones de un
+mismo procedure.
 
-1. seleccionar al menos 15 palabras reservadas del lenguaje.
+6. Modificar la interfaz gráfica para permitir el uso del scanner y el uso de
+la combinación scanner-parser.
 
-  > self resend _Quit _RunScript _RemoveAllSlots _Clone _Mirror
-  > _Print _AddSlots: _Define: _AddSlotsIfAbsent: _RemoveSlot:
-  > _Eq: _IntAdd: _IntDiv:
- 
-2. especificar la expresion regular para definir identificadores.
+7. Los resultados del análisis sintáctico se mostrarán en una "ventana de
+resultados" en la interfaz. En el caso de que el análisis sea exitoso, se
+mostrará un mensaje análogo al del parser visto en clase. En caso de error, el
+análisis se detiene, la línea en el texto donde se ubica el único error será
+resaltada con color amarillo y en la ventana de resultados aparecerá el
+mensaje de error. Al dar doble clic sobre el mensaje de error el cursor se
+posicionará en la línea donde se ha encontrado el error señalado. 8. La opción
+de "ayuda" en la interfaz de usuario, mostrará ahora también los diagramas de
+sintaxis actualizados y correspondientes a todas las instrucciones que el
+lenguaje puede manejar.
 
-  > /[a-z_][a-zA-Z0-9_]*/
- 
-3. especificar expresiones regulares para numeros enteros y numeros reales.
+9. Se requiere que el analizador sintáctico sea escrito en Visual C++. Ningún
+otro lenguaje es elegible.
 
-  > Enteros: /([0-9]+)|([0-9][0-9]?e[0-9a-zA-Z]+)/
+10. Se requiere que la interfaz con el usuario sea escrita en Visual C++,
+Visual Basic, C# o Java. Ningún otro lenguaje es elegible.
 
-  > Reales: /([0-9]+\.[0-9]+)|([0-9]+(\.[0-9]+)?[eE][+-]?[0-9]+)/
- 
-4. seleccionar una lista de operadores y caracteres especiales (al menos 15
-entre ambos).
-
-  >  ! @ # $ % ^ & * - + = ~ / ? < > , ; | \ . ( ) [ ] 
-
-5. indicar como se construyen comentarios en el lenguaje.
-
-  > "los comentarios se escriben con comillas dobles seguidas de cualquier
-  > caracter distinto de comillas, finalizado por comillas dobles"
-
-
-###Parte 1
-
-1. Se debe sustituir la busqueda lineal del analizador lexicografico por una
-busqueda binaria.
-
-2. se deben omitir los comentarios bien formados (los comentarios no son
-tokenizados)
-
-3. se escribira ademas una interfaz para el usuario con las siguientes
-funciones basicas: abrir un archivo, crear y/o modificar texto, copiar texto,
-pegar texto, guardar texto y ejecutar el analizador lexicografico sobre el
-archivo abierto. La salida de la ejecucion debe ser el programa fuente (texto)
-tokenizado. esta salida se debe mostrar en una ventana "hija" dentro de la
-interfaz, en el formato:
-
-    lexeme -> token
-
-    lexeme -> token
-
-    ...
-
-    lexeme -> token
-
-4. la interfaz para el usuario debe ofrecer la posibilidad de configurar los
-siguientes parametros para el analizador lexicografico
-	- tamaño maximo del buffer de lineas (MAXLINEA)
-    - maximo numero de digitos en los enteros (MAXDIGIT)
-    - maxima longitud de los identificadores (MAXID)
-    - ubicacion fisica del archivo scanner.exe. este archivo contiene el
-    codigo ejecutable del analizador lexicografico
-
-Estos parametros seran almacenados en un archivo de texto denominado
-"param.txt", donde estaran escritos en texto plano con un parametro y un valor
-separados por comillas en cada linea.
-
-este archivo de parametros debe ser leido por el analizador lexicografico para
-tomar en cuenta estos valores
-
-5. Una opcion del menu de la interfaz debe ser la "Ayuda". en esta opcion se
-accedera a un archivo llamado "ayuda.pdf", que contendra la siguiente
-información para el usuario:
-
-    * breve historia y aplicaciones del lenguaje asignado
-    * palabras reservadas seleccionadas
-    * expresion regular para los identificadores
-    * expresiones regulares para numeros enteros y numeros reales
-    * lista de operadores y caracteres especiales seleccionados
-    * forma de construccion de comentarios en el lenguaje
-    * un ejemplo de programa para escribir "hola mundo" en el lenguaje
-    * cualquier otra observacion/limitacion que se considere necesaria
+11. Además de los puntos anteriores, a cada grupo le será asignada una de 5
+variantes de PL0. Cada grupo deberá implementar las especificaciones propias
+de la variante asignada. 
 
 
-###Parte 2
+PL-4.
 
-Generar un analizador lexicografico para el lenguaje asignado usando Flex.
+1. Extender la estructura de datos de PL-0 para manejar el tipo BOOLEAN y por
+supuesto, su uso en un programa. 
+
+2. Aumentar el encabezado de programa PROGRAM de manera optativa
+
+3. Aumentar las instrucción FOR
+
+4. Aumentar la posibilidad de escribir código-p 'inmerso' en el código fuente
+de PL-0 usando al instrucción :
+INLINE (i1/i2/i3/.../in)
+donde 'in' es una instrucción de código-p. (Preguntar)
+
+5. Aumentar las funciones predefinidas: RND,CLRSCR,HALT,PITAG (x,y,z) (que
+devuelve true si x,y,z son números pitagóricos y false en caso contrario).
 
 
-#### NOTAS
 
-* archivos con informacion general de utilidad para el proyecto estan en
-  /notas.
 
-* existe un archivo en notas/lexical_overview.txt donde están las definiciones
-  de los lexemas del lenguaje en notacion EBNF. **esas definiciones tienen
-  errores**. por ejemplo, segun esa definición el lexema hola seria tanto un
-  identificador como un numero entero. Para eso se incluyó el handbook oficial
-  del lenguaje Self en notas/SelfHandbook-Self4.4-R2.pdf.
 
-* para ejecutar la maquina virtual:
+Implementación:
 
-    * bajar la maquina virtual del sitio de self: http://selflanguage.org/
+- **Agregar los comentarios: {comentario}**
 
-    * descomprimirlo, y cambiar los archivos del ejecutable para hacerlo
-      ejecutable.
+Los comentarios en el lenguaje cuentan como espacios en blanco.
+Estos se manejan en el lexer en scanner.cpp ~30:
 
-    * clonar el repositorio de la maquina virtual
+//quitar blancos, caracter de cambio de línea y tabuladores
+while (ch==' ' || ch=='\n' || ch=='\t') ch=obtch() ;
 
-    * ir a /objects/ en el repositorio, y correr el ejecutable de self desde
-      esa carpeta
+para agregar comentarios, revisamos si el caracter actual es igual a {, en
+cuyo caso seguimos leyendo hasta encontrarnos con }.
 
-    * 'worldBuilder.self' _RunScript
+Agregamos luego de ese while (scanner.cpp ~32)
 
-    * poner 'y' cada vez que pregunten algo
+ if (ch == '{') {
+   // es un comentario. Por lo tanto seguimos leyendo hasta encontrar un }
+   while (ch != '}'){
+     ch = obtch();
+   }
+ }
 
-    * al terminar, ejecutar desktop open
+
+- **extender la estructura de datos del lenguaje para manejar los tipos ENTERO
+y REAL**
+
+Para poder hacer esto debemos agregar los tipos a los tipos de lexema
+permitidos:
+en lexico.h ~7 hay una enumeración de símbolos. El tercero es el numero.
+Separamos numero en entero y real:
+
+enum simbolo
+{nulo,ident,entero,real,mas,menos,por,barra,oddtok,igl,nig,mnr,mei,myr,mai,parena,parenc,coma,puntoycoma,punto,asignacion,begintok,endtok,iftok,thentok,whiletok,dotok,calltok,consttok,vartok,proctok};
+//definido aquí en el encabezado
+
+ya que no existe el numero per se, debemos quitar cualquier referencia a el y
+reemplazarla por entero (ya que los numeros viejos tecnicamente eran enteros)
+
+colo@linux:~/Documents/clases/compi/proyecto_compiladores/fuentes> grep -Ril 'numero' ./
+./mensajes_de_error.h
+./scanner.cpp
+./parametros.h
+./parser.cpp
+./lexico.h
+
+scanner.cp ~74
+parser.cpp ~83, 222
+
+ahora la pregunta es: cuando detectamos un numero real?
+
+la manera como se detectan numeros actualmente es en scanner.cpp, ~64:
+
+if (isdigit(ch)) { // podría ser un entero o un real
+   lexid[0]=ch;
+   i=j=1;
+   while ( isdigit( (ch=obtch()))) {
+     if (i<MAXDIGIT) lexid[i++]=ch;
+     j++;
+   }
+   lexid[i]='\0';
+   if (j>MAXDIGIT)
+      error(30); //este número es demasiado grande
+   token=entero;
+   valor=atol(lexid); //valor numérico de una lexeme correspondiene a un número	        
+}
+
+asi que debemos detectar si el numero actual es un punto. Si lo es, seguimos
+leyendo y cambiamos el token a ser real en vez de entero:
+
+if (isdigit(ch)) { // podría ser un entero o un real
+  int esReal = 0;
+  lexid[0]=ch;
+  i=j=1;
+  while (isdigit((ch=obtch()))) {
+    if (i<MAXDIGIT) lexid[i++]=ch;
+    j++;
+  } // hasta aqui llega a leer el final del entero, o la parte entera del real
+  if (ch == '.') {
+    esReal = 1; // es un numero real!
+    if (i<MAXDIGIT) lexid[i++]=ch; // agregamos el punto al final del lexema
+    j++;
+    while (isdigit((ch=obtch()))) {
+      if (i<MAXDIGIT) lexid[i++]=ch;
+      j++;
+    }
+  }
+  lexid[i]='\0';
+  if (j>MAXDIGIT)
+    error(30); //este número es demasiado grande
+  token = (esReal) ? real : entero;
+  valor = atof(lexid); //valor numérico de una lexeme
+}
+
+
+por ultimo, reemplazamos cada vez que salga token == numero en parser.cpp
+con token == entero || token == real, ya que estos pueden usarse como numeros.
+
+
+
+- **incorporar instrucciones de lectura y escritura:**
+
+read(variable)
+readln(variable)
+write([“cadena de caracteres”,] variable)
+writeln(“cadena de caracteres”)
+writeln([“cadena de caracteres”,] variable)
+writeln(“cadena de caracteres”)
+
