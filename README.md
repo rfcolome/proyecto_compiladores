@@ -176,3 +176,47 @@ writeln(“cadena de caracteres”)
 writeln([“cadena de caracteres”,] variable)
 writeln(“cadena de caracteres”)
 
+
+TODO:
+esto es tanto a nivel lexico como nivel sintactico.
+Por un lado, a nivel lexico se deben identificar como llamadas a functiones.
+Por otra parte, las cadenas no son parte del lenguaje, asi que talvez se deban
+agregar tambien.
+A nivel sintactico, se debe identificar las llamadas a funcion
+
+por otra parte, no es necesario incorporar cadenas de caracteres si se toma
+todo como un solo token a nivel lexico...
+
+que opcion deberiamos tomar? la primera es mas dificil pero permitiría agregar
+mas funciones facilmente en el futuro.
+
+hay mas funciones predefinidas que debemos incluir en el punto 5:
+"Aumentar las funciones predefinidas: RND,CLRSCR,HALT,PITAG (x,y,z) (que
+devuelve true si x,y,z son números pitagóricos y false en caso contrario)."
+
+asumo que CLRSCR es "clear screen" y RND es "round".
+
+
+- **Cambiar en el compilador la estructura tipo array de la TDS, por una
+estructura dinámica de datos (lista autorreferenciada), modificando en
+consecuencia los mecanismos de almacenamiento y búsqueda que sean
+necesarios.**
+
+para hacer esto, debemos:
+
+    - encontrar adonde esta definida la tabla de simbolos
+
+    - cambiar la definición por una lista 
+
+    - crear funciones para buscar/agregar elementos a la lista
+
+
+la tabla de simbolos esta definida en tds.cpp/h
+
+las funciones para accesar a la tabla de simbolos son:
+
+void poner(enum objeto k);
+int posicion();
+
+cree una funcion para inicializar la tabla de simbolos, para que tenga un
+primer elemento ya puesto.

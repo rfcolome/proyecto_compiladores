@@ -36,6 +36,9 @@ int main (int argc,char *argv[]) {
 	   printf("\n\nCompilador de pl0 version 3.0/Parser1 --- abril de 2011 --- A2\n");
 	   printf("%s - %s\n",argv[1],fecha);
 
+       // inicializacion de tabla de simbolos
+       inittds();
+
 	   //inicializacion de tokens de símbolos especiales (en auxiliares.cpp)
 	   inicializar_espec() ; 
 
