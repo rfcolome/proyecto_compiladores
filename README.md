@@ -88,7 +88,12 @@ Agregamos luego de ese while (scanner.cpp ~32)
    while (ch != '}'){
      ch = obtch();
    }
+   ch = obtch();
  }
+
+ // despues del comentario podría haber aun mas espacio en blanco, asi que
+ // tambien lo quitamos
+ while (ch==' ' || ch=='\n' || ch=='\t') ch=obtch() ;
 
 
 - **extender la estructura de datos del lenguaje para manejar los tipos ENTERO
@@ -106,12 +111,13 @@ enum simbolo
 ya que no existe el numero per se, debemos quitar cualquier referencia a el y
 reemplazarla por entero (ya que los numeros viejos tecnicamente eran enteros)
 
-colo@linux:~/Documents/clases/compi/proyecto_compiladores/fuentes> grep -Ril 'numero' ./
-./mensajes_de_error.h
-./scanner.cpp
-./parametros.h
-./parser.cpp
-./lexico.h
+colo@linux:~/Documents/clases/compi/proyecto_compiladores/fuentes> grep -Ril numero
+mensajes_de_error.h
+scanner.cpp
+parametros.h
+conjuntos.cpp
+parser.cpp
+lexico.h
 
 scanner.cp ~74
 parser.cpp ~83, 222
@@ -137,29 +143,66 @@ if (isdigit(ch)) { // podría ser un entero o un real
 asi que debemos detectar si el numero actual es un punto. Si lo es, seguimos
 leyendo y cambiamos el token a ser real en vez de entero:
 
-if (isdigit(ch)) { // podría ser un entero o un real
-  int esReal = 0;
-  lexid[0]=ch;
-  i=j=1;
-  while (isdigit((ch=obtch()))) {
-    if (i<MAXDIGIT) lexid[i++]=ch;
-    j++;
-  } // hasta aqui llega a leer el final del entero, o la parte entera del real
-  if (ch == '.') {
-    esReal = 1; // es un numero real!
-    if (i<MAXDIGIT) lexid[i++]=ch; // agregamos el punto al final del lexema
-    j++;
-    while (isdigit((ch=obtch()))) {
-      if (i<MAXDIGIT) lexid[i++]=ch;
-      j++;
+    if (isdigit(ch)) {
+      lexid[0]=ch;
+      i=j=1;
+      while ( isdigit( (ch=obtch()))) {
+        if (i<MAXDIGIT) lexid[i++]=ch;
+        j++;
+      }
+      lexid[i]='\0';
+      if (j>MAXDIGIT)
+        error(30); //este número es demasiado grande
+      token=entero;
+
+      // hasta aqui, asumo que estaba leyendo un numero entero.
+      // si luego me encuentro con un punto y mas numeros, es
+      // un numero real.
+      if (ch == '.') {
+        if (i<MAXDIGIT) lexid[i++]=ch;
+        j++;
+        while ( isdigit( (ch=obtch()))) {
+          if (i<MAXDIGIT) lexid[i++]=ch;
+          j++;
+        }
+        lexid[i]='\0';        
+        if (!isdigit(lexid[i-1])) {
+          // vi un numero seguido de un punto, seguido de algo que
+          // no es un digito... error?
+          error(25); // se esperaban digitos luego del punto
+        }
+        else {
+          // lei el numero real y todo bien.
+          if (j>MAXDIGIT)
+            error(30); //este número es demasiado grande
+          token=real;
+        }
+      }
+      valor=strtod(lexid, NULL); //valor numérico de una lexeme correspondiene a un número
     }
-  }
-  lexid[i]='\0';
-  if (j>MAXDIGIT)
-    error(30); //este número es demasiado grande
-  token = (esReal) ? real : entero;
-  valor = atof(lexid); //valor numérico de una lexeme
-}
+
+el 'valor' ya no es un entero.. scanner.cpp ~19:
+long double valor ;       //valor numérico de una lexeme correspondiene a un
+número
+
+scanner.h ~9:
+extern long double valor;    //valor numérico de una lexeme correspondiene a un número
+
+
+y tenemos que incluir el nuevo error. mensajes_de_error.h ~32
+
+/*Error 25*/ "se esperaban digitos luego del punto",
+
+
+conjuntos.cpp:
+
+init_set(tokinifact);
+tokinifact[ident]=tokinifact[numero]=tokinifact[parena]=1;
+
+ahora es:
+
+init_set(tokinifact);
+tokinifact[ident]=tokinifact[entero]=tokinifact[real]=tokinifact[parena]=1;
 
 
 por ultimo, reemplazamos cada vez que salga token == numero en parser.cpp
@@ -179,7 +222,7 @@ writeln(“cadena de caracteres”)
 
 TODO:
 esto es tanto a nivel lexico como nivel sintactico.
-Por un lado, a nivel lexico se deben identificar como llamadas a functiones.
+Por un lado, a nivel lexico se deben identificar como llamadas a funciones.
 Por otra parte, las cadenas no son parte del lenguaje, asi que talvez se deban
 agregar tambien.
 A nivel sintactico, se debe identificar las llamadas a funcion
