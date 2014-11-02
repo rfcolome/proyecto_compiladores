@@ -10,7 +10,10 @@
 
 //funciones internas al parser
 void declaracionconst(),declaracionvar(),instruccion(int toksig[]);
-void expresion(int toksig[]),termino(int toksig[]),factor(int toksig[]),condicion(int toksig[]);
+void expresion(int toksig[]),termino(int toksig[]),
+  factor(int toksig[]),funcion(int toksig[]),condicion(int toksig[]);
+
+int esFuncion();
 
 //bloque
 //da inicio el análisis sintáctico
@@ -157,21 +160,27 @@ void instruccion(int toksig[])
  init_set(vacio);
 
  if (token==ident) {
-    //ve a buscarlo a la tabla de símbolos
-    i=posicion() ;
-    if (i==0)
-       error(11); //error 11: identificador no declarado 
-    else 
-       if (tabla[i].tipo != VARIABLE)
-          error(12); //error 12: no están permitidas las asignaciones a constantes o a procedimientos
-    obtoken();
-    if (token==asignacion)
-        obtoken();
-    else
-       error(13) ; //error 13: se esperaba el operador de asignación 
+   if (esFuncion()) {
+     copia_set(setpaso,toksig);
+     funcion(setpaso);
+   }
+   else {
+     //ve a buscarlo a la tabla de símbolos
+     i=posicion() ;
+     if (i==0) {
+       error(11); //error 11: identificador no declarado
+     }
+     else if (tabla[i].tipo != VARIABLE)
+       error(12); //error 12: no están permitidas las asignaciones a constantes o a procedimientos
+     obtoken();
+     if (token==asignacion)
+       obtoken();
+     else
+       error(13); //error 13: se esperaba el operador de asignación 
 
-    copia_set(setpaso,toksig);
-    expresion(setpaso);	
+     copia_set(setpaso,toksig);
+     expresion(setpaso);
+   }
  } 
  else 
     if (token==calltok) {
@@ -254,91 +263,170 @@ void instruccion(int toksig[])
 //expresion
 void expresion(int toksig[])
 {
- int setpaso[NOTOKENS]; //conjunto de paso por valor        
+  int setpaso[NOTOKENS]; //conjunto de paso por valor        
 
- copia_set(setpaso,toksig);
- setpaso[mas]=setpaso[menos]=1; //setpaso=mas+menos+toksig
+  copia_set(setpaso,toksig);
+  setpaso[mas]=setpaso[menos]=1; //setpaso=mas+menos+toksig
 
- if (token==mas || token==menos) {
-     obtoken();
-     termino(setpaso);
- }
- else 
+  if (token==mas || token==menos) {
+    obtoken();
+    termino(setpaso);
+  }
+  else 
     termino(setpaso);
 
- while (token==mas || token==menos) {
-       obtoken();
+  while (token==mas || token==menos) {
+    obtoken();
 
-       copia_set(setpaso,toksig);
-       setpaso[mas]=setpaso[menos]=1; //setpaso=mas+menos+toksig
+    copia_set(setpaso,toksig);
+    setpaso[mas]=setpaso[menos]=1; //setpaso=mas+menos+toksig
 
-       termino(setpaso);       
- }
+    termino(setpaso);       
+  }
 }
 
 //termino
 void termino(int toksig[])
 {
- int setpaso[NOTOKENS]; //conjunto de paso por valor
+  int setpaso[NOTOKENS]; //conjunto de paso por valor
  
- copia_set(setpaso,toksig);
- setpaso[por]=setpaso[barra]=1;//setpaso=por+barra+toksig
+  copia_set(setpaso,toksig);
+  setpaso[por]=setpaso[barra]=1;//setpaso=por+barra+toksig
 
- factor(setpaso);
+  factor(setpaso);
 
- while (token==por || token==barra) {
-       obtoken();
+  while (token==por || token==barra) {
+    obtoken();
 
-       copia_set(setpaso,toksig);
-       setpaso[por]=setpaso[barra]=1; //setpaso=por+barra+toksig
+    copia_set(setpaso,toksig);
+    setpaso[por]=setpaso[barra]=1; //setpaso=por+barra+toksig
 
-       factor(setpaso);
- }
+    factor(setpaso);
+  }
 }
 
 //factor
 void factor(int toksig[])
 {
- int i;
- int setpaso[NOTOKENS]; //conjunto de paso por valor
+  int i;
+  int setpaso[NOTOKENS]; //conjunto de paso por valor
 
- test(tokinifact,toksig,24); //error(24): Una expresión no puede empezar con este símbolo
+  test(tokinifact,toksig,24); //error(24): Una expresión no puede empezar con este símbolo
 
- while (tokinifact[token]==1) {
-       //mientras el token sea un símbolo inicial de factor...
-       if (token==ident) {
-          i=posicion();
-          if (i==0) 
-              error(11); //error 11: Identificador no declarado
-          else
-             if (tabla[i].tipo==PROCEDIMIENTO)
-	            error(21); //error 21: Una expresión no debe contener un identificador de procedimiento
-          obtoken();
-       }
-       else 
-          if (token == entero || token == real) 
-             obtoken();          
-          else
-             if (token==parena) {
-                obtoken();
+  while (tokinifact[token]==1) {
+    //mientras el token sea un símbolo inicial de factor...
+    if (token==ident) {
+      i=posicion();
+      if (i==0) {
+        copia_set(setpaso,toksig);
+        setpaso[parenc]=1; //setpaso=parenc+toksig
+        funcion(setpaso);
+        //error(11); //error 11: Identificador no declarado  
+      }else if (tabla[i].tipo==PROCEDIMIENTO)
+        error(21); //error 21: Una expresión no debe contener un identificador de procedimiento
+      obtoken();
+    }
+    else if (token == entero || token == real) 
+      obtoken();          
+    else if (token==parena) {
+      obtoken();
+      copia_set(setpaso,toksig);
+      setpaso[parenc]=1; //setpaso=parenc+toksig
 
-                copia_set(setpaso,toksig);
-                setpaso[parenc]=1; //setpaso=parenc+toksig
+      expresion(setpaso);
 
-                expresion(setpaso);
+      if (token==parenc)
+        obtoken();
+      else
+        error(22); //error 22: Falta un paréntesis de cierre  
+    };
 
-                if (token==parenc)
-                   obtoken();
-                else
-                   error(22); //error 22: Falta un paréntesis de cierre  
-             };
-
-       init_set(setpaso);  //conjunto vacío
-       setpaso[parena]=1;  //setpaso=parena
-       test(toksig,setpaso,23); //error(23): El factor anterior no puede ir seguido de este simbolo o falta un punto y coma
- }
+    init_set(setpaso);  //conjunto vacío
+    setpaso[parena]=1;  //setpaso=parena
+    test(toksig,setpaso,23); //error(23): El factor anterior no puede ir seguido de este simbolo o falta un punto y coma
+  }
 }
 
+
+void funcion(int toksig[]) {
+  int i;
+  if (strcmp(lex, "READ")   == 0 ||
+      strcmp(lex, "READLN") == 0) {
+    obtoken();
+    if (token == parena) {
+      obtoken();
+      if (token == ident) {
+        i = posicion();
+        if (i == 0) { // no se encontro el identificador
+          error(11); // identificador no declarado
+        }
+        else if (tabla[i].tipo==PROCEDIMIENTO) {
+          error(21); //error 21: identificador de procedimiento
+        }
+        else { // era un identificador valido
+          obtoken();
+          if (token == parenc) {
+            // todo nice
+            obtoken();
+          }
+          else
+            error(27);
+        }
+      }
+      else
+        error(28);
+    }
+    else
+      error(26); // se esperaba una lista de argumentos
+  }
+  else if (strcmp(lex, "WRITE")   == 0 ||
+           strcmp(lex, "WRITELN") == 0 ){
+    obtoken();
+    if (token == parena) {
+      obtoken();
+      if (token == string) {
+        obtoken();
+        if (token == coma) {
+          obtoken();
+        }
+        else
+          error(5); // falta coma o punto y coma
+      }
+      
+      if (token == ident) {
+        i = posicion();
+        if (i == 0) { // no se encontro el identificador
+          error(11); // identificador no declarado
+        }
+        else if (tabla[i].tipo==PROCEDIMIENTO) {
+          error(21); //error 21: identificador de procedimiento
+        }
+        else { // era un identificador valido
+          obtoken();
+          if (token == parenc) {
+            // todo nice
+            obtoken();
+          }
+          else
+            error(27);
+        }
+      }
+      else
+        error(28);
+    }
+    else
+      error(26); // se esperaba una lista de argumentos
+  }
+  else
+    error(11); // identificador no declarado
+}
+
+int esFuncion() {
+  return strcmp(lex, "READ")    == 0 ||
+         strcmp(lex, "READLN")  == 0 ||
+         strcmp(lex, "WRITE")   == 0 ||
+         strcmp(lex, "WRITELN") == 0;
+}
 
 //condicion
 void condicion(int toksig[])

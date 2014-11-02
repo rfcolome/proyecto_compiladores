@@ -5,10 +5,10 @@ extern char *lexpal[MAXPAL];
 
 //lista de tokens de pl0
 enum simbolo {
-  nulo,ident,entero,real,mas,menos,por,barra,oddtok,igl,nig,mnr,
-  mei,myr,mai,parena,parenc,coma,puntoycoma,punto,asignacion,
-  begintok,endtok,iftok,thentok,whiletok,dotok,calltok,consttok,
-  vartok,proctok
+  nulo,ident,entero,real,string,mas,menos,por,barra,oddtok,igl,
+  nig,mnr,mei,myr,mai,parena,parenc,coma,puntoycoma,punto,
+  asignacion,begintok,endtok,iftok,thentok,whiletok,dotok,
+  calltok,consttok,vartok,proctok
 }; //definido aquí en el encabezado
 
 extern enum simbolo token;

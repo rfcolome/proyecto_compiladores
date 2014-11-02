@@ -4,7 +4,7 @@
 //sufrirá modificaciones cuándo se presente el compilador completo
 
 //tipos de objetos de pl0
-enum objeto {CONSTANTE,VARIABLE,PROCEDIMIENTO}; //definidos aquí en el encabezado
+enum objeto {CONSTANTE,VARIABLE,PROCEDIMIENTO,FUNCION}; //definidos aquí en el encabezado
 
 typedef struct {
  char nombre[MAXID+1];

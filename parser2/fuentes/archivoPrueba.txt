@@ -4,6 +4,7 @@ BEGIN
    x := 1.5;
    WHILE x <= 10 DO
    BEGIN
-      x := x + 1
+      x := x + 1;
+      writeln("x es: ", x);
    END
 END.

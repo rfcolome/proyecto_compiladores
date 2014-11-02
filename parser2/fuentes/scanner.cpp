@@ -41,8 +41,27 @@ void obtoken()
   // tambien lo quitamos
   while (ch==' ' || ch=='\n' || ch=='\t') ch=obtch() ;
 
+  // detectamos si es una cadena de caracteres
+  if (ch == '"') {
+    lexid[0] = ch;
+    i = 1;
+    ch = obtch();
+    while (ch != '"') {
+      if (i<MAXID) {
+        lexid[i++]=ch;
+      }
+      ch = obtch();
+    }
+    if (i<MAXID) {
+      lexid[i++]=ch;
+    }
+    lexid[i]='\0';
+    token=string; //es cadena
+    strcpy(lex,lexid); //copiar en lex
+    ch = obtch();
+  }
   //si la lexeme comienza con una letra, es identificador o palabra reservada
-  if (isalpha(ch)) {
+  else if (isalpha(ch)) {
     lexid[0]=ch;
     i=1;
     while ( isalpha( (ch=obtch()) ) ||  isdigit(ch)   )
@@ -65,83 +84,85 @@ void obtoken()
 
     strcpy(lex,lexid); //copiar en lex
   }
-  else //si comienza con un dígito...
-    if (isdigit(ch)) {
-      lexid[0]=ch;
-      i=j=1;
+  //si comienza con un dígito...
+  else if (isdigit(ch)) {
+    lexid[0]=ch;
+    i=j=1;
+    while ( isdigit( (ch=obtch()))) {
+      if (i<MAXDIGIT) lexid[i++]=ch;
+      j++;
+    }
+    lexid[i]='\0';
+    if (j>MAXDIGIT)
+      error(30); //este número es demasiado grande
+    token=entero;
+
+    // hasta aqui, asumo que estaba leyendo un numero entero.
+    // si luego me encuentro con un punto y mas numeros, es
+    // un numero real.
+    if (ch == '.') {
+      if (i<MAXDIGIT) lexid[i++]=ch;
+      j++;
       while ( isdigit( (ch=obtch()))) {
         if (i<MAXDIGIT) lexid[i++]=ch;
         j++;
       }
       lexid[i]='\0';
-      if (j>MAXDIGIT)
-        error(30); //este número es demasiado grande
-      token=entero;
-
-      // hasta aqui, asumo que estaba leyendo un numero entero.
-      // si luego me encuentro con un punto y mas numeros, es
-      // un numero real.
-      if (ch == '.') {
-        if (i<MAXDIGIT) lexid[i++]=ch;
-        j++;
-        while ( isdigit( (ch=obtch()))) {
-          if (i<MAXDIGIT) lexid[i++]=ch;
-          j++;
-        }
-        lexid[i]='\0';
-        if (!isdigit(lexid[i-1])) {
-          // vi un numero seguido de un punto, seguido de algo que
-          // no es un digito... error?
-          error(25); // se esperaban digitos luego del punto
-        }
-        else {
-          // lei el numero real y todo bien.
-          if (j>MAXDIGIT)
-            error(30); //este número es demasiado grande
-          token=real;
-        }
+      if (!isdigit(lexid[i-1])) {
+        // vi un numero seguido de un punto, seguido de algo que
+        // no es un digito... error?
+        error(25); // se esperaban digitos luego del punto
       }
-      valor=strtod(lexid, NULL); //valor numérico de una lexeme correspondiene a un número
+      else {
+        // lei el numero real y todo bien.
+        if (j>MAXDIGIT)
+          error(30); //este número es demasiado grande
+        token=real;
+      }
     }
-    else //reconocimiento de símbolos especiales, incluyendo pares de simbolos (aplicamos "lookahead symbol technique")
-      if (ch=='<') {
+    valor=strtod(lexid, NULL); //valor numérico de una lexeme correspondiene a un número
+  }
+  //reconocimiento de símbolos especiales, incluyendo pares de simbolos (aplicamos "lookahead symbol technique")
+  else if (ch=='<') {
+    ch=obtch();
+    if (ch=='=') {
+      token=mei;
+      ch=obtch();
+    }
+    else
+      if (ch=='>') {
+        token=nig;
         ch=obtch();
-        if (ch=='=') {
-          token=mei;
-          ch=obtch();
-        }
-        else
-          if (ch=='>') {
-            token=nig;
-            ch=obtch();
-          }
-          else
-            token=mnr;
       }
       else
-        if (ch=='>') {
+        token=mnr;
+  }
+  else {
+    if (ch=='>') {
+      ch=obtch();
+      if (ch=='=') {
+        token=mai;
+        ch=obtch();
+      }
+      else
+        token=myr;
+    }
+    else {
+      if (ch==':') {
+        ch=obtch();
+        if (ch=='=') {
+          token=asignacion;
           ch=obtch();
-          if (ch=='=') {
-            token=mai;
-            ch=obtch();
-          }
-          else
-            token=myr;
         }
         else
-          if (ch==':') {
-            ch=obtch();
-            if (ch=='=') {
-              token=asignacion;
-              ch=obtch();
-            }
-            else
-              token=nulo;
-          }
-          else {
-            token=espec[ch]; //hashing directo en la tabla de tokens de símbolos especiales del lenguaje
-            ch=obtch();
-          }
+          token=nulo;
+      }
+      else {
+        token=espec[ch]; //hashing directo en la tabla de tokens de símbolos especiales del lenguaje
+        ch=obtch();
+      }
+    }
+  }
 }
 
 //obtch: obtiene el siguiente caracter del programa fuente

@@ -240,6 +240,72 @@ devuelve true si x,y,z son números pitagóricos y false en caso contrario)."
 asumo que CLRSCR es "clear screen" y RND es "round".
 
 
+
+bueno... primero debemos de definir cadenas en el lenguaje.
+Eso se debe hacer a nivel del scanner. primero lo agrego a
+lexico.h
+
+enum simbolo {
+  nulo,ident,entero,real,string,mas,...
+};
+
+
+luego lo agrego al codigo del scanner, a obtoken()
+
+  // detectamos si es una cadena de caracteres
+  if (ch == '"') {
+    lexid[0] = ch;
+    i = 1;
+    ch = obtch();
+    while (ch != '"') {
+      if (i<MAXID) {
+        lexid[i++]=ch;
+      }
+      ch = obtch();
+    }
+    if (i<MAXID) {
+      lexid[i++]=ch;
+    }
+    lexid[i]='\0';
+    token=string; //es cadena
+    strcpy(lex,lexid); //copiar en lex
+    ch = obtch();
+  }
+
+
+finalmente, ahora que podemos identificar cadenas
+como lexemas, debemos integrarlo a la sintaxis del lenguaje.
+
+sin embargo, antes de hacer eso debemos permitir las llamadas
+a funciones que permitan argumentos.
+
+si queremos permitir las funciones, estas tambien deben ser
+definidas como parte del lenguaje.
+Una funcion no es un elemento lexico, sino un elemento sintactico.
+una funcion es:
+<identificador>([<argumento>,...])
+y un argumento es:
+<constante>|<variable>|<funcion>
+
+dado que las funciones retornan valores (una instruccion para mostrar
+en pantalla siempre mostrara cero), lo mas apropiado es que las
+funciones se clasifiquen como expresiones.
+
+factor() se encuentra en parser.cpp ~300.
+
+que es tokinifact?
+
+enum objeto {CONSTANTE,VARIABLE,PROCEDIMIENTO,FUNCION}; //definidos aquí en el encabezado
+
+tds.h
+
+
+
+
+al obtener un token,
+
+
+
 - **Cambiar en el compilador la estructura tipo array de la TDS, por una
 estructura dinámica de datos (lista autorreferenciada), modificando en
 consecuencia los mecanismos de almacenamiento y búsqueda que sean
