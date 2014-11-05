@@ -431,6 +431,43 @@ void funcion(int toksig[]) {
 		error(27);//se esperaba parentesis de cierre
         }
 	}
+	
+	//pitagoras
+  else if (strcmp(lex, "PITAG")   == 0 ){
+    obtoken();
+    if (token == parena) {
+      obtoken();
+	  if (token == ident) {
+        obtoken();
+        if (token == coma) {
+          obtoken();
+        }
+        else
+          error(5); // falta coma o punto y coma
+      }
+	  if (token == ident) {
+        obtoken();
+        if (token == coma) {
+          obtoken();
+        }
+        else
+          error(5); // falta coma o punto y coma
+      }
+	  if (token == ident) {
+        obtoken();
+        if (token == coma) {
+          obtoken();
+        }
+        else
+          error(5); // falta coma o punto y coma
+      }
+      if (token == parenc) {
+        obtoken();
+        }
+		else
+		error(27);//se esperaba parentesis de cierre
+        }
+	}
         
   else
     error(11); // identificador no declarado
