@@ -370,7 +370,7 @@ void funcion(int toksig[]) {
             obtoken();
           }
           else
-            error(27);
+            error(27);// se esperaba un parentesis de cierre 
         }
       }
       else
