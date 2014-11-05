@@ -467,6 +467,21 @@ void funcion(int toksig[]) {
     else
       error(26); // se esperaba una lista de argumentos
   }
+  //random
+  else if (strcmp(lex, "RND")   == 0 ||
+           strcmp(lex, "CLRSCR") == 0 ||
+           strcmp(lex, "HALT") == 0  ){
+    obtoken();
+    if (token == parena) {
+      obtoken();
+      if (token == parenc) {
+        obtoken();
+        }
+		else
+		error(27);//se esperaba parentesis de cierre
+        }
+	}
+        
   else
     error(11); // identificador no declarado
 }
@@ -475,7 +490,11 @@ int esFuncion() {
   return strcmp(lex, "READ")    == 0 ||
          strcmp(lex, "READLN")  == 0 ||
          strcmp(lex, "WRITE")   == 0 ||
-         strcmp(lex, "WRITELN") == 0;
+         strcmp(lex, "WRITELN") == 0 ||
+	 strcmp(lex, "RND") == 0 ||
+	 strcmp(lex, "CLRSCR") == 0 ||
+	 strcmp(lex, "HALT") == 0 ||
+	 strcmp(lex, "PITAG") == 0;
 }
 
 //condicion
