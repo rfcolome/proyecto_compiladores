@@ -22,4 +22,5 @@ extern int it;                  //índice para recorrer la tabla
 int inicializarTdS();
 void poner(enum objeto k);
 int posicion();
-
+registro *buscarElemento(int i);
+void mostrarTDS();

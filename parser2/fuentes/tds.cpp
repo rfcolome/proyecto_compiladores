@@ -22,6 +22,7 @@ int inicializarTdS () {
     (lista -> nombre)[0] = '\0';
     lista -> sig = NULL;
     lista -> prev = NULL;
+    printf("inicialize la lista!");
   }
   return 1;
 }
@@ -42,11 +43,12 @@ void poner(enum objeto k)
       tmp -> tipo = k;
       tmp -> sig = NULL;
       tmp -> prev = finLista;
+      finLista -> sig = tmp;
       finLista = tmp;
     }
     else {
-    printf("ERROR: no se pudo reservar suficiente memoria para la tabla de simbolos\n");
-    exit(1);      
+      printf("ERROR: no se pudo reservar suficiente memoria para la tabla de simbolos\n");
+      exit(1);      
     }
   }
 }
@@ -55,12 +57,38 @@ void poner(enum objeto k)
 //búsqueda en reversa...¿porqué en reversa?
 int posicion()
 {
- int i;
- strcpy(tabla[0].nombre,lex);
- i=it;
+  int i;
+  strcpy(lista -> nombre,lex);
+  i=it;
 
- while ((strcmp(tabla[i].nombre,lex)) !=0)
-       --i;
+  registro *tmp = finLista;
 
- return(i);
+  while ((strcmp(tmp -> nombre, lex)) !=0) {
+    tmp = tmp -> prev;
+    i--;
+  }
+
+  return(i);
 }
+
+
+registro *buscarElemento(int i) {
+  registro *tmp = lista;
+  while (i != 0) {
+    i--;
+    tmp = tmp -> sig;
+  }
+  return tmp;
+}
+
+void mostrarTDS() {
+  registro *tmp = lista;
+  while (tmp) {
+    printf("%s\n", tmp -> nombre);
+    tmp = tmp -> sig;
+  }
+}
+
+
+
+

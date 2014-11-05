@@ -166,11 +166,11 @@ void instruccion(int toksig[])
    }
    else {
      //ve a buscarlo a la tabla de símbolos
-     i=posicion() ;
+     i=posicion();
      if (i==0) {
        error(11); //error 11: identificador no declarado
      }
-     else if (tabla[i].tipo != VARIABLE)
+     else if (buscarElemento(i) -> tipo != VARIABLE)
        error(12); //error 12: no están permitidas las asignaciones a constantes o a procedimientos
      obtoken();
      if (token==asignacion)
@@ -182,79 +182,129 @@ void instruccion(int toksig[])
      expresion(setpaso);
    }
  } 
- else 
-    if (token==calltok) {
+ else if (token==calltok) {
+   obtoken();
+   if (token!=ident)
+     error(14); //error 14: "CALL" debe ir seguido de un identificador 
+   else {
+     //buscar el nombre del procedimiento en la tabla de símbolos
+     i=posicion();
+     if (i==0)
+       error(11); //error 11: Identificador no declarado 
+     else if (buscarElemento(i) -> tipo!=PROCEDIMIENTO)
+       error(15); //error 15 : No tiene sentido llamar a una constante o a una variable
+     obtoken();
+   }
+ } 
+ else if (token==iftok) {
+   obtoken();
+   copia_set(setpaso,toksig);
+   setpaso[thentok]=setpaso[dotok]=1; //setpaso=thentok+dotok+toksig
+   condicion(setpaso);
+   if (token==thentok)
+     obtoken();
+   else
+     error(16); //error 16: Se esperaba un "THEN" 
+   
+   copia_set(setpaso,toksig);
+   instruccion(toksig);
+ } 
+ else if (token==begintok) {
+   obtoken();
+   copia_set(setpaso,toksig);
+   setpaso[puntoycoma]=setpaso[endtok]=1; //setpaso=puntoycoma+endtok+toksig
+   instruccion(setpaso);
+   
+   while (token==puntoycoma || token==calltok || token==begintok || token==iftok || token==whiletok || token == fortok) {
+     //aquí el while 'inserta' el punto y coma para continuar compilando cuando no lo encuentre
+     //el compilador detecta la omisión clásica del punto y coma
+     if (token==puntoycoma)
        obtoken();
-       if (token!=ident)
-          error(14); //error 14: "CALL" debe ir seguido de un identificador 
-       else {
-            //buscar el nombre del procedimiento en la tabla de símbolos
-            i=posicion();
-            if (i==0)
-	           error(11); //error 11: Identificador no declarado 
-            else
-			   if (tabla[i].tipo!=PROCEDIMIENTO)
-	              error(15); //error 15 : No tiene sentido llamar a una constante o a una variable
-	        obtoken();
+     else
+       error(10); //error 10: Falta un punto y coma entre instrucciones
+     
+     copia_set(setpaso,toksig);
+     setpaso[puntoycoma]=setpaso[endtok]=1; //setpaso=puntoycoma+endtok+toksig
+     instruccion(setpaso);
+   }
+   
+   if (token==endtok)
+     obtoken();
+   else
+     error(17); //error 17: Se esperaba un "END" o un punto y coma 
+ } 
+ else if (token==whiletok) {
+   obtoken();
+   
+   copia_set(setpaso,toksig);
+   setpaso[dotok]=1;//setpaso=dotok+toksig
+   
+   condicion(setpaso);
+   
+   if (token==dotok) 
+     obtoken();
+   else
+     error(18); //error 18: Se esperaba un "DO" 
+   
+   copia_set(setpaso,toksig);
+   instruccion(setpaso);         
+ }
+ else if (token == fortok) {
+   obtoken();
+   
+   copia_set(setpaso,toksig);
+   setpaso[dotok]=1;//setpaso=dotok+toksig
+   
+   if (token == ident) {
+     i = posicion();
+     if (i == 0) { // no se encontro el identificador
+       error(11); // identificador no declarado
+     }
+     else if (buscarElemento(i) -> tipo==PROCEDIMIENTO) {
+       error(21); //error 21: identificador de procedimiento
+     }
+     else { // era un identificador valido
+       obtoken();
+       if (token == intok) {
+         obtoken();
+         if (token == entero) {
+           obtoken();
+           printf("%i", token);
+           if (token == dospuntos) {
+             obtoken();
+             if (token == entero) {
+               obtoken();
+               if (token == dotok) {
+                 obtoken();
+                 copia_set(setpaso,toksig);
+                 instruccion(setpaso);
+               }
+               else {
+                 error(18);
+               }
+             }
+             else {
+               error(36); // se esperaba un numero entero
+             }
+           }
+           else {
+             error(37); // se esperaban dos puntos
+           }
+         }
+         else {
+           error(36); // se esperaba un numero entero
+         }
        }
-    } 
-	else
-       if (token==iftok) {
-	      obtoken();
-		  copia_set(setpaso,toksig);
-		  setpaso[thentok]=setpaso[dotok]=1; //setpaso=thentok+dotok+toksig
-	      condicion(setpaso);
-		  if (token==thentok)
-	         obtoken();
-	      else
-	         error(16); //error 16: Se esperaba un "THEN" 
-		  
-	      copia_set(setpaso,toksig);
-	      instruccion(toksig);
-       } 
-	   else
-	      if (token==begintok) {
-	         obtoken();
-			 copia_set(setpaso,toksig);
-	         setpaso[puntoycoma]=setpaso[endtok]=1; //setpaso=puntoycoma+endtok+toksig
-	         instruccion(setpaso);
-
-	         while (token==puntoycoma || token==calltok || token==begintok || token==iftok || token==whiletok ) {
-	               //aquí el while 'inserta' el punto y coma para continuar compilando cuando no lo encuentre
-				   //el compilador detecta la omisión clásica del punto y coma
-	               if (token==puntoycoma)
-	                  obtoken();
-	               else
-					  error(10); //error 10: Falta un punto y coma entre instrucciones
-
-	               copia_set(setpaso,toksig);
-	               setpaso[puntoycoma]=setpaso[endtok]=1; //setpaso=puntoycoma+endtok+toksig
-	               instruccion(setpaso);
-	         }
-
-	         if (token==endtok)
-	            obtoken();
-	         else
-	            error(17); //error 17: Se esperaba un "END" o un punto y coma 
-	      } 
-		  else
-	         if (token==whiletok) {
-	            obtoken();
-
-	            copia_set(setpaso,toksig);
-	            setpaso[dotok]=1;//setpaso=dotok+toksig
-
-	            condicion(setpaso);
-				
-	            if (token==dotok) 
-	               obtoken();
-	            else
-	               error(18); //error 18: Se esperaba un "DO" 
-
-                copia_set(setpaso,toksig);
-	            instruccion(setpaso);         
-			 }
-
+       else {
+         error(29); // se esperaba un IN despues del FOR
+       }
+     }
+   }
+   else
+     error(28);
+   
+ }
+ 
  //comprobación explícita de que los tokens que viene son sucesores de instrucción  
  copia_set(setpaso,toksig);
  test(setpaso,vacio,19); //error(19): Un simbolo incorrecto sigue a una instrucción
@@ -322,7 +372,7 @@ void factor(int toksig[])
         setpaso[parenc]=1; //setpaso=parenc+toksig
         funcion(setpaso);
         //error(11); //error 11: Identificador no declarado  
-      }else if (tabla[i].tipo==PROCEDIMIENTO)
+      }else if (buscarElemento(i) -> tipo==PROCEDIMIENTO)
         error(21); //error 21: Una expresión no debe contener un identificador de procedimiento
       obtoken();
     }
@@ -360,7 +410,7 @@ void funcion(int toksig[]) {
         if (i == 0) { // no se encontro el identificador
           error(11); // identificador no declarado
         }
-        else if (tabla[i].tipo==PROCEDIMIENTO) {
+        else if (buscarElemento(i) -> tipo==PROCEDIMIENTO) {
           error(21); //error 21: identificador de procedimiento
         }
         else { // era un identificador valido
@@ -398,7 +448,7 @@ void funcion(int toksig[]) {
         if (i == 0) { // no se encontro el identificador
           error(11); // identificador no declarado
         }
-        else if (tabla[i].tipo==PROCEDIMIENTO) {
+        else if (buscarElemento(i) -> tipo==PROCEDIMIENTO) {
           error(21); //error 21: identificador de procedimiento
         }
         else { // era un identificador valido
