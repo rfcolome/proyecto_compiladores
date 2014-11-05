@@ -329,3 +329,9 @@ int posicion();
 
 cree una funcion para inicializar la tabla de simbolos, para que tenga un
 primer elemento ya puesto.
+
+hay varios lugares en parser.cpp donde se accede a la tabla de simbolos
+directamente. habra que cambiar eso
+
+TODO: posicion() en tds.cpp
+TODO: cambiar todos los lugares en que se usa tabla[i]

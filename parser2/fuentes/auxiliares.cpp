@@ -52,5 +52,6 @@ void inicializar_espec()
   espec[61]=igl;
   espec[46]=punto;
   espec[44]=coma;
+  espec[58]=dospuntos;
   espec[59]=puntoycoma;
 }
