@@ -546,6 +546,32 @@ void iniprograma(void){
   }	
 }
 
+void declaracionboolean() //boolean variable := [true,false,0,1] 
+{
+ if (token==ident) {
+    obtoken();
+    if (token==asignacion) {
+       //mejora del tipo "adivinación" de la intención del programador
+	   obtoken();
+	   switch(token){
+		  case truetok: break;
+		  case falsetok: break;
+		  default: error(40); break; //No coinciden tipos
+	   }
+	   obtoken();
+	   if(token == puntoycoma){
+	   obtoken();
+	   }else{
+			error(5); //punto y coma
+	   }
+    }
+    else
+       error (3) ; //error 3: el identificador debe ir seguido de "=" 
+ }
+ else
+    error(4) ; //error 4: Boolean, Const, Var y Procedure deben ir seguidos de un identificador
+}
+
 //condicion
 void condicion(int toksig[])
 {
