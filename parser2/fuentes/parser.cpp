@@ -549,7 +549,7 @@ void funcion(int toksig[]) {
 									if(token == parenc){
 										break; //Sale del while, listo para esperar punto y coma para terminar el inline
 									}else{
-										if(token == putoycoma){
+										if(token == puntoycoma){
 											//No realiza nada pues sigue otra instrucción codigo p
 										}else{
 											error(42); //Se esperaba parentesis de cierre o separador de instrucciones
@@ -562,7 +562,7 @@ void funcion(int toksig[]) {
 							error(38); //Se esperaba un número
 						}
 					}else{
-						error(43) //Se esperaba instrucción de código P
+						error(43); //Se esperaba instrucción de código P
 					}
 			} //Fin del while de instrucciones codigo p
 			obtoken();
