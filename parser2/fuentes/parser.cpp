@@ -484,6 +484,17 @@ int esFuncion() {
 	 strcmp(lex, "PITAG") == 0;
 }
 
+void iniprograma(void){
+	if(token==programtok){
+		obtoken();
+		if(token == ident) obtoken();
+		else error(36);//se esperaba un identificador
+		if (token== puntoycoma) obtoken();
+		else error(5);//se esperaba un punto y coma
+	}
+	
+	}
+
 //condicion
 void condicion(int toksig[])
 {
