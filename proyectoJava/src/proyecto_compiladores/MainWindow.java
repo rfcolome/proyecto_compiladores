@@ -59,7 +59,10 @@ public class MainWindow {
 		tltmGuardar.setText("Guardar");
 		
 		ToolItem tltmAnalizar = new ToolItem(toolBar, SWT.NONE);
-		tltmAnalizar.setText("Analizar");
+		tltmAnalizar.setText("Scanner");
+		
+		ToolItem tltmParser = new ToolItem(toolBar, SWT.NONE);
+		tltmParser.setText("Parser");
 		
 		ToolItem tltmTest_1 = new ToolItem(toolBar, SWT.NONE);
 		tltmTest_1.addSelectionListener(new SelectionAdapter() {
@@ -96,21 +99,23 @@ public class MainWindow {
 	    		fd.setFilterExtensions(filterExt);
 	    		String selected = fd.open();
 	    		System.out.println(selected);
-	    		Writer writer;
-				try {
-					writer = new BufferedWriter(new OutputStreamWriter(
-					          new FileOutputStream(selected), "utf-8"));
-					writer.write(text.getText());
-					writer.close();
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				} catch (FileNotFoundException e) {
-					System.out.println("file not found!");
-					e.printStackTrace();
-				} catch (IOException e) {
-					System.out.println("IO exception!");
-					e.printStackTrace();
-				}
+	    		if (selected != null) {
+	    			Writer writer;
+	    			try {
+	    				writer = new BufferedWriter(new OutputStreamWriter(
+	    						new FileOutputStream(selected), "utf-8"));
+	    				writer.write(text.getText());
+	    				writer.close();
+	    			} catch (UnsupportedEncodingException e) {
+	    				e.printStackTrace();
+	    			} catch (FileNotFoundException e) {
+	    				System.out.println("file not found!");
+	    				e.printStackTrace();
+	    			} catch (IOException e) {
+	    				System.out.println("IO exception!");
+	    				e.printStackTrace();
+	    			}
+	    		}
 
 	        }
 	    }
@@ -133,6 +138,26 @@ public class MainWindow {
 				// TODO: si no hay archivo, avisarlo!
 				if (currentFile != null) {
 					String line = runCommandAndReadOutput("/home/colo/Documents/clases/compi/proyecto_compiladores/proyecto " + currentFile);
+					anotherShell = new Shell(display);
+					anotherShell.setText("Analizer Output");				
+					Text text = new Text(anotherShell, SWT.V_SCROLL);
+					text.setBounds(5, 5, anotherShell.getBounds().width - 15, anotherShell.getBounds().height - 35);
+					text.setText(line);
+					text.setEditable(false);
+					anotherShell.open();
+					while (!anotherShell.isDisposed()) {
+						if (!display.readAndDispatch()) display.sleep();
+					}
+				}
+			}
+		});
+		tltmParser.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				// TODO: escoger este archivo de manera dinamica?
+				// TODO: escoger el proyecto de manera dinamica?
+				// TODO: si no hay archivo, avisarlo!
+				if (currentFile != null) {
+					String line = runCommandAndReadOutput("/home/colo/Documents/clases/compi/proyecto_compiladores/parser2/fuentes/pl0 " + currentFile);
 					anotherShell = new Shell(display);
 					anotherShell.setText("Analizer Output");				
 					Text text = new Text(anotherShell, SWT.V_SCROLL);

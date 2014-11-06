@@ -22,7 +22,6 @@ int inicializarTdS () {
     (lista -> nombre)[0] = '\0';
     lista -> sig = NULL;
     lista -> prev = NULL;
-    printf("inicialize la lista!");
   }
   return 1;
 }
