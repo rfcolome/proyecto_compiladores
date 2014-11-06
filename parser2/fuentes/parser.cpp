@@ -269,7 +269,6 @@ void instruccion(int toksig[])
          obtoken();
          if (token == entero) {
            obtoken();
-           printf("%i", token);
            if (token == dospuntos) {
              obtoken();
              if (token == entero) {
@@ -284,15 +283,15 @@ void instruccion(int toksig[])
                }
              }
              else {
-               error(36); // se esperaba un numero entero
+               error(38); // se esperaba un numero entero
              }
            }
            else {
-             error(37); // se esperaban dos puntos
+             error(39); // se esperaban dos puntos
            }
          }
          else {
-           error(36); // se esperaba un numero entero
+           error(38); // se esperaba un numero entero
          }
        }
        else {
@@ -476,25 +475,75 @@ void funcion(int toksig[]) {
       obtoken();
       if (token == parenc) {
         obtoken();
+      }
+      else
+        error(27);//se esperaba parentesis de cierre
+    }
+  }
+  
+  //pitagoras
+  else if (strcmp(lex, "PITAG")   == 0 ){
+    obtoken();
+    if (token == parena) {
+      obtoken();
+      if (token == ident) {
+        obtoken();
+        if (token == coma) {
+          obtoken();
+          if (token == ident) {
+            obtoken();
+            if (token == coma) {
+              obtoken();
+              if (token == ident) {
+                obtoken();
+                if (token == parenc) {
+                  obtoken();
+                }
+                else
+                  error(27); // se esperaba parentesis de cierre
+              }
+              else
+                error(36); // se esperaba un identificador
+            }
+            else
+              error(5); // falta coma o punto y coma
+          }
+          else
+            error(36); // se esperaba un identificador
         }
-		else
-		error(27);//se esperaba parentesis de cierre
-        }
-	}
-        
+        else
+          error(5); // falta coma o punto y coma
+      }
+      else
+        error(36); // se esperaba un identificador
+    }
+    else
+      error(37); // se esperaba parentesis de apertura
+  }
+  
   else
     error(11); // identificador no declarado
 }
 
 int esFuncion() {
   return strcmp(lex, "READ")    == 0 ||
-         strcmp(lex, "READLN")  == 0 ||
-         strcmp(lex, "WRITE")   == 0 ||
-         strcmp(lex, "WRITELN") == 0 ||
-	 strcmp(lex, "RND") == 0 ||
-	 strcmp(lex, "CLRSCR") == 0 ||
-	 strcmp(lex, "HALT") == 0 ||
-	 strcmp(lex, "PITAG") == 0;
+    strcmp(lex, "READLN")  == 0 ||
+    strcmp(lex, "WRITE")   == 0 ||
+    strcmp(lex, "WRITELN") == 0 ||
+    strcmp(lex, "RND")     == 0 ||
+    strcmp(lex, "CLRSCR")  == 0 ||
+    strcmp(lex, "HALT")    == 0 ||
+    strcmp(lex, "PITAG")   == 0;
+}
+
+void iniprograma(void){
+  if(token==programtok){
+    obtoken();
+    if(token == ident) obtoken();
+    else error(36);//se esperaba un identificador
+    if (token== puntoycoma) obtoken();
+    else error(5);//se esperaba un punto y coma
+  }	
 }
 
 //condicion

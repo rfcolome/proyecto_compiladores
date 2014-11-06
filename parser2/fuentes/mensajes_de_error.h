@@ -39,9 +39,10 @@ char *mensaje_de_error[]={"",
 /*Error 33*/ "el programa fuente es demasiado largo",
 /*Error 34*/ "anidamiento demasiado profundo para los procedures",
 /*Error 35*/ "se rebasa el maximo entero de pl0--se asume cero",
-/*Error 36*/ "se esperaba un numero entero",
-/*Error 37*/ "se esperaban dos puntos"};
-
+/*Error 36*/ "se esperaba un identificador",
+/*Error 37*/ "se esperaba un parentesis de apertura",
+/*Error 38*/ "se esperaba un numero entero",
+/*Error 39*/ "se esperaban dos puntos"};
 
 /*Errores sintacticos : 1,2,3,4,5,6,7,8,9,10,13,16,17,18,19,20,22,23,24,32 */
 
