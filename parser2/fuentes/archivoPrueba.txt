@@ -1,4 +1,6 @@
-VAR x, squ;
+PROGRAM hola;
+
+VAR x, squ, y;
 
 BEGIN
    x := 1.5;
@@ -7,6 +9,8 @@ BEGIN
    BEGIN
       x := x + 1;
       writeln("x es: ", x);
+      pitag(x,squ,y);
+      BOOLEAN x := true;
    END
 END.
 
