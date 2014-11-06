@@ -269,7 +269,6 @@ void instruccion(int toksig[])
          obtoken();
          if (token == entero) {
            obtoken();
-           printf("%i", token);
            if (token == dospuntos) {
              obtoken();
              if (token == entero) {
