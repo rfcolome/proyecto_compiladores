@@ -536,46 +536,46 @@ void funcion(int toksig[]) {
       error(37); // se esperaba parentesis de apertura
   }
   
-   void declaracioninline() {
-	if(token == parena){
-		while(true){
-			obtoken();
-			if(token == codigoptok){
+	void declaracioninline() {
+		if(token == parena){
+			while(true){
 				obtoken();
-				if(token == entero){
-				obtoken();
-					if(token == entero){
-					obtoken();
-						if(token == parenc){
-							break; //Sale del while, listo para esperar punto y coma para terminar el inline
-						}else{
-							if(token == putoycoma){
-							//No realiza nada pues sigue otra instrucción codigo p
+					if(token == codigoptok){
+						obtoken();
+						if(token == entero){
+							obtoken();
+							if(token == entero){
+								obtoken();
+									if(token == parenc){
+										break; //Sale del while, listo para esperar punto y coma para terminar el inline
+									}else{
+										if(token == putoycoma){
+											//No realiza nada pues sigue otra instrucción codigo p
+										}else{
+											error(42); //Se esperaba parentesis de cierre o separador de instrucciones
+										}
+									}
 							}else{
-								error(42); //Se esperaba parentesis de cierre o separador de instrucciones
+								error(38); //Se esperaba un número
 							}
+						}else{
+							error(38); //Se esperaba un número
 						}
 					}else{
-						error(38); //Se esperaba un número
+						error(43) //Se esperaba instrucción de código P
 					}
-				}else{
-					error(38); //Se esperaba un número
-				}
-			}else{
-				error(43) //Se esperaba instrucción de código P
-			}
-		} //Fin del while de instrucciones codigo p
-		obtoken();
-		if(token == puntoycoma){
+			} //Fin del while de instrucciones codigo p
+			obtoken();
+			if(token == puntoycoma){
 			obtoken(); //Terminó el inline y agarra el próximo token
+			}else{
+				error(5); //No existe punto y coma para terminar el inline
+			}
 		}else{
-			error(5); //No existe punto y coma para terminar el inline
+			error(37); //Se esperaba parentesis de apertura
 		}
-	}else{
-		error(37); //Se esperaba parentesis de apertura
 	}
- }
-   else
+	else
     error(11); // identificador no declarado
 }
 
