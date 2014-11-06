@@ -7,7 +7,7 @@ char *mensaje_de_error[]={"",
 /*Error 1 */ "usar ' = ' en vez de ' := ' ",
 /*Error 2 */ "debe ir seguido de un numero",
 /*Error 3 */ "el identificador debe ir seguido de ' = ' ",
-/*Error 4 */ "CONST, VAR y PROCEDURE deben ir seguidos de un identificador",
+/*Error 4 */ "BOOLEAN, CONST, VAR y PROCEDURE deben ir seguidos de un identificador",
 /*Error 5 */ "falta una coma o un punto y coma",
 /*Error 6 */ "simbolo incorrecto despues de una declaracion de procedimiento",
 /*Error 7 */ "se esperaba una instruccion",
@@ -42,7 +42,8 @@ char *mensaje_de_error[]={"",
 /*Error 36*/ "se esperaba un identificador",
 /*Error 37*/ "se esperaba un parentesis de apertura",
 /*Error 38*/ "se esperaba un numero entero",
-/*Error 39*/ "se esperaban dos puntos"};
+/*Error 39*/ "se esperaban dos puntos",
+/*Error 40*/ "Los tipos no coinciden"};
 
 /*Errores sintacticos : 1,2,3,4,5,6,7,8,9,10,13,16,17,18,19,20,22,23,24,32 */
 

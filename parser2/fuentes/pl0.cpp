@@ -62,7 +62,9 @@ int main (int argc,char *argv[]) {
 
 	   //inicializamos el índice sobre la tds (it en tds.h)
 	   it =0; 
-	  
+
+       // PROGRAM opcional
+       iniprograma();
 	   //activación del parser (en parser.h)
 	   bloque(set_arranque); 
 
