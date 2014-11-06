@@ -114,9 +114,14 @@ void bloque (int toksig[])
 //se checa que se tenga una definición de constante. si está bien
 //el identificador se pone en la tabla de símbolos, otro caso
 //el programador cometió un error al construir la definición de constante
-void declaracionconst()
-{
+void declaracionconst() {
+  int i;
   if (token==ident) {
+    i=posicion();
+    if (i!=0) {
+      error(41); //error 11: No se deben redefinir objetos
+    }
+
     obtoken();
     if ( (token==igl) || (token==asignacion) ) {
       //mejora del tipo "adivinación" de la intención del programador
@@ -141,9 +146,14 @@ void declaracionconst()
 //se checa que se tenga una declaración de variable. si está bien
 //el identificador se pone en la tabla de símbolos, otro caso  
 //el programador cometió un error al construir la declaración de variable
-void declaracionvar()
-{
+void declaracionvar() {
+  int i;
   if (token==ident) {
+    i=posicion();
+    if (i!=0) {
+      error(41); //error 11: No se deben redefinir objetos
+    }
+
     poner(VARIABLE);
     obtoken();
   }
