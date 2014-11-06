@@ -44,7 +44,9 @@ char *mensaje_de_error[]={"",
 /*Error 38*/ "se esperaba un numero entero",
 /*Error 39*/ "se esperaban dos puntos",
 /*Error 40*/ "Los tipos no coinciden",
-/*Error 41*/ "No se deben redefinir objetos"};
+/*Error 41*/ "No se deben redefinir objetos",
+/*Error 42*/ "Se esperaba parentesis de cierre o separador de instrucciones",
+/*Error 43*/ "Se esperaba instrucción de código P"};
 
 /*Errores sintacticos : 1,2,3,4,5,6,7,8,9,10,13,16,17,18,19,20,22,23,24,32 */
 
