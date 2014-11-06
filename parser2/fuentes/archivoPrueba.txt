@@ -10,6 +10,7 @@ BEGIN
       x := x + 1;
       writeln("x es: ", x);
       pitag(x,squ,y);
+      CODIGOP();
       BOOLEAN x := true;
    END
 END.
