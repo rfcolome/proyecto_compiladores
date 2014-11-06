@@ -12,7 +12,7 @@
 void declaracionconst(),declaracionvar(),instruccion(int toksig[]);
 void expresion(int toksig[]),termino(int toksig[]),
   factor(int toksig[]),funcion(int toksig[]),condicion(int toksig[]),
-  declaracionboolean();
+  declaracionboolean(),declaracioninline();
 
 int esFuncion();
 
@@ -316,7 +316,9 @@ void instruccion(int toksig[])
   } else if (token == booleantok) {
     obtoken();
     declaracionboolean();
-    
+  } else if (token == codigoptok) {
+    obtoken();
+    declaracioninline();
   }
   
   //comprobación explícita de que los tokens que viene son sucesores de instrucción  
@@ -535,48 +537,48 @@ void funcion(int toksig[]) {
     else
       error(37); // se esperaba parentesis de apertura
   }
-  
-	void declaracioninline() {
-		if(token == parena){
-			while(true){
-				obtoken();
-					if(token == codigoptok){
-						obtoken();
-						if(token == entero){
-							obtoken();
-							if(token == entero){
-								obtoken();
-									if(token == parenc){
-										break; //Sale del while, listo para esperar punto y coma para terminar el inline
-									}else{
-										if(token == puntoycoma){
-											//No realiza nada pues sigue otra instrucción codigo p
-										}else{
-											error(42); //Se esperaba parentesis de cierre o separador de instrucciones
-										}
-									}
-							}else{
-								error(38); //Se esperaba un número
-							}
-						}else{
-							error(38); //Se esperaba un número
-						}
-					}else{
-						error(43); //Se esperaba instrucción de código P
-					}
-			} //Fin del while de instrucciones codigo p
-			obtoken();
-			if(token == puntoycoma){
-			obtoken(); //Terminó el inline y agarra el próximo token
-			}else{
-				error(5); //No existe punto y coma para terminar el inline
-			}
-		}else{
-			error(37); //Se esperaba parentesis de apertura
-		}
-	}
 	else
     error(11); // identificador no declarado
+}
+
+void declaracioninline() {
+  if(token == parena){
+    while(true){
+      obtoken();
+      if(token == codigoptok){
+        obtoken();
+        if(token == entero){
+          obtoken();
+          if(token == entero){
+            obtoken();
+            if(token == parenc){
+              break; //Sale del while, listo para esperar punto y coma para terminar el inline
+            }else{
+              if(token == puntoycoma){
+                //No realiza nada pues sigue otra instrucción codigo p
+              }else{
+                error(42); //Se esperaba parentesis de cierre o separador de instrucciones
+              }
+            }
+          }else{
+            error(38); //Se esperaba un número
+          }
+        }else{
+          error(38); //Se esperaba un número
+        }
+      }else{
+        error(43); //Se esperaba instrucción de código P
+      }
+    } //Fin del while de instrucciones codigo p
+    obtoken();
+    if(token == puntoycoma){
+      obtoken(); //Terminó el inline y agarra el próximo token
+    }else{
+      error(5); //No existe punto y coma para terminar el inline
+    }
+  }else{
+    error(37); //Se esperaba parentesis de apertura
+  }
 }
 
 int esFuncion() {
