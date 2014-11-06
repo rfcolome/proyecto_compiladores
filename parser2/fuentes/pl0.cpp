@@ -53,7 +53,10 @@ int main (int argc,char *argv[]) {
 
 	   //inicialización de conjuntos de estabilización (en conjuntos.cpp)
 	   inicializa_conjuntos();
-    	 
+
+       // inicializacion de la tabla de simbolos (en tds.cpp)
+       inicializarTdS();
+
 	   //invocar al scanner (en scanner.cpp)
 	   obtoken(); 
 

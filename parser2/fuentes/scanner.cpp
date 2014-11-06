@@ -155,7 +155,7 @@ void obtoken()
           ch=obtch();
         }
         else
-          token=nulo;
+          token=dospuntos;
       }
       else {
         token=espec[ch]; //hashing directo en la tabla de tokens de símbolos especiales del lenguaje

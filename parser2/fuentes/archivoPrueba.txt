@@ -3,9 +3,12 @@ VAR x, squ, y;
 BEGIN
    x := 1.5;
    WHILE x <= 10 DO
+
    BEGIN
       x := x + 1;
       writeln("x es: ", x);
       pitag(x,squ,y);
    END
 END.
+
+{FOR x IN 1:5 DO}
