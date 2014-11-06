@@ -43,7 +43,8 @@ char *mensaje_de_error[]={"",
 /*Error 37*/ "se esperaba un parentesis de apertura",
 /*Error 38*/ "se esperaba un numero entero",
 /*Error 39*/ "se esperaban dos puntos",
-/*Error 40*/ "Los tipos no coinciden"};
+/*Error 40*/ "Los tipos no coinciden",
+/*Error 41*/ "No se deben redefinir objetos",};
 
 /*Errores sintacticos : 1,2,3,4,5,6,7,8,9,10,13,16,17,18,19,20,22,23,24,32 */
 

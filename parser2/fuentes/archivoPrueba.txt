@@ -1,6 +1,6 @@
 PROGRAM hola;
 
-VAR x, squ, x;
+VAR x, squ, y;
 
 BEGIN
    x := 1.5;
