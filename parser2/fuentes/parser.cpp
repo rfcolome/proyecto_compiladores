@@ -535,10 +535,73 @@ void funcion(int toksig[]) {
     else
       error(37); // se esperaba parentesis de apertura
   }
+  //inline
+else if(token== inlinetok){
+                obtoken();
+                if(token==parena){
+                    do{
+                        obtoken();
+                        if(token==stringtok){
+                                int cont=0;
+                                int cont1=0;
+                                int cont2=0;
+                                int cont3=0;
+                                int espacios=0;
+                                char uno[3];
+                                char dos[3];
+                                char tres[3];
+                                while(isspace(inlines[cont]))cont++;
+                                while (inlines[cont]!='\0'){
+                                    if(isspace(inlines[cont]))espacios++;
+                                    if(espacios==0){
+                                        uno[cont1]=inlines[cont];
+                                        cont1++;
+                                    }
+                                    if(espacios==1){
+                                        while(isspace(inlines[cont]))cont++;
+                                        dos[cont2]=inlines[cont];
+                                        cont2++;
+                                    }
+                                    if(espacios==2){
+                                        while(isspace(inlines[cont]))cont++;
+                                        tres[cont3]=inlines[cont];
+                                        cont3++;
+                                    }
+                                    cont++;
+                                }
+                                uno[cont1]='\0';
+                                dos[cont2]='\0';
+                                tres[cont3]='\0';
+ 
+                                 if((strcmp(uno,"LIT"))==0)codigo[ic].f  = LIT;
+                                 if((strcmp(uno,"OPR"))==0)codigo[ic].f  = OPR;
+                                 if((strcmp(uno,"CAR"))==0)codigo[ic].f  = CAR;
+                                 if((strcmp(uno,"ALM"))==0)codigo[ic].f  = ALM;
+                                 if((strcmp(uno,"LLA"))==0)codigo[ic].f  = LLA;
+                                 if((strcmp(uno,"INS"))==0)codigo[ic].f  = INS;
+                                 if((strcmp(uno,"SAL"))==0)codigo[ic].f  = SAL;
+                                 if((strcmp(uno,"SAC"))==0)codigo[ic].f  = SAC;
+ 
+                                codigo[ic].ni = atoi(dos);
+                                codigo[ic].di = atoi(tres);
+                                ++ic;
+ 
+                                obtoken();
+                        }
+                        else                    error(34);//Se esperaba un string
+                    }while(token==barra);
+                }else error(24); //Se esperaba un parentesis de apertura
+                if(token==parenc) obtoken();
+                else error(22);//Se esperaba un parentesis de cierre
+            }
   
   else
     error(11); // identificador no declarado
 }
+
+
+
+
 
 int esFuncion() {
   return strcmp(lex, "READ")    == 0 ||
@@ -560,7 +623,7 @@ void iniprograma(void){
     else error(5);//se esperaba un punto y coma
   }	
 }
-
+//boolean
 void declaracionboolean() { //boolean variable := [true,false,0,1]
   int i;
   if (token==ident) {
@@ -593,6 +656,9 @@ void declaracionboolean() { //boolean variable := [true,false,0,1]
   else
     error(4) ; //error 4: Boolean, Const, Var y Procedure deben ir seguidos de un identificador
 }
+
+
+
 
 //condicion
 void condicion(int toksig[])

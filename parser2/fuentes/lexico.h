@@ -9,7 +9,7 @@ enum simbolo {
   nig,mnr,mei,myr,mai,parena,parenc,coma,puntoycoma,punto,dospuntos,
   asignacion,begintok,endtok,iftok,thentok,whiletok,dotok,
   calltok,consttok,vartok,proctok,programtok,boolean,fortok,intok,
-  truetok,falsetok,booleantok
+  truetok,falsetok,booleantok,inlinetok
 }; //definido aquí en el encabezado
 
 extern enum simbolo token;
