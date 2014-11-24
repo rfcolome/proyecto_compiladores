@@ -8,12 +8,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define MAXIC     200  //tamaño máximo del array de código-p
 #define LONGSTACK 500  //tamaño-longitud del stack de datos                    
 
 //instrucciones(mnemónicos) del código-p
-enum fcn {LIT,OPR,CAR,ALM,LLA,INS,SAL,SAC,REA,IMP};
+enum fcn {LIT,OPR,CAR,ALM,LLA,INS,SAL,SAC,REA,IMP,HLT};
 
 typedef struct {
  enum fcn f; //mnemónico
@@ -29,7 +30,7 @@ FILE *obj; //apuntador al archivo de código intermedio
 int p[LONGSTACK] ; //memoria de datos-stack
 
 //arrays para mostrar como string el mnemónico de la instrucción
-char *mnemonico[]={"LIT","OPR","CAR","ALM","LLA","INS","SAL","SAC","REA","IMP"};
+char *mnemonico[]={"LIT","OPR","CAR","ALM","LLA","INS","SAL","SAC","REA","IMP","HLT"};
 
 //comentarios para una instrucción de codigo-p
 char *comentario[]={
@@ -42,7 +43,8 @@ char *comentario[]={
   ";salto incondicional",
   ";salto condicional",
   ";instruccion de lectura",
-  ";instruccion de impresion en pantalla"
+  ";instruccion de impresion en pantalla",
+  ";instruccion para detener la ejecucion"
 };
 
 //prototipos de funciones
@@ -51,6 +53,7 @@ int base(int ni,int b);
 
 //main: inicia la ejecución
 int main(int argc,char *argv[]) {
+  srand (time(NULL));
  if (argc!=2) //analizar argumentos de main
     printf("\nuso: pl0mv nombre_de_archivo");
  else  
@@ -185,7 +188,50 @@ void interpretar(void) {
 	                    --s;
                         printf("%d<=%d? (s en %d)",p[s],p[s+1],s);
                         p[s]=(p[s]<=p[s+1]);
-                        break;       
+                        break;
+
+                   case 14: // operacion RND
+                        printf("RND(%d) (s en %d)",p[s],s);
+                        p[s] = rand() % p[s];
+                        break;
+
+                   case 15: // operacion CLRSCR
+                        printf("CLRSCRN()");
+                        system("clear");
+                        break;
+
+                   case 16: // operacion PITAG
+                        s -= 2;
+                        printf("PITAG(%d,%d,%d) (s en %d)",p[s],p[s+1],p[s+2],s);
+                        int hip;
+                        int cat1;
+                        int cat2;
+                        if (p[s] > p[s+1]) {
+                          if (p[s] > p[s+2]) { // hip = s
+                            hip = p[s];
+                            cat1 = p[s+1];
+                            cat2 = p[s+2];
+                          }
+                          else { // hip = s+2
+                            hip = p[s+2];
+                            cat1 = p[s+1];
+                            cat2 = p[s];
+                          }
+                        }
+                        else {
+                          if (p[s+1] > p[s+2]) { // hip = s+1
+                            hip = p[s+1];
+                            cat1 = p[s+2];
+                            cat2 = p[s];
+                          }
+                          else { // hip = s+2
+                            hip = p[s+2];
+                            cat1 = p[s+1];
+                            cat2 = p[s];
+                          }
+                        }
+                        p[s] = hip*hip == cat1*cat1 + cat2*cat2;
+                        break;
                };
                break;
     
@@ -239,6 +285,11 @@ void interpretar(void) {
                };
                break;
 
+          case HLT:
+               printf("\nHALT : deteniendo la ejecución del programa");
+               exit(0);
+               break;
+               
           case LLA:
                //generar un nuevo bloque
                p[s+1]=base(i.ni,b);

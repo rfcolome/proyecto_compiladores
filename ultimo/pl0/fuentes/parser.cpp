@@ -461,6 +461,35 @@ void instruccion(int toksig[]) {
     else
       error(27); // se esperaba un parentesis de apertura
   }
+  else if (token == clrscrtok) {
+    obtoken();
+    gen(OPR,0,15); // CLRSCR es la operacion 15
+    if (token == parena) {
+      obtoken();
+      if (token == parenc) {
+        obtoken();
+      }
+      else
+        error(22); // falta un parentesis de cierre
+    }
+    else
+      error(27); // se esperaba un parentesis de apertura
+  }
+  else if (token == halttok) {
+    obtoken();
+    gen(HLT,0,0);
+    if (token == parena) {
+      obtoken();
+      if (token == parenc) {
+        obtoken();
+      }
+      else
+        error(22); // falta un parentesis de cierre
+    }
+    else
+      error(27); // se esperaba un parentesis de apertura   
+  }
+
 
   //comprobación explícita de que los tokens que viene son sucesores de instrucción  
   copia_set(setpaso,toksig);
@@ -627,47 +656,120 @@ void factor(int toksig[]) {
       else
         error(27); // se esperaba un parentesis de apertura
     }
-    else if (token == clrscrtok) {
-      obtoken();
-      gen(OPR,0,15); // CLRSCR es la operacion 15
-      if (token == parena) {
-        obtoken();
-        if (token == parenc) {
-          obtoken();
-        }
-        else
-          error(22); // falta un parentesis de cierre
-      }
-      else
-        error(27); // se esperaba un parentesis de apertura
-    }
-    else if (token == halttok) {
-      obtoken();
-      gen(HLT,0,0);
-      if (token == parena) {
-        obtoken();
-        if (token == parenc) {
-          obtoken();
-        }
-        else
-          error(22); // falta un parentesis de cierre
-      }
-      else
-        error(27); // se esperaba un parentesis de apertura
-      
-    }
     else if (token == pitagtok) {
       obtoken();
       if (token == parena) {
         obtoken();
-        // TODO: agregarle los argumentos a esto.
-        // TODO: agregar todas las operaciones nuevas y HLT
-        //         al interprete de codigo-p
-        if (token == parenc) {
+        if (token == ident || token == entero || token == real) {
+          if (token == ident) {
+            i=posicion();
+            if (i==0) 
+              error(11); //error 11: Identificador no declarado
+            else
+              switch (tabla[i].tipo) {
+                
+              case CONSTANTE:
+                gen(LIT,0,tabla[i].variante.val);
+                break;
+              case VARIABLE:
+                gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+                break;
+              case PROCEDIMIENTO:
+                error(21); //error 21: Una expresión no debe contener un identificador de procedimiento
+                break;
+              }
+          }
+          else if (token == entero) {
+            gen(LIT, 0, valor);
+          }
+          else if (token == real) {
+            gen(LIT, 0, valorReal);
+          }
           obtoken();
+          
+          if (token == coma) {
+            obtoken();
+            if (token == ident || token == entero || token == real) {
+              if (token == ident) {
+                i=posicion();
+                if (i==0) 
+                  error(11); //error 11: Identificador no declarado
+                else
+                  switch (tabla[i].tipo) {
+                    
+                  case CONSTANTE:
+                    gen(LIT,0,tabla[i].variante.val);
+                    break;
+                  case VARIABLE:
+                    gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+                    break;
+                  case PROCEDIMIENTO:
+                    error(21); //error 21: Una expresión no debe contener un identificador de procedimiento
+                    break;
+                  }
+              }
+              else if (token == entero) {
+                gen(LIT, 0, valor);
+              }
+              else if (token == real) {
+                gen(LIT, 0, valorReal);
+              }
+              obtoken();
+              
+              if (token == coma) {
+                obtoken();
+                if (token == ident || token == entero || token == real) {
+                  if (token == ident) {
+                    i=posicion();
+                    if (i==0) 
+                      error(11); //error 11: Identificador no declarado
+                    else
+                      switch (tabla[i].tipo) {
+                        
+                      case CONSTANTE:
+                        gen(LIT,0,tabla[i].variante.val);
+                        break;
+                      case VARIABLE:
+                        gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+                        break;
+                      case PROCEDIMIENTO:
+                        error(21); //error 21: Una expresión no debe contener un identificador de procedimiento
+                        break;
+                      }
+                  }
+                  else if (token == entero) {
+                    gen(LIT, 0, valor);
+                  }
+                  else if (token == real) {
+                    gen(LIT, 0, valorReal);
+                  }
+                  
+                  obtoken();
+                  printf("el token actual es %d\n", token);
+                  if (token == parenc) {
+                    printf("token es en efecto parenc\n");
+                    gen(OPR,0,16); // PITAG es la operacion 16
+                    obtoken();
+                  }
+                  else
+                    error(22); // falta un parentesis de cierre
+                }
+                else
+                  error(28); // se esperaba una variable
+              }
+              else
+                error(5); // se esperaba una coma o punto y coma
+            }
+            else
+              error(28); // se esperaba una variable
+          }
+          else
+            error(5); // se esperaba una coma o punto y coma
         }
         else
-          error(22); // falta un parentesis de cierre
+          error(28); // se esperaba una variable
+        // TODO: agregar todas las operaciones nuevas y HLT
+        //         al interprete de codigo-p
       }
       else
         error(27); // se esperaba un parentesis de apertura

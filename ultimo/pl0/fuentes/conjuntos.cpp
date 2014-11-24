@@ -17,10 +17,10 @@ init_set(tokinidecl);
 tokinidecl[consttok]=tokinidecl[vartok]=tokinidecl[proctok]=1;
     
 init_set(tokiniinst);
-tokiniinst[calltok]=tokiniinst[begintok]=tokiniinst[iftok]=tokiniinst[whiletok]=1;
+tokiniinst[calltok]=tokiniinst[begintok]=tokiniinst[iftok]=tokiniinst[whiletok]=tokiniinst[clrscrtok]=tokiniinst[halttok]=tokiniinst[writetok]=tokiniinst[writelntok]=tokiniinst[readtok]=tokiniinst[readlntok]=1;
    
 init_set(tokinifact);
- tokinifact[ident]=tokinifact[entero]=tokinifact[real]=tokinifact[truetok]=tokinifact[falsetok]=tokinifact[parena]=1;
+ tokinifact[ident]=tokinifact[entero]=tokinifact[real]=tokinifact[truetok]=tokinifact[falsetok]=tokinifact[parena]=tokinifact[rndtok]=tokinifact[pitagtok]=1;
 
 //creación del set de arranque del parser con los tokens iniciales de declaración+tokens iniciales de instrucción+punto
 union_set(set_arranque,tokinidecl,tokiniinst);

@@ -8,15 +8,11 @@ bool: boolean;
 {este es un comentario}
 BEGIN
    x := 1;
-   bool := false;
    WHILE x <= 10 DO
 
    BEGIN
-   IF x > 5 THEN
-      BEGIN
-        bool := true;
-      END;
-      x := x + 2;
+      x := x + 20;
+      bool := PITAG(3,4,5);
       writeln("bool es", bool);
    END
 END.
