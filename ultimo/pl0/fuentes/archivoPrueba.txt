@@ -5,7 +5,7 @@ a,b: real;
 bool: boolean;
 
 
-{este es un comentario!}
+{este es un comentario}
 BEGIN
    x := 1;
    bool := false;
