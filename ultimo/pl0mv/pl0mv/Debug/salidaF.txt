@@ -1,0 +1,503 @@
+
+
+ --Listado de codigo-p simplificado generado por el compilador--
+
+
+    0  SAL     0    30 ;salto incondicional
+    1  SAL     0     2 ;salto incondicional
+    2  INS     0     5 ;asignacion de espacio de memoria
+    3  CAR     1     3 ;cargar una variable
+    4  ALM     0     3 ;almacenamiento/instruccion de asignacion
+    5  CAR     1     4 ;cargar una variable
+    6  ALM     0     4 ;almacenamiento/instruccion de asignacion
+    7  LIT     0     0 ;cargar una constante
+    8  ALM     1     5 ;almacenamiento/instruccion de asignacion
+    9  CAR     0     4 ;cargar una variable
+   10  LIT     0     0 ;cargar una constante
+   11  OPR     0    12 ;operacion aritmetica, relacional o retornar
+   12  SAC     0    29 ;salto condicional
+   13  CAR     0     4 ;cargar una variable
+   14  OPR     0     6 ;operacion aritmetica, relacional o retornar
+   15  SAC     0    20 ;salto condicional
+   16  CAR     1     5 ;cargar una variable
+   17  CAR     0     3 ;cargar una variable
+   18  OPR     0     2 ;operacion aritmetica, relacional o retornar
+   19  ALM     1     5 ;almacenamiento/instruccion de asignacion
+   20  LIT     0     2 ;cargar una constante
+   21  CAR     0     3 ;cargar una variable
+   22  OPR     0     4 ;operacion aritmetica, relacional o retornar
+   23  ALM     0     3 ;almacenamiento/instruccion de asignacion
+   24  CAR     0     4 ;cargar una variable
+   25  LIT     0     2 ;cargar una constante
+   26  OPR     0     5 ;operacion aritmetica, relacional o retornar
+   27  ALM     0     4 ;almacenamiento/instruccion de asignacion
+   28  SAL     0     9 ;salto incondicional
+   29  OPR     0     0 ;operacion aritmetica, relacional o retornar
+   30  INS     0     8 ;asignacion de espacio de memoria
+   31  LIT     0     7 ;cargar una constante
+   32  ALM     0     3 ;almacenamiento/instruccion de asignacion
+   33  LIT     0    85 ;cargar una constante
+   34  ALM     0     4 ;almacenamiento/instruccion de asignacion
+   35  LLA     0     2 ;llamada a procedimiento
+   36  LIT     0    25 ;cargar una constante
+   37  ALM     0     3 ;almacenamiento/instruccion de asignacion
+   38  LIT     0     3 ;cargar una constante
+   39  ALM     0     4 ;almacenamiento/instruccion de asignacion
+   40  OPR     0     0 ;operacion aritmetica, relacional o retornar
+
+ejecutando la instruccion    0: SAL     0    30
+SAL : saltando incondicionalmente a la instruccion 30 (s en -1)
+
+ejecutando la instruccion   30: INS     0     8
+INS : asignando 8 espacios en el stack (s en 7)
+
+ejecutando la instruccion   31: LIT     0     7
+LIT : cargando la literal 7 en la direccion 8 (s en 8)
+
+ejecutando la instruccion   32: ALM     0     3
+ALM : almacenando 7 en la direccion 3 (s en 7)
+
+ejecutando la instruccion   33: LIT     0    85
+LIT : cargando la literal 85 en la direccion 8 (s en 8)
+
+ejecutando la instruccion   34: ALM     0     4
+ALM : almacenando 85 en la direccion 4 (s en 7)
+
+ejecutando la instruccion   35: LLA     0     2
+LLA : activando subrutina, enlaces y DR: 0 0 36
+    : nueva base 8, instruccion 2 (s en 7)
+
+ejecutando la instruccion    2: INS     0     5
+INS : asignando 5 espacios en el stack (s en 12)
+
+ejecutando la instruccion    3: CAR     1     3
+CAR : cargando 7 en la direccion 13 (s en 13)
+
+ejecutando la instruccion    4: ALM     0     3
+ALM : almacenando 7 en la direccion 11 (s en 12)
+
+ejecutando la instruccion    5: CAR     1     4
+CAR : cargando 85 en la direccion 13 (s en 13)
+
+ejecutando la instruccion    6: ALM     0     4
+ALM : almacenando 85 en la direccion 12 (s en 12)
+
+ejecutando la instruccion    7: LIT     0     0
+LIT : cargando la literal 0 en la direccion 13 (s en 13)
+
+ejecutando la instruccion    8: ALM     1     5
+ALM : almacenando 0 en la direccion 5 (s en 12)
+
+ejecutando la instruccion    9: CAR     0     4
+CAR : cargando 85 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   10: LIT     0     0
+LIT : cargando la literal 0 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   11: OPR     0    12
+OPR : 85>0? (s en 13)
+
+ejecutando la instruccion   12: SAC     0    29
+SAC : la condicion es verdadera. prosigo en la instruccion 13(s en 12)
+
+ejecutando la instruccion   13: CAR     0     4
+CAR : cargando 85 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   14: OPR     0     6
+OPR : odd(85)? (s en 13)
+
+ejecutando la instruccion   15: SAC     0    20
+SAC : la condicion es verdadera. prosigo en la instruccion 16(s en 12)
+
+ejecutando la instruccion   16: CAR     1     5
+CAR : cargando 0 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   17: CAR     0     3
+CAR : cargando 7 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   18: OPR     0     2
+OPR : suma de 0 + 7 (s en 13)
+
+ejecutando la instruccion   19: ALM     1     5
+ALM : almacenando 7 en la direccion 5 (s en 12)
+
+ejecutando la instruccion   20: LIT     0     2
+LIT : cargando la literal 2 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   21: CAR     0     3
+CAR : cargando 7 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   22: OPR     0     4
+OPR : multiplicacion de 2 * 7 (s en 13)
+
+ejecutando la instruccion   23: ALM     0     3
+ALM : almacenando 14 en la direccion 11 (s en 12)
+
+ejecutando la instruccion   24: CAR     0     4
+CAR : cargando 85 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   25: LIT     0     2
+LIT : cargando la literal 2 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   26: OPR     0     5
+OPR : division entera de 85 / 2 (s en 13)
+
+ejecutando la instruccion   27: ALM     0     4
+ALM : almacenando 42 en la direccion 12 (s en 12)
+
+ejecutando la instruccion   28: SAL     0     9
+SAL : saltando incondicionalmente a la instruccion 9 (s en 12)
+
+ejecutando la instruccion    9: CAR     0     4
+CAR : cargando 42 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   10: LIT     0     0
+LIT : cargando la literal 0 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   11: OPR     0    12
+OPR : 42>0? (s en 13)
+
+ejecutando la instruccion   12: SAC     0    29
+SAC : la condicion es verdadera. prosigo en la instruccion 13(s en 12)
+
+ejecutando la instruccion   13: CAR     0     4
+CAR : cargando 42 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   14: OPR     0     6
+OPR : odd(42)? (s en 13)
+
+ejecutando la instruccion   15: SAC     0    20
+SAC : la condicion es falsa. saltando condicionalmente a la instruccion 20.(s en 12)
+
+ejecutando la instruccion   20: LIT     0     2
+LIT : cargando la literal 2 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   21: CAR     0     3
+CAR : cargando 14 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   22: OPR     0     4
+OPR : multiplicacion de 2 * 14 (s en 13)
+
+ejecutando la instruccion   23: ALM     0     3
+ALM : almacenando 28 en la direccion 11 (s en 12)
+
+ejecutando la instruccion   24: CAR     0     4
+CAR : cargando 42 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   25: LIT     0     2
+LIT : cargando la literal 2 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   26: OPR     0     5
+OPR : division entera de 42 / 2 (s en 13)
+
+ejecutando la instruccion   27: ALM     0     4
+ALM : almacenando 21 en la direccion 12 (s en 12)
+
+ejecutando la instruccion   28: SAL     0     9
+SAL : saltando incondicionalmente a la instruccion 9 (s en 12)
+
+ejecutando la instruccion    9: CAR     0     4
+CAR : cargando 21 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   10: LIT     0     0
+LIT : cargando la literal 0 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   11: OPR     0    12
+OPR : 21>0? (s en 13)
+
+ejecutando la instruccion   12: SAC     0    29
+SAC : la condicion es verdadera. prosigo en la instruccion 13(s en 12)
+
+ejecutando la instruccion   13: CAR     0     4
+CAR : cargando 21 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   14: OPR     0     6
+OPR : odd(21)? (s en 13)
+
+ejecutando la instruccion   15: SAC     0    20
+SAC : la condicion es verdadera. prosigo en la instruccion 16(s en 12)
+
+ejecutando la instruccion   16: CAR     1     5
+CAR : cargando 7 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   17: CAR     0     3
+CAR : cargando 28 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   18: OPR     0     2
+OPR : suma de 7 + 28 (s en 13)
+
+ejecutando la instruccion   19: ALM     1     5
+ALM : almacenando 35 en la direccion 5 (s en 12)
+
+ejecutando la instruccion   20: LIT     0     2
+LIT : cargando la literal 2 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   21: CAR     0     3
+CAR : cargando 28 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   22: OPR     0     4
+OPR : multiplicacion de 2 * 28 (s en 13)
+
+ejecutando la instruccion   23: ALM     0     3
+ALM : almacenando 56 en la direccion 11 (s en 12)
+
+ejecutando la instruccion   24: CAR     0     4
+CAR : cargando 21 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   25: LIT     0     2
+LIT : cargando la literal 2 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   26: OPR     0     5
+OPR : division entera de 21 / 2 (s en 13)
+
+ejecutando la instruccion   27: ALM     0     4
+ALM : almacenando 10 en la direccion 12 (s en 12)
+
+ejecutando la instruccion   28: SAL     0     9
+SAL : saltando incondicionalmente a la instruccion 9 (s en 12)
+
+ejecutando la instruccion    9: CAR     0     4
+CAR : cargando 10 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   10: LIT     0     0
+LIT : cargando la literal 0 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   11: OPR     0    12
+OPR : 10>0? (s en 13)
+
+ejecutando la instruccion   12: SAC     0    29
+SAC : la condicion es verdadera. prosigo en la instruccion 13(s en 12)
+
+ejecutando la instruccion   13: CAR     0     4
+CAR : cargando 10 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   14: OPR     0     6
+OPR : odd(10)? (s en 13)
+
+ejecutando la instruccion   15: SAC     0    20
+SAC : la condicion es falsa. saltando condicionalmente a la instruccion 20.(s en 12)
+
+ejecutando la instruccion   20: LIT     0     2
+LIT : cargando la literal 2 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   21: CAR     0     3
+CAR : cargando 56 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   22: OPR     0     4
+OPR : multiplicacion de 2 * 56 (s en 13)
+
+ejecutando la instruccion   23: ALM     0     3
+ALM : almacenando 112 en la direccion 11 (s en 12)
+
+ejecutando la instruccion   24: CAR     0     4
+CAR : cargando 10 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   25: LIT     0     2
+LIT : cargando la literal 2 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   26: OPR     0     5
+OPR : division entera de 10 / 2 (s en 13)
+
+ejecutando la instruccion   27: ALM     0     4
+ALM : almacenando 5 en la direccion 12 (s en 12)
+
+ejecutando la instruccion   28: SAL     0     9
+SAL : saltando incondicionalmente a la instruccion 9 (s en 12)
+
+ejecutando la instruccion    9: CAR     0     4
+CAR : cargando 5 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   10: LIT     0     0
+LIT : cargando la literal 0 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   11: OPR     0    12
+OPR : 5>0? (s en 13)
+
+ejecutando la instruccion   12: SAC     0    29
+SAC : la condicion es verdadera. prosigo en la instruccion 13(s en 12)
+
+ejecutando la instruccion   13: CAR     0     4
+CAR : cargando 5 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   14: OPR     0     6
+OPR : odd(5)? (s en 13)
+
+ejecutando la instruccion   15: SAC     0    20
+SAC : la condicion es verdadera. prosigo en la instruccion 16(s en 12)
+
+ejecutando la instruccion   16: CAR     1     5
+CAR : cargando 35 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   17: CAR     0     3
+CAR : cargando 112 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   18: OPR     0     2
+OPR : suma de 35 + 112 (s en 13)
+
+ejecutando la instruccion   19: ALM     1     5
+ALM : almacenando 147 en la direccion 5 (s en 12)
+
+ejecutando la instruccion   20: LIT     0     2
+LIT : cargando la literal 2 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   21: CAR     0     3
+CAR : cargando 112 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   22: OPR     0     4
+OPR : multiplicacion de 2 * 112 (s en 13)
+
+ejecutando la instruccion   23: ALM     0     3
+ALM : almacenando 224 en la direccion 11 (s en 12)
+
+ejecutando la instruccion   24: CAR     0     4
+CAR : cargando 5 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   25: LIT     0     2
+LIT : cargando la literal 2 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   26: OPR     0     5
+OPR : division entera de 5 / 2 (s en 13)
+
+ejecutando la instruccion   27: ALM     0     4
+ALM : almacenando 2 en la direccion 12 (s en 12)
+
+ejecutando la instruccion   28: SAL     0     9
+SAL : saltando incondicionalmente a la instruccion 9 (s en 12)
+
+ejecutando la instruccion    9: CAR     0     4
+CAR : cargando 2 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   10: LIT     0     0
+LIT : cargando la literal 0 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   11: OPR     0    12
+OPR : 2>0? (s en 13)
+
+ejecutando la instruccion   12: SAC     0    29
+SAC : la condicion es verdadera. prosigo en la instruccion 13(s en 12)
+
+ejecutando la instruccion   13: CAR     0     4
+CAR : cargando 2 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   14: OPR     0     6
+OPR : odd(2)? (s en 13)
+
+ejecutando la instruccion   15: SAC     0    20
+SAC : la condicion es falsa. saltando condicionalmente a la instruccion 20.(s en 12)
+
+ejecutando la instruccion   20: LIT     0     2
+LIT : cargando la literal 2 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   21: CAR     0     3
+CAR : cargando 224 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   22: OPR     0     4
+OPR : multiplicacion de 2 * 224 (s en 13)
+
+ejecutando la instruccion   23: ALM     0     3
+ALM : almacenando 448 en la direccion 11 (s en 12)
+
+ejecutando la instruccion   24: CAR     0     4
+CAR : cargando 2 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   25: LIT     0     2
+LIT : cargando la literal 2 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   26: OPR     0     5
+OPR : division entera de 2 / 2 (s en 13)
+
+ejecutando la instruccion   27: ALM     0     4
+ALM : almacenando 1 en la direccion 12 (s en 12)
+
+ejecutando la instruccion   28: SAL     0     9
+SAL : saltando incondicionalmente a la instruccion 9 (s en 12)
+
+ejecutando la instruccion    9: CAR     0     4
+CAR : cargando 1 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   10: LIT     0     0
+LIT : cargando la literal 0 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   11: OPR     0    12
+OPR : 1>0? (s en 13)
+
+ejecutando la instruccion   12: SAC     0    29
+SAC : la condicion es verdadera. prosigo en la instruccion 13(s en 12)
+
+ejecutando la instruccion   13: CAR     0     4
+CAR : cargando 1 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   14: OPR     0     6
+OPR : odd(1)? (s en 13)
+
+ejecutando la instruccion   15: SAC     0    20
+SAC : la condicion es verdadera. prosigo en la instruccion 16(s en 12)
+
+ejecutando la instruccion   16: CAR     1     5
+CAR : cargando 147 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   17: CAR     0     3
+CAR : cargando 448 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   18: OPR     0     2
+OPR : suma de 147 + 448 (s en 13)
+
+ejecutando la instruccion   19: ALM     1     5
+ALM : almacenando 595 en la direccion 5 (s en 12)
+
+ejecutando la instruccion   20: LIT     0     2
+LIT : cargando la literal 2 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   21: CAR     0     3
+CAR : cargando 448 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   22: OPR     0     4
+OPR : multiplicacion de 2 * 448 (s en 13)
+
+ejecutando la instruccion   23: ALM     0     3
+ALM : almacenando 896 en la direccion 11 (s en 12)
+
+ejecutando la instruccion   24: CAR     0     4
+CAR : cargando 1 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   25: LIT     0     2
+LIT : cargando la literal 2 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   26: OPR     0     5
+OPR : division entera de 1 / 2 (s en 13)
+
+ejecutando la instruccion   27: ALM     0     4
+ALM : almacenando 0 en la direccion 12 (s en 12)
+
+ejecutando la instruccion   28: SAL     0     9
+SAL : saltando incondicionalmente a la instruccion 9 (s en 12)
+
+ejecutando la instruccion    9: CAR     0     4
+CAR : cargando 0 en la direccion 13 (s en 13)
+
+ejecutando la instruccion   10: LIT     0     0
+LIT : cargando la literal 0 en la direccion 14 (s en 14)
+
+ejecutando la instruccion   11: OPR     0    12
+OPR : 0>0? (s en 13)
+
+ejecutando la instruccion   12: SAC     0    29
+SAC : la condicion es falsa. saltando condicionalmente a la instruccion 29.(s en 12)
+
+ejecutando la instruccion   29: OPR     0     0
+OPR : retornar a la instruccion 36, base=0 (s en 7)
+
+ejecutando la instruccion   36: LIT     0    25
+LIT : cargando la literal 25 en la direccion 8 (s en 8)
+
+ejecutando la instruccion   37: ALM     0     3
+ALM : almacenando 25 en la direccion 3 (s en 7)
+
+ejecutando la instruccion   38: LIT     0     3
+LIT : cargando la literal 3 en la direccion 8 (s en 8)
+
+ejecutando la instruccion   39: ALM     0     4
+ALM : almacenando 3 en la direccion 4 (s en 7)
+
+ejecutando la instruccion   40: OPR     0     0
+OPR : retornar a la instruccion 0, base=0 (s en -1)

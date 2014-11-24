@@ -1,0 +1,22 @@
+﻿Compilación iniciada a las 20/11/2012 07:58:56 a.m..
+     1>Proyecto "C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0mv\pl0mv\pl0mv.vcxproj" en el nodo 2 (rebuild destinos).
+     1>_PrepareForClean:
+         Se eliminará el archivo "Debug\pl0mv.lastbuildstate".
+       InitializeBuildStatus:
+         Se creará "Debug\pl0mv.unsuccessfulbuild" porque se especificó "AlwaysCreate".
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /D _MBCS /D _CRT_SECURE_NO_DEPRECATE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\fuentes\pl0mv.cpp
+         pl0mv.cpp
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0mv\pl0mv\Debug\pl0mv.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\pl0mv.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0mv\pl0mv\Debug\pl0mv.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0mv\pl0mv\Debug\pl0mv.lib" /MACHINE:X86 Debug\pl0mv.obj
+         pl0mv.vcxproj -> C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0mv\pl0mv\Debug\pl0mv.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0mv\pl0mv\Debug\pl0mv.exe;#1" /manifest Debug\pl0mv.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Se eliminará el archivo "Debug\pl0mv.unsuccessfulbuild".
+         Aplicando tarea Touch a "Debug\pl0mv.lastbuildstate".
+     1>Compilación del proyecto terminada "C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0mv\pl0mv\pl0mv.vcxproj" (rebuild destinos).
+
+Compilación correcta.
+
+Tiempo transcurrido 00:00:05.38

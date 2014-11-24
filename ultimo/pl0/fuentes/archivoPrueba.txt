@@ -1,0 +1,22 @@
+CONST z: real = 25.32;
+VAR
+x,squ,y: integer;
+a,b: real;
+bool: boolean;
+
+
+{este es un comentario!}
+BEGIN
+   x := 1;
+   bool := false;
+   WHILE x <= 10 DO
+
+   BEGIN
+   IF x > 5 THEN
+      BEGIN
+        bool := true;
+      END;
+      x := x + 2;
+      writeln("bool es", bool);
+   END
+END.

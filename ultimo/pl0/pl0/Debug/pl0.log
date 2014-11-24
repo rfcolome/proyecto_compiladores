@@ -1,0 +1,37 @@
+﻿Compilación iniciada a las 30/10/2012 08:22:39 a.m..
+     1>Proyecto "C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0\pl0\pl0.vcxproj" en el nodo 2 (rebuild destinos).
+     1>_PrepareForClean:
+         Se eliminará el archivo "Debug\pl0.lastbuildstate".
+       InitializeBuildStatus:
+         Se creará "Debug\pl0.unsuccessfulbuild" porque se especificó "AlwaysCreate".
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3\pl0\fuentes" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /D _MBCS /D _CRT_SECURE_NO_DEPRECATE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\fuentes\auxiliares.cpp ..\fuentes\codigo_p.cpp ..\fuentes\conjuntos.cpp ..\fuentes\lexico.cpp ..\fuentes\parser.cpp ..\fuentes\pl0.cpp ..\fuentes\scanner.cpp ..\fuentes\tds.cpp
+         tds.cpp
+         scanner.cpp
+         pl0.cpp
+         parser.cpp
+         lexico.cpp
+         conjuntos.cpp
+         codigo_p.cpp
+         auxiliares.cpp
+         Generando código...
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0\Debug\pl0.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\pl0.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0\Debug\pl0.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0\Debug\pl0.lib" /MACHINE:X86 Debug\auxiliares.obj
+         Debug\codigo_p.obj
+         Debug\conjuntos.obj
+         Debug\lexico.obj
+         Debug\parser.obj
+         Debug\pl0.obj
+         Debug\scanner.obj
+         Debug\tds.obj
+         pl0.vcxproj -> C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0\Debug\pl0.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0\Debug\pl0.exe;#1" /manifest Debug\pl0.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Se eliminará el archivo "Debug\pl0.unsuccessfulbuild".
+         Aplicando tarea Touch a "Debug\pl0.lastbuildstate".
+     1>Compilación del proyecto terminada "C:\Users\Public\Documents\UCA\material_TLP_COMPILADORES\Compilador ver 3 - Visual C++ 2012\pl0\pl0\pl0.vcxproj" (rebuild destinos).
+
+Compilación correcta.
+
+Tiempo transcurrido 00:00:05.82

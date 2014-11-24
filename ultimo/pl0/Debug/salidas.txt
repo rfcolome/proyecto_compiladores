@@ -1,0 +1,72 @@
+
+
+Compilador de pl0 version 3.0 --- abril de 2011 --- A2
+facto.pl0 - Wed Apr 06 10:47:43 2011
+
+ Const
+   m= 7,n=85;
+  Var
+   x,y,z,q,r;
+  Procedure multiplicar;
+   Var a,b;
+  Begin
+   a:=x;b:=y;z:=0;
+   while b > 0 do
+    begin
+     if ODD b then z:=z+a;
+     a:=2*a;  b:=b/2;
+    end
+  End;
+ Begin
+  x:=m;y:=n; Call multiplicar ;
+  x:=25; y:=3
+ End.
+
+
+***   Estadisticas globales   ***
+***  No se detectaron errores ***
+
+ --Listado de codigo-p simplificado generado por el compilador--
+
+
+    0  SAL     0    30 ;salto incondicional
+    1  SAL     0     2 ;salto incondicional
+    2  INS     0     5 ;asignacion de espacio de memoria
+    3  CAR     1     3 ;cargar una variable
+    4  ALM     0     3 ;almacenamiento/instruccion de asignacion
+    5  CAR     1     4 ;cargar una variable
+    6  ALM     0     4 ;almacenamiento/instruccion de asignacion
+    7  LIT     0     0 ;cargar una constante
+    8  ALM     1     5 ;almacenamiento/instruccion de asignacion
+    9  CAR     0     4 ;cargar una variable
+   10  LIT     0     0 ;cargar una constante
+   11  OPR     0    12 ;operacion aritmetica, relacional o retornar
+   12  SAC     0    29 ;salto condicional
+   13  CAR     0     4 ;cargar una variable
+   14  OPR     0     6 ;operacion aritmetica, relacional o retornar
+   15  SAC     0    20 ;salto condicional
+   16  CAR     1     5 ;cargar una variable
+   17  CAR     0     3 ;cargar una variable
+   18  OPR     0     2 ;operacion aritmetica, relacional o retornar
+   19  ALM     1     5 ;almacenamiento/instruccion de asignacion
+   20  LIT     0     2 ;cargar una constante
+   21  CAR     0     3 ;cargar una variable
+   22  OPR     0     4 ;operacion aritmetica, relacional o retornar
+   23  ALM     0     3 ;almacenamiento/instruccion de asignacion
+   24  CAR     0     4 ;cargar una variable
+   25  LIT     0     2 ;cargar una constante
+   26  OPR     0     5 ;operacion aritmetica, relacional o retornar
+   27  ALM     0     4 ;almacenamiento/instruccion de asignacion
+   28  SAL     0     9 ;salto incondicional
+   29  OPR     0     0 ;operacion aritmetica, relacional o retornar
+   30  INS     0     8 ;asignacion de espacio de memoria
+   31  LIT     0     7 ;cargar una constante
+   32  ALM     0     3 ;almacenamiento/instruccion de asignacion
+   33  LIT     0    85 ;cargar una constante
+   34  ALM     0     4 ;almacenamiento/instruccion de asignacion
+   35  LLA     0     2 ;llamada a procedimiento
+   36  LIT     0    25 ;cargar una constante
+   37  ALM     0     3 ;almacenamiento/instruccion de asignacion
+   38  LIT     0     3 ;cargar una constante
+   39  ALM     0     4 ;almacenamiento/instruccion de asignacion
+   40  OPR     0     0 ;operacion aritmetica, relacional o retornar
