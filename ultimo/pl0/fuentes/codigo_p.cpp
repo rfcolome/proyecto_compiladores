@@ -93,7 +93,7 @@ void escribe_codigop(char *fuente) {
     strcpy(codigo_p,fuente); //el fuente no tiene apellido
 
   //finalmente,colocamos la extensión deseada
-  strcat(codigo_p,".p");
+  strcat(codigo_p,".obp");
 
   //grabar en el disco el archivo con código_p,a partir del array código creado por el generador de código intermedio
   if  ( (obj=fopen(codigo_p,"w+b"))==NULL ) {
