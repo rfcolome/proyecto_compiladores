@@ -773,6 +773,84 @@ optativa
 **** no requiere de cambiar el codigo-p ****
 
 
+encabezado PROGRAM.
+
+basicamente, el programa empieza opcionalmente con
+PROGRAM ident;
+
+para hacer esto, primero agregamos PROGRAM como parte del lexico
+en lexico.h y lexico.cpp:
+
+lexico.h:
+
+//lista de tokens de pl0
+enum simbolo {
+  nulo,ident,entero,real,cadena,mas,menos,por,barra,oddtok,igl,
+  nig,mnr,mei,myr,mai,parena,parenc,coma,puntoycoma,punto,
+  dospuntos,asignacion,begintok,endtok,iftok,thentok,whiletok,
+  dotok,calltok,consttok,vartok,proctok,integertok,realtok,
+  readtok,readlntok,writetok,writelntok,booleantok,truetok,
+  falsetok,rndtok,clrscrtok,halttok,pitagtok,fortok,totok,
+  programtok
+}; //definido aquí en el encabezado
+
+
+luego en lexico.cpp:
+
+
+
+//se define e inicializa la tabla de lexemes correspondientes a las palabras reservadas
+char *lexpal[MAXPAL]={
+  "BEGIN","CALL","CONST","DO","END","IF","ODD","PROCEDURE",
+  "THEN","VAR","WHILE","INTEGER","REAL","READ","READLN","WRITE",
+  "WRITELN","BOOLEAN","TRUE","FALSE","RND","CLRSCR","HALT",
+  "PITAG","FOR","TO","PROGRAM"
+};
+
+//el token
+enum simbolo token;
+
+//se define e inicializa la tabla de tokens de palabras reservadas
+enum simbolo tokpal [MAXPAL]={
+  begintok,calltok,consttok,dotok,endtok,iftok,oddtok,proctok,
+  thentok,vartok,whiletok,integertok,realtok,readtok,readlntok,
+  writetok,writelntok,booleantok,truetok,falsetok,rndtok,
+  clrscrtok,halttok,pitagtok,fortok,totok,programtok
+};
+
+
+le agregamos uno a MAXPAL en parametros.h
+
+#define MAXPAL     27  //numero de palabras reservadas
+
+
+con esto, el string PROGRAM ya se reconoce como un token
+individual.
+
+Luego de eso, se agrega a la sintaxis. Sin embargo, no se agrega
+al archivo parser.cpp, ya que esto es unicamente para el
+programa como un todo, no para el bloque. Por lo tanto se agrega
+al archivo pl0.cpp, antes de hacer la llamada a bloque
+
+      if (token == programtok) {
+        // esta el encabezado del programa
+        obtoken();
+        if (token == ident) {
+          obtoken();
+          if (token == puntoycoma) {
+            obtoken();
+          }
+          else
+            error(5); // falta una coma o punto y coma
+        }
+        else
+          error(4); // PROGRAM debe ir seguido de un identificador
+      }
+
+
+y con eso ya esta el encabezado del programa
+
+
 
 
 

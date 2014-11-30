@@ -5,7 +5,7 @@ char *lexpal[MAXPAL]={
   "BEGIN","CALL","CONST","DO","END","IF","ODD","PROCEDURE",
   "THEN","VAR","WHILE","INTEGER","REAL","READ","READLN","WRITE",
   "WRITELN","BOOLEAN","TRUE","FALSE","RND","CLRSCR","HALT",
-  "PITAG","FOR","TO"
+  "PITAG","FOR","TO","PROGRAM"
 };
 
 //el token
@@ -16,7 +16,7 @@ enum simbolo tokpal [MAXPAL]={
   begintok,calltok,consttok,dotok,endtok,iftok,oddtok,proctok,
   thentok,vartok,whiletok,integertok,realtok,readtok,readlntok,
   writetok,writelntok,booleantok,truetok,falsetok,rndtok,
-  clrscrtok,halttok,pitagtok,fortok,totok
+  clrscrtok,halttok,pitagtok,fortok,totok,programtok
 };
 
 //tabla de tokens correspondientes a operadores y símbolos especiales

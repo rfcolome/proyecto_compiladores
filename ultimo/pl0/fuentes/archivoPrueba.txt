@@ -1,3 +1,5 @@
+PROGRAM prueba;
+
 CONST z: real = 25.32;
 VAR
 x,squ,y,i: integer;

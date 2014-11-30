@@ -28,60 +28,75 @@ int niv;           //nivel de anidamiento de los bloques
 //main: inicia el compilador
 int main (int argc,char *argv[]) { 
 
- time_t timer;char fecha[LONG_FECHA]; //serviran para imprimir la fecha en el listado de salida
+  time_t timer;char fecha[LONG_FECHA]; //serviran para imprimir la fecha en el listado de salida
 
- //verificar si hay archivo fuente
- if (argc!=2)
+  //verificar si hay archivo fuente
+  if (argc!=2)
 	printf("\nNo se ha proporcionado el nombre del programa fuente (uso: pl0 progfuente)");
- else { 
+  else { 
 	fp=fopen(argv[1],"r"); //abrir el fuente solo para lectura
 	if (fp==NULL) 
-	   printf("\nNo se encontro el programa fuente indicado");
+      printf("\nNo se encontro el programa fuente indicado");
 	else {
-	   timer=time(NULL);
-	   strcpy(fecha,asctime(localtime(&timer)));
-	   printf("\n\nCompilador de pl0 version 3.0 --- abril de 2011 --- A2\n");
-	   printf("%s - %s\n",argv[1],fecha);
+      timer=time(NULL);
+      strcpy(fecha,asctime(localtime(&timer)));
+      printf("\n\nCompilador de pl0 version 3.0 --- abril de 2011 --- A2\n");
+      printf("%s - %s\n",argv[1],fecha);
 
-	   //inicializacion de tokens de símbolos especiales (en auxiliares.cpp)
-	   inicializar_espec() ; 
+      //inicializacion de tokens de símbolos especiales (en auxiliares.cpp)
+      inicializar_espec() ; 
 
-	   //inicializacion de otras variables (en pl0.h y scanner.h)
-	   ch=' ';
-	   fin_de_archivo=0;
-	   offset=-1;ll=0;
-	   no_de_errores=0; 
+      //inicializacion de otras variables (en pl0.h y scanner.h)
+      ch=' ';
+      fin_de_archivo=0;
+      offset=-1;ll=0;
+      no_de_errores=0; 
 
-	   //inicialización de conjuntos de estabilización (en conjuntos.cpp)
-	   inicializa_conjuntos();
+      //inicialización de conjuntos de estabilización (en conjuntos.cpp)
+      inicializa_conjuntos();
     	 
-	   //invocar al scanner (en scanner.cpp)
-	   obtoken(); 
+      //invocar al scanner (en scanner.cpp)
+      obtoken(); 
 
-	   it =0; //inicializamos el índice sobre la tds (it en tds.h)
-	   niv=0; //inicializamos el nivel de anidamiento (niv en pl0.h)
-	   ic =0; //inicializamos el índice sobre el codigo-p (ic en codigo_p.h)
+      it =0; //inicializamos el índice sobre la tds (it en tds.h)
+      niv=0; //inicializamos el nivel de anidamiento (niv en pl0.h)
+      ic =0; //inicializamos el índice sobre el codigo-p (ic en codigo_p.h)
 
-	   //activación del parser (en parser.h)
-	   bloque(set_arranque); 
+      if (token == programtok) {
+        // esta el encabezado del programa
+        obtoken();
+        if (token == ident) {
+          obtoken();
+          if (token == puntoycoma) {
+            obtoken();
+          }
+          else
+            error(5); // falta una coma o punto y coma
+        }
+        else
+          error(4); // PROGRAM debe ir seguido de un identificador
+      }
 
-	   if (token!=punto)	
-		  error(9); //error 9: se esperaba un punto
+      //activación del parser (en parser.h)
+      bloque(set_arranque); 
 
-	   //indicar cuántos errores hay (si los hubieron) (en auxiliares.cpp)
-	   estadisticas();
+      if (token!=punto)	
+        error(9); //error 9: se esperaba un punto
 
-	   //cerrar el programa fuente
-	   fclose(fp);
+      //indicar cuántos errores hay (si los hubieron) (en auxiliares.cpp)
+      estadisticas();
 
-	   //listar y escribir en disco el código-p resultado de la compilación (en codigo_p.cpp)
-	   if (no_de_errores==0) {
-		  listar_p();          
-		  escribe_codigop(argv[1]); 
-	   }
+      //cerrar el programa fuente
+      fclose(fp);
+
+      //listar y escribir en disco el código-p resultado de la compilación (en codigo_p.cpp)
+      if (no_de_errores==0) {
+        listar_p();          
+        escribe_codigop(argv[1]); 
+      }
 	}
- }
- return (0);
+  }
+  return (0);
 }
 
 
