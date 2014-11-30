@@ -10,7 +10,7 @@ enum simbolo {
   dospuntos,asignacion,begintok,endtok,iftok,thentok,whiletok,
   dotok,calltok,consttok,vartok,proctok,integertok,realtok,
   readtok,readlntok,writetok,writelntok,booleantok,truetok,
-  falsetok,rndtok,clrscrtok,halttok,pitagtok
+  falsetok,rndtok,clrscrtok,halttok,pitagtok,fortok,totok
 }; //definido aquí en el encabezado
 
 extern enum simbolo token;

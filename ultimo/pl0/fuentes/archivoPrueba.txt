@@ -1,6 +1,6 @@
 CONST z: real = 25.32;
 VAR
-x,squ,y: integer;
+x,squ,y,i: integer;
 a,b: real;
 bool: boolean;
 
@@ -8,11 +8,13 @@ bool: boolean;
 {este es un comentario}
 BEGIN
    x := 1;
-   WHILE x <= 10 DO
-
+   {WHILE x <= 10 DO}
+   
+   FOR i := 0 TO 4 DO
    BEGIN
-      x := x + 20;
+      {x := x + 20;
       bool := PITAG(3,4,5);
-      writeln("bool es", bool);
+      writeln("bool es", bool);}
+      write("hola! ", i);
    END
 END.

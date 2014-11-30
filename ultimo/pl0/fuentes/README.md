@@ -791,6 +791,137 @@ sumamos uno a la variable, y finalmente hacemos un SAL
 (salto incondicional) a donde revisamos la condicion
 
 
+para hacer el for, debemos agregar varios tokens nuevos al
+lenguaje: primeramente la palabra FOR, y la palabra TO
+
+para eso, lo agregamos a lexico.h:
+
+//lista de tokens de pl0
+enum simbolo {
+  nulo,ident,entero,real,cadena,mas,menos,por,barra,oddtok,igl,
+  nig,mnr,mei,myr,mai,parena,parenc,coma,puntoycoma,punto,
+  dospuntos,asignacion,begintok,endtok,iftok,thentok,whiletok,
+  dotok,calltok,consttok,vartok,proctok,integertok,realtok,
+  readtok,readlntok,writetok,writelntok,booleantok,truetok,
+  falsetok,rndtok,clrscrtok,halttok,pitagtok,fortok,totok
+}; //definido aquí en el encabezado
+
+
+luego los agregamos a lexico.cpp:
+
+char *lexpal[MAXPAL]={
+  "BEGIN","CALL","CONST","DO","END","IF","ODD","PROCEDURE",
+  "THEN","VAR","WHILE","INTEGER","REAL","READ","READLN","WRITE",
+  "WRITELN","BOOLEAN","TRUE","FALSE","RND","CLRSCR","HALT",
+  "PITAG","FOR","TO"
+};
+
+//el token
+enum simbolo token;
+
+//se define e inicializa la tabla de tokens de palabras reservadas
+enum simbolo tokpal [MAXPAL]={
+  begintok,calltok,consttok,dotok,endtok,iftok,oddtok,proctok,
+  thentok,vartok,whiletok,integertok,realtok,readtok,readlntok,
+  writetok,writelntok,booleantok,truetok,falsetok,rndtok,
+  clrscrtok,halttok,pitagtok,fortok,totok
+};
+
+y debemos aumentar MAXPAL en dos para poder agregarlos.
+En parametros.h:
+
+#define MAXPAL     26  //numero de palabras reservadas
+
+con eso, FOR y TO ya son parte del lexico del lenguaje; lo
+siguiente es agregarlos como parte de la sintaxis.
+Como el FOR es similar al WHILE, sería parte de la funcion
+instruccion (parser.cpp ~224).
+
+La sintaxis es:
+
+
+for i:= 1 to 10 do writeln(i);
+
+
+  else if (token==fortok) {
+    obtoken();
+
+    copia_set(setpaso,toksig);
+    setpaso[dotok]=setpaso[totok]=1;//setpaso=dotok+toksig
+
+    // despues del for va una asignacion:
+    if (token==ident) {
+      //ve a buscarlo a la tabla de símbolos
+      i=posicion();
+      if (i==0)
+        error(11); //error 11: identificador no declarado 
+      else if (tabla[i].tipo != VARIABLE)
+        error(12); //error 12: no están permitidas las asignaciones a constantes o a procedimientos
+      obtoken();
+      if (token==asignacion)
+        obtoken();
+      else
+        error(13) ; //error 13: se esperaba el operador de asignación 
+
+      copia_set(setpaso,toksig);
+      setpaso[dotok]=setpaso[totok]=1;//setpaso=dotok+toksig
+      expresion(setpaso);
+      //generar código-p
+      gen(ALM,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+
+      ic1=ic; //recordar en que lugar del codigo estamos
+      if (token==totok) { // FOR <asignacion> TO <expresion>...
+        obtoken();
+        // internamente, la manera como el FOR debe funcionar es
+        // - evaluar la asignacion
+        // - evaluar que la variable de la asignacion sea menor
+        //     o igual a la expresion <expresion>
+        // - hacer un salto condicional (SAC)
+        // - evaluar la instruccion que sigue al DO
+        // - hacer un salto incondicional (SAL) al lugar donde
+        //     se evalua la condicion
+
+        // cargamos la variable al tope de la pila
+        gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+        copia_set(setpaso,toksig);
+        setpaso[dotok]=1;
+        expresion(setpaso);
+        // ahora el resultado de la expresion esta al tope de la pila
+        // y la variable esta justo abajo
+        // asi que evaluamos que la variable sea menor o igual
+        // al resultado de la expresion
+        gen(OPR,0,13); // operacion <=
+
+        ic2=ic; //recordar este lugar
+        gen(SAC,0,0); //nivel y dir son "paja". Luego parcharemos aqui
+
+        if (token==dotok) 
+          obtoken();
+        else
+          error(18); //error 18: Se esperaba un "DO" 
+
+        copia_set(setpaso,toksig);
+        instruccion(setpaso);
+
+        // se le suma uno a la variable
+        gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+        gen(LIT,0,1);
+        gen(OPR,0,2);
+        gen(ALM,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+
+        //aqui backpatching
+        gen(SAL,0,ic1);
+        codigo[ic2].di=ic;
+      }
+      else
+        error(29); // se esperaba un TO
+    }
+    else 
+      error(28); // se esperaba una variable
+  }
+
+
+
 
 
 

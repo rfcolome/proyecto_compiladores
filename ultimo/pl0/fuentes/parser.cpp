@@ -336,6 +336,82 @@ void instruccion(int toksig[]) {
     gen(SAL,0,ic1);
     codigo[ic2].di=ic;
   }
+  else if (token==fortok) {
+    obtoken();
+
+    copia_set(setpaso,toksig);
+    setpaso[dotok]=setpaso[totok]=1;//setpaso=dotok+toksig
+
+    // despues del for va una asignacion:
+    if (token==ident) {
+      //ve a buscarlo a la tabla de símbolos
+      i=posicion();
+      if (i==0)
+        error(11); //error 11: identificador no declarado 
+      else if (tabla[i].tipo != VARIABLE)
+        error(12); //error 12: no están permitidas las asignaciones a constantes o a procedimientos
+      obtoken();
+      if (token==asignacion)
+        obtoken();
+      else
+        error(13) ; //error 13: se esperaba el operador de asignación 
+
+      copia_set(setpaso,toksig);
+      setpaso[dotok]=setpaso[totok]=1;//setpaso=dotok+toksig
+      expresion(setpaso);
+      //generar código-p
+      gen(ALM,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+
+      ic1=ic; //recordar en que lugar del codigo estamos
+      if (token==totok) { // FOR <asignacion> TO <expresion>...
+        obtoken();
+        // internamente, la manera como el FOR debe funcionar es
+        // - evaluar la asignacion
+        // - evaluar que la variable de la asignacion sea menor
+        //     o igual a la expresion <expresion>
+        // - hacer un salto condicional (SAC)
+        // - evaluar la instruccion que sigue al DO
+        // - hacer un salto incondicional (SAL) al lugar donde
+        //     se evalua la condicion
+
+        // cargamos la variable al tope de la pila
+        gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+        copia_set(setpaso,toksig);
+        setpaso[dotok]=1;
+        expresion(setpaso);
+        // ahora el resultado de la expresion esta al tope de la pila
+        // y la variable esta justo abajo
+        // asi que evaluamos que la variable sea menor o igual
+        // al resultado de la expresion
+        gen(OPR,0,13); // operacion <=
+
+        ic2=ic; //recordar este lugar
+        gen(SAC,0,0); //nivel y dir son "paja". Luego parcharemos aqui
+
+        if (token==dotok) 
+          obtoken();
+        else
+          error(18); //error 18: Se esperaba un "DO" 
+
+        copia_set(setpaso,toksig);
+        instruccion(setpaso);
+
+        // se le suma uno a la variable
+        gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+        gen(LIT,0,1);
+        gen(OPR,0,2);
+        gen(ALM,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+
+        //aqui backpatching
+        gen(SAL,0,ic1);
+        codigo[ic2].di=ic;
+      }
+      else
+        error(29); // se esperaba un TO
+    }
+    else 
+      error(28); // se esperaba una variable
+  }
   else if (token == readtok || token == readlntok) {
     obtoken();
     if (token == parena) {
@@ -745,9 +821,7 @@ void factor(int toksig[]) {
                   }
                   
                   obtoken();
-                  printf("el token actual es %d\n", token);
                   if (token == parenc) {
-                    printf("token es en efecto parenc\n");
                     gen(OPR,0,16); // PITAG es la operacion 16
                     obtoken();
                   }
