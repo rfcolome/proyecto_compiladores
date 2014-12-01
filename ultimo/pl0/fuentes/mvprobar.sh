@@ -1,3 +1,3 @@
 #! /bin/bash
 
-./pl0mv archivoPrueba.p
+./pl0mv archivoPrueba.obp

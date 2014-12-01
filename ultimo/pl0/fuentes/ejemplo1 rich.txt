@@ -1,0 +1,48 @@
+{Comentario compuesto
+Programa ejemplo 1}
+PROGRAM ejemplo1;
+CONST PI = 40,beta=12,A=true,B=FALSE;
+VAR x:INTEGER; 
+squ,a:REAL;
+resultB:BOOLEAN;
+{Programa escrito en pascal PL04
+ Presentado por: Milton Robles && Jorge Guzman}
+
+PROCEDURE square;
+BEGIN
+   {//resultB := 3+A;}
+   resultB := false;
+   squ := x * x;
+  {// x := 1.1+A;}
+END;
+
+{//comienza el codigo main}
+BEGIN
+   WHILE x <= 10 DO
+   BEGIN
+      CALL square;
+     {PITAG(x,4,x);}
+     resultB := PITAG(x,4,x);
+     a := RND(x+1);
+     x := RND(x);
+     CLRSCR();
+     HALT();
+     {INLINE(
+     instruccion 1;
+     instruccion 2;
+     instruccion 3;
+     );
+      {proxima linea tiene un error
+      {square;
+      {esto es un comentario raro }
+      FOR x := 0 TO 10 DO
+      BEGIN
+         WRITE("Programar en Pascal",x);
+         WRITELN("Por favor digite un número: ",squ);
+      END;
+      READ(x);
+      READLN(x);
+      {readln(squ,x);}
+      x := x + 1;
+   END;
+END.

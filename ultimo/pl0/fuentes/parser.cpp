@@ -33,7 +33,7 @@ void bloque (int toksig[]) {
   tabla[it].tipo=PROCEDIMIENTO;
   tabla[it].variante.nivdir.dir=ic;
 	  
-  gen(SAL,0,0); //un procedimiento significa un salto en el código. luego cambiaremos nivel y direccion,
+  gen(SAL,0,0,0); //un procedimiento significa un salto en el código. luego cambiaremos nivel y direccion,
   //los mostrados arriba (0 y 0) son 'paja', lo que pasa es que todavia no sabemos
   //todavía hacia donde saltar
 
@@ -157,13 +157,13 @@ void bloque (int toksig[]) {
   tabla[it0].variante.nivdir.dir=ic; //aquí en ic es donde comienza el código para este procedure  
 
   //se abre espacio en la memoria para un mínimo de 3 direcciones
-  gen(INS,0,idat); 
+  gen(INS,0,idat,0); 
 
   copia_set(setpaso,toksig);
   setpaso[puntoycoma]=setpaso[endtok]=1; //setpaso=puntoycoma+end+toksig
   instruccion(setpaso);
 
-  gen(OPR,0,0); //retorno
+  gen(OPR,0,0,0); //retorno
 
   //aquí viene el chequeo explícito de que el token que viene a continuación
   //está en el conjunto de sucesores correctos (los sucesores de bloque)
@@ -178,30 +178,20 @@ void bloque (int toksig[]) {
 void declaracionconst(int *idat) {
   if (token==ident) {
     obtoken();
-    if (token == dospuntos) {
+    if ( (token==igl) || (token==asignacion) ) {
+      //mejora del tipo "adivinación" de la intención del programador
+      if (token==asignacion) 
+        error(1); //error 1: usar '=" en vez de ":=". es la misma técnica que en C & C++ se usa para if (x=) por if (x==)
       obtoken();
-      if (token == integertok || token == realtok || token == booleantok) {
+      if (token==entero || token == real || token == truetok || token == falsetok) {
+        poner(CONSTANTE,&(*idat));
         obtoken();
-        if ( (token==igl) || (token==asignacion) ) {
-          //mejora del tipo "adivinación" de la intención del programador
-          if (token==asignacion) 
-            error(1); //error 1: usar '=" en vez de ":=". es la misma técnica que en C & C++ se usa para if (x=) por if (x==)
-          obtoken();
-          if (token==entero || token == real || token == truetok || token == falsetok) {
-            poner(CONSTANTE,&(*idat));
-            obtoken();
-          }
-          else
-            error(2) ; //error 2: debe ir seguido de un número
-        }
-        else
-          error (3) ; //error 3: el identificador debe ir seguido de "="
       }
       else
-        error (26); // se esperaba el tipo de dato
+        error(2) ; //error 2: debe ir seguido de un número
     }
     else
-      error (25); // se esperaban dos puntos
+      error (3) ; //error 3: el identificador debe ir seguido de "="
   }
   else
     error(4) ; //error 4: Const, Var y Procedure deben ir seguidos de un identificador
@@ -247,7 +237,7 @@ void instruccion(int toksig[]) {
     expresion(setpaso);
 
     //generar código-p
-    gen(ALM,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+    gen(ALM,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
 
   } 
   else if (token==calltok) {
@@ -261,7 +251,7 @@ void instruccion(int toksig[]) {
         error(11); //error 11: Identificador no declarado 
       else if (tabla[i].tipo==PROCEDIMIENTO)
         //generar código-p
-        gen(LLA,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+        gen(LLA,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
       else
         error(15); //error 15 : No tiene sentido llamar a una constante o a una variable 
       obtoken();
@@ -279,7 +269,7 @@ void instruccion(int toksig[]) {
 
     ic1=ic; //recordar esta dirección en el código-p para "parchar" más adelante
     //generar código-p
-    gen(SAC,0,0);
+    gen(SAC,0,0,0);
 
     copia_set(setpaso,toksig);
     instruccion(toksig);
@@ -322,7 +312,7 @@ void instruccion(int toksig[]) {
     condicion(setpaso);
 
     ic2=ic; //recordar este lugar
-    gen(SAC,0,0); //nivel y dir son "paja". Luego parcharemos aqui
+    gen(SAC,0,0,0); //nivel y dir son "paja". Luego parcharemos aqui
 
     if (token==dotok) 
       obtoken();
@@ -333,7 +323,7 @@ void instruccion(int toksig[]) {
     instruccion(setpaso);
 
     //aqui backpatching
-    gen(SAL,0,ic1);
+    gen(SAL,0,ic1,0);
     codigo[ic2].di=ic;
   }
   else if (token==fortok) {
@@ -360,7 +350,7 @@ void instruccion(int toksig[]) {
       setpaso[dotok]=setpaso[totok]=1;//setpaso=dotok+toksig
       expresion(setpaso);
       //generar código-p
-      gen(ALM,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+      gen(ALM,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
 
       ic1=ic; //recordar en que lugar del codigo estamos
       if (token==totok) { // FOR <asignacion> TO <expresion>...
@@ -375,7 +365,7 @@ void instruccion(int toksig[]) {
         //     se evalua la condicion
 
         // cargamos la variable al tope de la pila
-        gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+        gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
         copia_set(setpaso,toksig);
         setpaso[dotok]=1;
         expresion(setpaso);
@@ -383,10 +373,10 @@ void instruccion(int toksig[]) {
         // y la variable esta justo abajo
         // asi que evaluamos que la variable sea menor o igual
         // al resultado de la expresion
-        gen(OPR,0,13); // operacion <=
+        gen(OPR,0,13,0); // operacion <=
 
         ic2=ic; //recordar este lugar
-        gen(SAC,0,0); //nivel y dir son "paja". Luego parcharemos aqui
+        gen(SAC,0,0,0); //nivel y dir son "paja". Luego parcharemos aqui
 
         if (token==dotok) 
           obtoken();
@@ -397,13 +387,13 @@ void instruccion(int toksig[]) {
         instruccion(setpaso);
 
         // se le suma uno a la variable
-        gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
-        gen(LIT,0,1);
-        gen(OPR,0,2);
-        gen(ALM,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+        gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
+        gen(LIT,0,1,0);
+        gen(OPR,0,2,0);
+        gen(ALM,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
 
         //aqui backpatching
-        gen(SAL,0,ic1);
+        gen(SAL,0,ic1,0);
         codigo[ic2].di=ic;
       }
       else
@@ -426,7 +416,7 @@ void instruccion(int toksig[]) {
           obtoken();
           if (token == parenc){
             obtoken();
-            gen(REA,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+            gen(REA,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
             // hasta donde yo se, el primero es el nivel en el
             // que esta la variable, y el segundo es la
             // direccion dentro del nivel
@@ -456,10 +446,10 @@ void instruccion(int toksig[]) {
         while (cadInd >= 0) {
           // ponemos la cadena en la pila caracter por caracter,
           // pero al reves
-          gen(LIT,0,valorCad[cadInd]);
+          gen(LIT,0,valorCad[cadInd],0);
           cadInd--;
         }
-        gen(IMP,0,0); // el 0 es para cadenas
+        gen(IMP,0,0,0); // el 0 es para cadenas
         obtoken();
         if (token == coma) {
           obtoken();
@@ -472,15 +462,15 @@ void instruccion(int toksig[]) {
               error(28); // se esperaba una variable
             else {
               // cargamos la avariable al tope de la pila
-              gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+              gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
               // luego la mostramos en pantalla
-              gen(IMP,0,tabla[i].tipoDato); // el 1 es para enteros
+              gen(IMP,0,tabla[i].tipoDato,0); // el 1 es para enteros
               
               if (agregarnl) {
                 // pongo un newline y lo imprimo si es writeln
-                gen(LIT,0,'\0');
-                gen(LIT,0,'\n');
-                gen(IMP,0,0); // el 0 es para cadenas
+                gen(LIT,0,'\0',0);
+                gen(LIT,0,'\n',0);
+                gen(IMP,0,0,0); // el 0 es para cadenas
               }
 
               obtoken();
@@ -494,9 +484,9 @@ void instruccion(int toksig[]) {
         else if (token == parenc) {
           if (agregarnl) {
             // pongo un newline y lo imprimo si es writeln
-            gen(LIT,0,'\0');
-            gen(LIT,0,'\n');
-            gen(IMP,0,0); // el 0 es para cadenas
+            gen(LIT,0,'\0',0);
+            gen(LIT,0,'\n',0);
+            gen(IMP,0,0,0); // el 0 es para cadenas
           }
 
           obtoken();
@@ -513,15 +503,15 @@ void instruccion(int toksig[]) {
           error(28); // se esperaba una variable
         else {
           // cargamos la avariable al tope de la pila
-          gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+          gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
           // luego la mostramos en pantalla
-          gen(IMP,0,1); // el 1 es para enteros
+          gen(IMP,0,1,0); // el 1 es para enteros
 
           if (agregarnl) {
             // pongo un newline y lo imprimo si es writeln
-            gen(LIT,0,'\0');
-            gen(LIT,0,'\n');
-            gen(IMP,0,0); // el 0 es para cadenas
+            gen(LIT,0,'\0',0);
+            gen(LIT,0,'\n',0);
+            gen(IMP,0,0,0); // el 0 es para cadenas
           }
           
           obtoken();
@@ -539,7 +529,7 @@ void instruccion(int toksig[]) {
   }
   else if (token == clrscrtok) {
     obtoken();
-    gen(OPR,0,15); // CLRSCR es la operacion 15
+    gen(OPR,0,15,0); // CLRSCR es la operacion 15
     if (token == parena) {
       obtoken();
       if (token == parenc) {
@@ -553,7 +543,7 @@ void instruccion(int toksig[]) {
   }
   else if (token == halttok) {
     obtoken();
-    gen(HLT,0,0);
+    gen(HLT,0,0,0);
     if (token == parena) {
       obtoken();
       if (token == parenc) {
@@ -573,67 +563,65 @@ void instruccion(int toksig[]) {
 }
 
 //expresion
-void expresion(int toksig[])
-{
- int setpaso[NOTOKENS]; //conjunto de paso por valor        
- enum simbolo opsuma;   //operadores unarios/binarios + o - 
+void expresion(int toksig[]) {
+  int setpaso[NOTOKENS]; //conjunto de paso por valor        
+  enum simbolo opsuma;   //operadores unarios/binarios + o - 
 
- copia_set(setpaso,toksig);
- setpaso[mas]=setpaso[menos]=1; //setpaso=mas+menos+toksig
+  copia_set(setpaso,toksig);
+  setpaso[mas]=setpaso[menos]=1; //setpaso=mas+menos+toksig
 
- //aquí viene conversión a rpn=reverse polish notation
- if (token==mas || token==menos) {
+  //aquí viene conversión a rpn=reverse polish notation
+  if (token==mas || token==menos) {
     opsuma=token; //es el operador unario + o -, se retiene el signo
     obtoken();
     termino(setpaso);
     if (opsuma==menos)
-       gen(OPR,0,1);//si es + no hay necesidad de hacer nada
- }
- else 
+      gen(OPR,0,1,0);//si es + no hay necesidad de hacer nada
+  }
+  else 
     termino(setpaso);
 
- while (token==mas || token==menos) {
-       //ahora + y - son operadores binarios
-       //retrasamos la transmisión del operador (diferir la generación de código intermedio)
-       opsuma=token;   
-       obtoken();
+  while (token==mas || token==menos) {
+    //ahora + y - son operadores binarios
+    //retrasamos la transmisión del operador (diferir la generación de código intermedio)
+    opsuma=token;   
+    obtoken();
 
-       copia_set(setpaso,toksig);
-       setpaso[mas]=setpaso[menos]=1; //setpaso=mas+menos+toksig
+    copia_set(setpaso,toksig);
+    setpaso[mas]=setpaso[menos]=1; //setpaso=mas+menos+toksig
 
-       termino(setpaso);
-       if (opsuma==mas)
-          gen(OPR,0,2);
-       else
-          gen(OPR,0,3);
- }
+    termino(setpaso);
+    if (opsuma==mas)
+      gen(OPR,0,2,0);
+    else
+      gen(OPR,0,3,0);
+  }
 }
 
 //termino
-void termino(int toksig[])
-{
- int setpaso[NOTOKENS]; //conjunto de paso por valor
- enum simbolo opmul;    //operador multiplicativo 
+void termino(int toksig[]) {
+  int setpaso[NOTOKENS]; //conjunto de paso por valor
+  enum simbolo opmul;    //operador multiplicativo 
 
- //aquí conversión a rpn=reverse polish notation
- copia_set(setpaso,toksig);
- setpaso[por]=setpaso[barra]=1;//setpaso=por+barra+toksig
+  //aquí conversión a rpn=reverse polish notation
+  copia_set(setpaso,toksig);
+  setpaso[por]=setpaso[barra]=1;//setpaso=por+barra+toksig
 
- factor(setpaso);
+  factor(setpaso);
 
- while (token==por || token==barra) {
-       opmul=token; //se retiene el operador(diferir la generación de código intermedio)
-       obtoken();
+  while (token==por || token==barra) {
+    opmul=token; //se retiene el operador(diferir la generación de código intermedio)
+    obtoken();
 
-       copia_set(setpaso,toksig);
-       setpaso[por]=setpaso[barra]=1; //setpaso=por+barra+toksig
+    copia_set(setpaso,toksig);
+    setpaso[por]=setpaso[barra]=1; //setpaso=por+barra+toksig
 
-       factor(setpaso);
-       if (opmul==por)
-          gen(OPR,0,4);
-       else
-          gen(OPR,0,5);
- }
+    factor(setpaso);
+    if (opmul==por)
+      gen(OPR,0,4,0);
+    else
+      gen(OPR,0,5,0);
+  }
 }
 
 //factor
@@ -652,10 +640,10 @@ void factor(int toksig[]) {
       else
         switch (tabla[i].tipo) {
         case CONSTANTE:
-          gen(LIT,0,tabla[i].variante.val);
+          gen(LIT,0,tabla[i].variante.val,0);
           break;
         case VARIABLE:
-          gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+          gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
           break;
         case PROCEDIMIENTO:
           error(21); //error 21: Una expresión no debe contener un identificador de procedimiento
@@ -669,10 +657,10 @@ void factor(int toksig[]) {
         valor=0;
       }
       if (token == entero || token == truetok || token == falsetok) {
-        gen(LIT,0,valor);
+        gen(LIT,0,valor,0);
       }
       else {
-        gen(LIT,0,valorReal);
+        gen(LIT,0,0,valorReal);
       }
       obtoken();
     }
@@ -694,35 +682,12 @@ void factor(int toksig[]) {
       obtoken();
       if (token == parena) {
         obtoken();
-        if (token == entero) {
-          gen(LIT, 0, valor);
-        }
-        else if (token == real) {
-          gen(LIT, 0, valorReal);
-        }
-        else if (token == ident) {
-          i=posicion();
-          if (i==0) 
-            error(11); //error 11: Identificador no declarado
-          else
-            switch (tabla[i].tipo) {
-              
-            case CONSTANTE:
-              gen(LIT,0,tabla[i].variante.val);
-              break;
-            case VARIABLE:
-              gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
-              break;
-            case PROCEDIMIENTO:
-              error(21); //error 21: Una expresión no debe contener un identificador de procedimiento
-              break;
-            }
-        } else {
-          // por defecto se generan numeros entre 0 y 100
-          gen(LIT, 0, 100);
-        }
 
-        gen(OPR,0,14); // RND es la operacion 14
+        copia_set(setpaso,toksig);
+        setpaso[parenc]=1; //setpaso=parenc+toksig
+        
+        expresion(setpaso);
+        gen(OPR,0,14,0); // RND es la operacion 14
         if (token == parenc) {
           obtoken();
         }
@@ -745,10 +710,10 @@ void factor(int toksig[]) {
               switch (tabla[i].tipo) {
                 
               case CONSTANTE:
-                gen(LIT,0,tabla[i].variante.val);
+                gen(LIT,0,tabla[i].variante.val,0);
                 break;
               case VARIABLE:
-                gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+                gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
                 break;
               case PROCEDIMIENTO:
                 error(21); //error 21: Una expresión no debe contener un identificador de procedimiento
@@ -756,10 +721,10 @@ void factor(int toksig[]) {
               }
           }
           else if (token == entero) {
-            gen(LIT, 0, valor);
+            gen(LIT, 0, valor,0);
           }
           else if (token == real) {
-            gen(LIT, 0, valorReal);
+            gen(LIT, 0, 0, valorReal);
           }
           obtoken();
           
@@ -774,10 +739,10 @@ void factor(int toksig[]) {
                   switch (tabla[i].tipo) {
                     
                   case CONSTANTE:
-                    gen(LIT,0,tabla[i].variante.val);
+                    gen(LIT,0,tabla[i].variante.val,0);
                     break;
                   case VARIABLE:
-                    gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+                    gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
                     break;
                   case PROCEDIMIENTO:
                     error(21); //error 21: Una expresión no debe contener un identificador de procedimiento
@@ -785,10 +750,10 @@ void factor(int toksig[]) {
                   }
               }
               else if (token == entero) {
-                gen(LIT, 0, valor);
+                gen(LIT, 0, valor, 0);
               }
               else if (token == real) {
-                gen(LIT, 0, valorReal);
+                gen(LIT, 0, 0, valorReal);
               }
               obtoken();
               
@@ -803,10 +768,10 @@ void factor(int toksig[]) {
                       switch (tabla[i].tipo) {
                         
                       case CONSTANTE:
-                        gen(LIT,0,tabla[i].variante.val);
+                        gen(LIT,0,tabla[i].variante.val,0);
                         break;
                       case VARIABLE:
-                        gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir);
+                        gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
                         break;
                       case PROCEDIMIENTO:
                         error(21); //error 21: Una expresión no debe contener un identificador de procedimiento
@@ -814,15 +779,15 @@ void factor(int toksig[]) {
                       }
                   }
                   else if (token == entero) {
-                    gen(LIT, 0, valor);
+                    gen(LIT, 0, valor,0);
                   }
                   else if (token == real) {
-                    gen(LIT, 0, valorReal);
+                    gen(LIT, 0, 0, valorReal);
                   }
                   
                   obtoken();
                   if (token == parenc) {
-                    gen(OPR,0,16); // PITAG es la operacion 16
+                    gen(OPR,0,16,0); // PITAG es la operacion 16
                     obtoken();
                   }
                   else
@@ -858,18 +823,17 @@ void factor(int toksig[]) {
 
 
 //condicion
-void condicion(int toksig[])
-{
- int setpaso[NOTOKENS]; //conjunto de paso por valor
- enum simbolo oprel;    //operador relacional     
+void condicion(int toksig[]) {
+  int setpaso[NOTOKENS]; //conjunto de paso por valor
+  enum simbolo oprel;    //operador relacional     
 
- if (token==oddtok) {
+  if (token==oddtok) {
     obtoken();
     copia_set(setpaso,toksig); //setpaso=toksig
     expresion(setpaso);
-    gen(OPR,0,6);
- }
- else {
+    gen(OPR,0,6,0);
+  }
+  else {
     //en este caso los sucesores de expresion son los operadores relacionales
     copia_set(setpaso,toksig);
     setpaso[igl]=setpaso[nig]=setpaso[mnr]=setpaso[myr]=setpaso[mei]=setpaso[mai]=1;
@@ -877,36 +841,36 @@ void condicion(int toksig[])
 
     expresion(setpaso);
     if ( (token!=igl) && (token!=nig) && (token!=mnr) && (token!=mei) && (token!=myr) && (token!=mai) )
-       error(20); //error 20: Se esperaba un operador relacional 
+      error(20); //error 20: Se esperaba un operador relacional 
     else {
-       oprel=token;
-       obtoken();
+      oprel=token;
+      obtoken();
 
-       copia_set(setpaso,toksig); //setpaso=toksig
-       expresion(setpaso);
+      copia_set(setpaso,toksig); //setpaso=toksig
+      expresion(setpaso);
 
-       switch(oprel) {
-             case igl:
-                  gen(OPR,0,8);
-                  break;
-             case nig:
-                  gen(OPR,0,9);
-                  break;
-             case mnr:
-                  gen(OPR,0,10);
-                  break;
-             case mai:
-                  gen(OPR,0,11);
-                  break;
-             case myr:
-                  gen(OPR,0,12);
-                  break;
-             case mei:
-                  gen(OPR,0,13);
-                  break;
-       };
+      switch(oprel) {
+      case igl:
+        gen(OPR,0,8,0);
+        break;
+      case nig:
+        gen(OPR,0,9,0);
+        break;
+      case mnr:
+        gen(OPR,0,10,0);
+        break;
+      case mai:
+        gen(OPR,0,11,0);
+        break;
+      case myr:
+        gen(OPR,0,12,0);
+        break;
+      case mei:
+        gen(OPR,0,13,0);
+        break;
+      };
    
     }
- }
+  }
 }
 
