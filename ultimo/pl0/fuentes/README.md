@@ -1089,11 +1089,127 @@ codigo fuente de PL-0 usando la instrucción INLINE
 --------------------------------------------------
 
 
+para hacer el INLINE, primero agregamos la palabra y todas las
+palabras del codigo-p como palabras reservadas en el lenguaje:
+
+en lexico.h:
+
+//lista de tokens de pl0
+enum simbolo {
+  nulo,ident,entero,real,cadena,mas,menos,por,barra,oddtok,igl,
+  nig,mnr,mei,myr,mai,parena,parenc,coma,puntoycoma,punto,
+  dospuntos,asignacion,begintok,endtok,iftok,thentok,whiletok,
+  dotok,calltok,consttok,vartok,proctok,integertok,realtok,
+  readtok,readlntok,writetok,writelntok,booleantok,truetok,
+  falsetok,rndtok,clrscrtok,halttok,pitagtok,fortok,totok,
+  programtok,inlinetok,littok,oprtok,cartok,almtok,llatok,
+  instok,saltok,sactok,reatok,imptok,hlttok
+}; //definido aquí en el encabezado
 
 
+en lexico.cpp:
+
+//se define e inicializa la tabla de lexemes correspondientes a las palabras reservadas
+char *lexpal[MAXPAL]={
+  "BEGIN","CALL","CONST","DO","END","IF","ODD","PROCEDURE",
+  "THEN","VAR","WHILE","INTEGER","REAL","READ","READLN","WRITE",
+  "WRITELN","BOOLEAN","TRUE","FALSE","RND","CLRSCR","HALT",
+  "PITAG","FOR","TO","PROGRAM","INLINE","LIT","OPR","CAR","ALM",
+  "LLA","INS","SAL","SAC","REA","IMP","HLT"
+};
+
+//el token
+enum simbolo token;
+
+//se define e inicializa la tabla de tokens de palabras reservadas
+enum simbolo tokpal [MAXPAL]={
+  begintok,calltok,consttok,dotok,endtok,iftok,oddtok,proctok,
+  thentok,vartok,whiletok,integertok,realtok,readtok,readlntok,
+  writetok,writelntok,booleantok,truetok,falsetok,rndtok,
+  clrscrtok,halttok,pitagtok,fortok,totok,programtok,inlinetok,
+  littok,oprtok,cartok,almtok,llatok,instok,saltok,sactok,
+  reatok,imptok,hlttok
+};
+
+y cambiamos MAXPAL para agregarle todas estas nuevas palabras
+reservadas:
+
+#define MAXPAL     39  //numero de palabras reservadas
+...
+#define NOTOKENS   61  //número de tokens en el lenguaje
 
 
+al hacer esto, cada una de estas palabras es reconocible como
+tokens individuales en el lenguaje. Luego se debe agregarlas a
+parser.cpp:
 
+  else if (token == inlinetok) {
+    obtoken();
+    if (token == parena) {
+      
+      copia_set(setpaso,vacio);
+      setpaso[littok]=setpaso[oprtok]=setpaso[cartok]=
+        setpaso[almtok]=setpaso[llatok]=setpaso[instok]=
+        setpaso[saltok]=setpaso[sactok]=setpaso[reatok]=
+        setpaso[imptok]=setpaso[hlttok]=1;
+      do {
+        obtoken();
+        test(setpaso,toksig,36); //¿codigo mnemonico no reconocido?
+        if (token == littok ||
+            token == oprtok ||
+            token == cartok ||
+            token == almtok ||
+            token == llatok ||
+            token == instok ||
+            token == saltok ||
+            token == sactok ||
+            token == reatok ||
+            token == imptok ||
+            token == hlttok ) {
+          enum fcn mnemonico = tokenAMnemonico(token);
+          obtoken();
+          if (token == entero) {
+            int arg1 = valor;
+            obtoken();
+            if (token == entero) {
+              int arg2 = valor;
+              obtoken();
+              if (token == entero || token == real) {
+                float arg3;
+                if (token == entero) {
+                  arg3 = valor;
+                }
+                else {
+                  arg3 = valorReal;
+                }
+                gen(mnemonico,arg1,arg2,arg3);
+                obtoken();
+              }
+              else
+                error(2); // debe ir seguido de un numero
+            }
+            else
+              error(2); // debe ir seguido de un numero
+          }
+          else
+            error(2); // debe ir seguido de un numero
+        }
+        else
+          error(36);
+      } while (token == coma);
+      
+      if (token == parenc) {
+        obtoken();
+      }
+      else
+        error(22); // falta un parentesis de cierre
+    }
+    else
+      error(27); // se esperaba un parentesis de apertura   
+  }
+
+
+y con eso ya tenemos la funcion INLINE.
 
 
 10. Aumentar las funciones predefinidas: RND, CLRSCR, HALT,
