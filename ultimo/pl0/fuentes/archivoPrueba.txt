@@ -7,7 +7,7 @@ a,b: real;
 bool: boolean;
 
 
-{este es un comentario}
+{este es un comentario} {y este es otro comentario seguido}
 BEGIN
    x := 1;
    {WHILE x <= 10 DO}
