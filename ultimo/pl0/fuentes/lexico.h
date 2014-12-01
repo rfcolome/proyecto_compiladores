@@ -11,7 +11,8 @@ enum simbolo {
   dotok,calltok,consttok,vartok,proctok,integertok,realtok,
   readtok,readlntok,writetok,writelntok,booleantok,truetok,
   falsetok,rndtok,clrscrtok,halttok,pitagtok,fortok,totok,
-  programtok
+  programtok,inlinetok,littok,oprtok,cartok,almtok,llatok,
+  instok,saltok,sactok,reatok,imptok,hlttok
 }; //definido aquí en el encabezado
 
 extern enum simbolo token;

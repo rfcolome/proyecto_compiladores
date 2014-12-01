@@ -33,7 +33,7 @@ void obtoken() {
   while (ch==' ' || ch=='\n' || ch=='\t' || ch=='\r') ch=obtch() ;
 
   // revisamos si inicia un comentario
-  if (ch == '{') {
+  while (ch == '{') {
     // de ser asi, leemos hasta que termine
     while (ch != '}') {
       ch = obtch();

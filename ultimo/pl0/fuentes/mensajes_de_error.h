@@ -1,6 +1,7 @@
 //mensajes de error para el compilador de pl0
 
-char *mensaje_de_error[]={"",
+char *mensaje_de_error[]={
+  "",
 /*Error 1 */ "usar ' = ' en vez de ' := ' ",
 /*Error 2 */ "debe ir seguido de un numero",
 /*Error 3 */ "el identificador debe ir seguido de ' = ' ",
@@ -35,7 +36,8 @@ char *mensaje_de_error[]={"",
 /*Error 32*/ "el programa fuente esta incompleto",
 /*Error 33*/ "el programa fuente es demasiado largo",
 /*Error 34*/ "anidamiento demasiado profundo para los procedures",
-/*Error 35*/ "se rebasa el maximo entero de pl0--se asume cero"};
+/*Error 35*/ "se rebasa el maximo entero de pl0--se asume cero",
+/*Error 36*/ "codigo mnemonico no reconocido"};
 
 /*Errores sintacticos : 1,2,3,4,5,6,7,8,9,10,13,16,17,18,19,20,22,23,24,32 */
 

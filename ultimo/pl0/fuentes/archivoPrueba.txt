@@ -7,7 +7,7 @@ a,b: real;
 bool: boolean;
 
 
-{este es un comentario}
+{este es un comentario} {y este es otro comentario seguido}
 BEGIN
    x := 1;
    {WHILE x <= 10 DO}
@@ -19,6 +19,7 @@ BEGIN
       writeln("bool es", bool);
       a := a + 0.5;}
       write("hola! ", i);
+      INLINE(HLT 0 0 0.0, LIT 0 10000 0);
       {write("y a es ", a);}
    END
 END.

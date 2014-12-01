@@ -14,6 +14,8 @@
 void declaracionconst(int *idat),declaracionvar(int *idat),instruccion(int toksig[]);
 void expresion(int toksig[]),termino(int toksig[]),factor(int toksig[]),condicion(int toksig[]);
 
+enum fcn tokenAMnemonico(enum simbolo tok);
+
 //bloque
 //da inicio el análisis sintáctico
 void bloque (int toksig[]) {
@@ -555,6 +557,70 @@ void instruccion(int toksig[]) {
     else
       error(27); // se esperaba un parentesis de apertura   
   }
+  else if (token == inlinetok) {
+    obtoken();
+    if (token == parena) {
+      
+      copia_set(setpaso,vacio);
+      setpaso[littok]=setpaso[oprtok]=setpaso[cartok]=
+        setpaso[almtok]=setpaso[llatok]=setpaso[instok]=
+        setpaso[saltok]=setpaso[sactok]=setpaso[reatok]=
+        setpaso[imptok]=setpaso[hlttok]=1;
+      do {
+        obtoken();
+        test(setpaso,toksig,36); //¿codigo mnemonico no reconocido?
+        if (token == littok ||
+            token == oprtok ||
+            token == cartok ||
+            token == almtok ||
+            token == llatok ||
+            token == instok ||
+            token == saltok ||
+            token == sactok ||
+            token == reatok ||
+            token == imptok ||
+            token == hlttok ) {
+          enum fcn mnemonico = tokenAMnemonico(token);
+          obtoken();
+          if (token == entero) {
+            int arg1 = valor;
+            obtoken();
+            if (token == entero) {
+              int arg2 = valor;
+              obtoken();
+              if (token == entero || token == real) {
+                float arg3;
+                if (token == entero) {
+                  arg3 = valor;
+                }
+                else {
+                  arg3 = valorReal;
+                }
+                gen(mnemonico,arg1,arg2,arg3);
+                obtoken();
+              }
+              else
+                error(2); // debe ir seguido de un numero
+            }
+            else
+              error(2); // debe ir seguido de un numero
+          }
+          else
+            error(2); // debe ir seguido de un numero
+        }
+        else
+          error(36);
+      } while (token == coma);
+      
+      if (token == parenc) {
+        obtoken();
+      }
+      else
+        error(22); // falta un parentesis de cierre
+    }
+    else
+      error(27); // se esperaba un parentesis de apertura   
+  }
 
 
   //comprobación explícita de que los tokens que viene son sucesores de instrucción  
@@ -874,3 +940,11 @@ void condicion(int toksig[]) {
   }
 }
 
+enum fcn tokenAMnemonico(enum simbolo tok) {
+
+  enum fcn listamnems[11] = {
+    LIT,OPR,CAR,ALM,LLA,INS,SAL,SAC,REA,IMP,HLT
+  };
+
+  return listamnems[tok-littok];
+}
