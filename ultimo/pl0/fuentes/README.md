@@ -318,6 +318,83 @@ interpretarlos de diferente manera, dependiendo del uso?
 
 
 
+ahora por ultimo, debemos de cambiar los registros de la maquina
+virtual de manera que acepten un numero real como un cuarto
+argumento:
+
+en codigo_p.h:
+
+
+typedef struct {
+  enum fcn f; //mnemónico
+  int     ni; //nivel (0..MAXNIV)
+  int     di; //dirección o desplazamiento (0..32767)
+  float    r; // numero real
+} codigo_intermedio;
+
+extern codigo_intermedio codigo[MAXIC]; //array con las instrucciones de codigo-p
+extern int ic;                          //índice sobre el array de código-p
+
+void gen (enum fcn x,int y,int z,float r),listar_p(),escribe_codigop(char *fuente);
+
+
+en codigo_p.cpp
+
+...
+  //generar una instrucción de código-p
+  codigo[ic].f  = x;
+  codigo[ic].ni = y;
+  codigo[ic].di = z;
+  codigo[ic].r  = r;
+...
+  for(i=0;i<ic;++i) {
+    printf("\n %4d  %3s %5d %5d %5f %s",i,mnemonico[codigo[i].f],codigo[i].ni,codigo[i].di,codigo[i].r,comentario[codigo[i].f]);
+  }
+...
+
+
+y debemos de cambiar todos los usos de la funcion gen en
+parser.cppde manera que hagan uso de este cuarto argumento.
+
+luego de esto debemos cambiar la maquina virtual para que
+tambien posean el valor de r:
+
+en pl0mv.cpp:
+
+...
+typedef struct {
+  enum fcn f; //mnemónico
+  int     ni; //nivel (0..MAXNIV)
+  int     di; //dirección o desplazamiento (0..32767)
+  float     r; //numero real
+} codigo_intermedio;
+...
+    printf("\n\nejecutando la instruccion %4d: %3s %5d %5d %5.2f",d-1,mnemonico[i.f],i.ni,i.di,i.r); 
+...
+    printf("\n %4d  %3s %5d %5d %5f %s",i,mnemonico[codigo[i].f],codigo[i].ni,codigo[i].di,codigo[i].r,comentario[codigo[i].f]);
+...
+
+
+
+una vez tenemos estos, hay que considerar como se mandaran y
+como se procesaran los numeros en la maquina virtual.
+Primeramente, se utilizaran en las operaciones ssi el numero
+entero es igual a cero y el numero real correspondiente es
+notablemente distinto de cero. (i.e. mayor o igual a 0.001)
+
+agregamos otro stack para reales en pl0mv.cpp:
+
+int p[LONGSTACK]  ; //memoria de datos-stack
+int pr[LONGSTACK] ; //memoria de datos-stack de numeros reales
+
+
+luego agregamos:
+
+ p[0]=pr[0]=p[1]=pr[1]=p[2]=pr[2]=0;   //ED,EE y DR para el programa principal
+
+
+
+
 
 3. Incorporar las instrucciones de lectura y escritura
 ------------------------------------------------------

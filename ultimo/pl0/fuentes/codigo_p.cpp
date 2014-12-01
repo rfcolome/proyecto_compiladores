@@ -12,7 +12,7 @@ int ic;                          //índice sobre el array de código
 //gen
 //coloca una instrucción más en el array de código intermedio
 //ic se deja al final una posición adelante.                    
-void gen (enum fcn x,int y,int z) {
+void gen (enum fcn x,int y,int z,float r) {
   if (ic > MAXIC-1) {
     error(33); //error fatal: no queda más que terminar la compilación por una limitación específica del compilador
     //ya no hay más espacio para el código-p
@@ -25,6 +25,7 @@ void gen (enum fcn x,int y,int z) {
   codigo[ic].f  = x;
   codigo[ic].ni = y;
   codigo[ic].di = z;
+  codigo[ic].r  = r;
 
   ++ic;
 }
@@ -64,7 +65,7 @@ void listar_p() {
   printf("\n\n --Listado de codigo-p simplificado generado por el compilador--\n\n");
 
   for(i=0;i<ic;++i) {
-    printf("\n %4d  %3s %5d %5d %s",i,mnemonico[codigo[i].f],codigo[i].ni,codigo[i].di,comentario[codigo[i].f]);
+    printf("\n %4d  %3s %5d %5d %5f %s",i,mnemonico[codigo[i].f],codigo[i].ni,codigo[i].di,codigo[i].r,comentario[codigo[i].f]);
   }
 }
 

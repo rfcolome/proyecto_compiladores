@@ -1,6 +1,6 @@
 PROGRAM prueba;
 
-CONST z: real = 25.32;
+CONST z = 25.32;
 VAR
 x,squ,y,i: integer;
 a,b: real;
@@ -16,7 +16,9 @@ BEGIN
    BEGIN
       {x := x + 20;
       bool := PITAG(3,4,5);
-      writeln("bool es", bool);}
+      writeln("bool es", bool);
+      a := a + 0.5;}
       write("hola! ", i);
+      {write("y a es ", a);}
    END
 END.

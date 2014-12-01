@@ -1,0 +1,32 @@
+{Programa escrito en pascal PL04}
+{Presentado por: Milton Robles && Jorge Guzman}
+
+
+procedure fibonacci;
+var
+  n,
+  n2,
+  n1 : integer;
+
+beginqw
+  i:=2;
+  writeln("Ingrese un numero",n);  
+  readln(n);
+  n1:=1;
+  f:=1;
+  writeln("el valor de la serie es",f);
+  writeln(f);
+ 
+  f:=n+1;
+end;
+
+//comienza el codigo main
+begin
+
+  write("Bienvenido a la serie de fibonacci!");
+  call fibonacci;
+  if n=n2 then
+   begin
+     write("el programa calculo el numero de la serie fibonacci 100");
+   end
+end.

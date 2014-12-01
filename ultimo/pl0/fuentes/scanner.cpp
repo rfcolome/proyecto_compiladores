@@ -30,7 +30,7 @@ void obtoken() {
   int ok=0;
 
   //quitar blancos, caracter de cambio de línea y tabuladores
-  while (ch==' ' || ch=='\n' || ch=='\t') ch=obtch() ;
+  while (ch==' ' || ch=='\n' || ch=='\t' || ch=='\r') ch=obtch() ;
 
   // revisamos si inicia un comentario
   if (ch == '{') {
@@ -40,7 +40,7 @@ void obtoken() {
     }
     ch = obtch(); // pasamos al primer caracter despues del comentario
     // leemos cualquier espacio en blanco despues
-    while (ch==' ' || ch=='\n' || ch=='\t') ch=obtch();
+    while (ch==' ' || ch=='\n' || ch=='\t' || ch=='\r') ch=obtch();
 
   }
 
