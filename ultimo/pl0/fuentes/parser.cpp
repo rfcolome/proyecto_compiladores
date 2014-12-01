@@ -461,7 +461,7 @@ void instruccion(int toksig[]) {
             else if (tabla[i].tipo != VARIABLE)
               error(28); // se esperaba una variable
             else {
-              // cargamos la avariable al tope de la pila
+              // cargamos la variable al tope de la pila
               gen(CAR,niv-tabla[i].variante.nivdir.nivel,tabla[i].variante.nivdir.dir,0);
               // luego la mostramos en pantalla
               gen(IMP,0,tabla[i].tipoDato,0); // el 1 es para enteros
