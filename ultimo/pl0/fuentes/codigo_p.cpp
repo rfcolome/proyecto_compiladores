@@ -121,8 +121,7 @@ void escribe_codigop(char *fuente) {
     //dejamos en "codigo_p" solo el nombre del archivo (sin el punto ni la extensión)
     strncpy(codigo_p, fuente, pos);
     codigo_p[pos] = '\0';
-    strncpy(codigo_p_texto, fuente, pos);
-    codigo_p_texto[pos] = '\0';
+    strcpy(codigo_p_texto, "solcodigop.txt");
 
   }
   else {
@@ -132,7 +131,6 @@ void escribe_codigop(char *fuente) {
 
   //finalmente,colocamos la extensión deseada
   strcat(codigo_p,".obp");
-  strcat(codigo_p_texto,".p");
 
   //grabar en el disco el archivo con código_p,a partir del array código creado por el generador de código intermedio
   if  ( (obj=fopen(codigo_p,"w+b"))==NULL ||  (objtxt=fopen(codigo_p_texto,"w+"))==NULL ) {
