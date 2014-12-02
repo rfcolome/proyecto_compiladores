@@ -73,10 +73,42 @@ void listar_p() {
 void escribe_codigop(char *fuente) {
   //construir nombre de archivo con el mismo nombre del fuente pero con extensión .p
 
-  FILE *obj;	      
+  FILE *obj;
+  FILE *objtxt;
+
   char *ptr;
   char codigo_p[TAMANO_MAX_NOMBRE_DEL_ARCHIVO_CODIGO_P];
+  char codigo_p_texto[TAMANO_MAX_NOMBRE_DEL_ARCHIVO_CODIGO_P];
   int pos,i;
+
+  char *mnemonico[]={
+    "LIT",
+    "OPR",
+    "CAR",
+    "ALM",
+    "LLA",
+    "INS",
+    "SAL",
+    "SAC",
+    "REA",
+    "IMP",
+    "HLT"
+  };
+  
+  char *comentario[]={
+    ";cargar una constante",
+    ";operacion aritmetica, relacional o retornar",
+    ";cargar una variable",
+    ";almacenamiento/instruccion de asignacion",
+    ";llamada a procedimiento",
+    ";asignacion de espacio de memoria",
+    ";salto incondicional",
+    ";salto condicional",
+    ";instruccion de lectura",
+    ";instruccion de impresion en pantalla",
+    ";instruccion para detener la ejecucion"
+  };
+
 
   //buscar un punto en el nombre del archivo fuente
   //en ptr queda la posición que ocupa el caracter a buscar
@@ -89,22 +121,32 @@ void escribe_codigop(char *fuente) {
     //dejamos en "codigo_p" solo el nombre del archivo (sin el punto ni la extensión)
     strncpy(codigo_p, fuente, pos);
     codigo_p[pos] = '\0';
+    strncpy(codigo_p_texto, fuente, pos);
+    codigo_p_texto[pos] = '\0';
+
   }
-  else                   
+  else {
     strcpy(codigo_p,fuente); //el fuente no tiene apellido
+    strcpy(codigo_p_texto,fuente);
+  }
 
   //finalmente,colocamos la extensión deseada
   strcat(codigo_p,".obp");
+  strcat(codigo_p_texto,".p");
 
   //grabar en el disco el archivo con código_p,a partir del array código creado por el generador de código intermedio
-  if  ( (obj=fopen(codigo_p,"w+b"))==NULL ) {
+  if  ( (obj=fopen(codigo_p,"w+b"))==NULL ||  (objtxt=fopen(codigo_p_texto,"w+"))==NULL ) {
     printf("\nOcurrio un error al intentar escribir el código intermedio (código-p)"); //error fatal.
     fclose(fp);
+    fclose(obj);
+    fclose(objtxt);
     exit(1);
   }
 
-  for(i=0;i<ic;++i) 
+  for(i=0;i<ic;++i) {
     fwrite(&codigo[i],sizeof(codigo_intermedio),1,obj);
+    fprintf(objtxt," %4d  %3s %5d %5d %5f %s\n",i,mnemonico[codigo[i].f],codigo[i].ni,codigo[i].di,codigo[i].r,comentario[codigo[i].f]);
+  }
 
   fclose(obj);
 }
