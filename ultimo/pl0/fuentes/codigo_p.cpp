@@ -147,5 +147,6 @@ void escribe_codigop(char *fuente) {
   }
 
   fclose(obj);
+  fclose(objtxt);
 }
 
